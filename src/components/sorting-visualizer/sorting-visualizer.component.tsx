@@ -16,7 +16,8 @@ function randomIntFromBound(
 }
 
 function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
+  const { clientWidth: width, clientHeight: height } =
+    document.documentElement;
   return {
     width,
     height,
@@ -29,18 +30,20 @@ const SortingVisualizer = () => {
     getWindowDimensions()
   );
 
+  const barHeightMax =
+    windowDimensions.height - windowDimensions.height * 0.2;
+  const barWidth =
+    (windowDimensions.width -
+      windowDimensions.width * 0.5) /
+    theArray.length;
+
   const resetTheArray = useCallback(() => {
     const localArray: number[] = [];
     for (let i = 0; i < 100; i++) {
-      localArray.push(
-        randomIntFromBound(
-          windowDimensions.height -
-            windowDimensions.height * 0.2
-        )
-      );
+      localArray.push(randomIntFromBound(barHeightMax));
     }
     setTheArray([...localArray]);
-  }, [windowDimensions]);
+  }, [barHeightMax]);
 
   useEffect(() => {
     resetTheArray();
@@ -66,11 +69,7 @@ const SortingVisualizer = () => {
             <Bar
               key={index}
               height={value}
-              width={
-                (windowDimensions.width -
-                  windowDimensions.width * 0.5) /
-                theArray.length
-              }
+              width={barWidth}
             />
           ))}
         </div>
