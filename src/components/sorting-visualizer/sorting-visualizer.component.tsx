@@ -3,26 +3,12 @@ import { useState, useEffect, useCallback } from "react";
 import "./sorting-visualizer.styles.css";
 
 import Bar from "../bar/bar.components";
+import Nav from "../nav/nav.component";
 
-//returns a random number between min and max (both included); if we don't want the max bound to be included, we can simply remove the plus one
-function randomIntFromBound(
-  maxBound: number,
-  minBound: number = 5
-): number {
-  return (
-    Math.floor(Math.random() * (maxBound - minBound + 1)) +
-    minBound
-  );
-}
-
-function getWindowDimensions() {
-  const { clientWidth: width, clientHeight: height } =
-    document.documentElement;
-  return {
-    width,
-    height,
-  };
-}
+import {
+  getWindowDimensions,
+  randomIntFromBound,
+} from "./sorting-visualizer.utils";
 
 const SortingVisualizer = () => {
   const [theArray, setTheArray] = useState<number[]>([]);
@@ -59,11 +45,7 @@ const SortingVisualizer = () => {
   return (
     <>
       <div className="sorting-visualizer-container">
-        <div className="nav">
-          <button onClick={resetTheArray}>
-            Generate New Array
-          </button>
-        </div>
+        <Nav resetTheArray={resetTheArray} />
         <div className="bar-container">
           {theArray.map((value, index) => (
             <Bar
@@ -73,23 +55,6 @@ const SortingVisualizer = () => {
             />
           ))}
         </div>
-        {/* <button onClick={() => mergeSort()}>
-          Merge Sort
-        </button> */}
-        {/* <button onClick={() => quickSort()}>
-          Quick Sort
-        </button>
-        <button onClick={() => heapSort()}>
-          Heap Sort
-        </button>
-        <button onClick={() => bubbleSort()}>
-          Bubble Sort
-        </button> */}
-        {/* <button
-          onClick={() => testSortingAlgorithms()}
-        >
-          Test Sorting Algorithms (BROKEN)
-        </button> */}
       </div>
     </>
   );

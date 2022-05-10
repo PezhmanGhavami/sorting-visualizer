@@ -7,16 +7,17 @@ interface IBarProps {
   width: number;
 }
 
-const PRIMARY_COLOR = "turquoise";
-// This is the color of array bars that are being compared throughout the animations.
-const SECONDARY_COLOR = "red";
+enum BarColor {
+  PRIMARY_COLOR = "turquoise",
+  SECONDARY_COLOR = "red",
+}
 
 const Bar: FC<IBarProps> = (props) => {
   return (
     <div
       className="array-bar"
       style={{
-        backgroundColor: PRIMARY_COLOR,
+        backgroundColor: BarColor.PRIMARY_COLOR,
         height: `${props.height}px`,
         width: `${props.width}px`,
       }}
