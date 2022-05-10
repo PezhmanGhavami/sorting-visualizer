@@ -1,0 +1,5 @@
+{
+  "editor.fontSize": 26,
+  "terminal.integrated.fontSize": 20,
+  "prettier.printWidth": 60
+}
