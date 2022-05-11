@@ -9,7 +9,10 @@ import {
   getWindowDimensions,
   randomIntFromBound,
 } from "./sorting-visualizer.utils";
-import { bubbleSort } from "../../utils/sorting-algorithms/sorting-algorithms";
+import {
+  bubbleSort,
+  insertionSort,
+} from "../../utils/sorting-algorithms/sorting-algorithms";
 
 const SortingVisualizer = () => {
   const [displayArray, setDisplayArray] = useState<
@@ -69,12 +72,18 @@ const SortingVisualizer = () => {
     setDataSeries([...animationArray]);
   };
 
+  const animateInsertionSort = () => {
+    const { animationArray } = insertionSort(displayArray);
+    setDataSeries([...animationArray]);
+  };
+
   return (
     <>
       <div className="sorting-visualizer-container">
         <Nav
           resetTheArray={resetDisplayArray}
           bubbleSort={animateBubbleSort}
+          insertionSort={animateInsertionSort}
         />
         {/*NOTE -  bar-container can be it's own component */}
         <div className="bar-container">

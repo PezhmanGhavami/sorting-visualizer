@@ -11,6 +11,7 @@ interface ISortReturn {
 }
 
 //#region Insertion Sort
+//Works
 function insertionSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationArray: number[][] = [];
@@ -24,6 +25,7 @@ function insertionSort(arr: number[]): ISortReturn {
 //#endregion
 
 //#region Bubble Sort
+//Works
 function bubbleSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationArray: number[][] = [];

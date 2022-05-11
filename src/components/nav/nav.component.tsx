@@ -5,6 +5,7 @@ import "./nav.styles.css";
 interface INavProps {
   resetTheArray: () => void;
   bubbleSort: () => void;
+  insertionSort: () => void;
 }
 
 const Nav: FC<INavProps> = (props) => {
@@ -13,12 +14,15 @@ const Nav: FC<INavProps> = (props) => {
       <button onClick={props.resetTheArray}>
         Generate New Array
       </button>
-      <button>Merge Sort</button>
-      <button>Quick Sort</button>
-      <button>Heap Sort</button>
       <button onClick={props.bubbleSort}>
         Bubble Sort
       </button>
+      <button onClick={props.insertionSort}>
+        Insertion Sort
+      </button>
+      <button>Heap Sort</button>
+      <button>Merge Sort</button>
+      <button>Quick Sort</button>
     </div>
   );
 };
