@@ -44,15 +44,15 @@ function selectionSort(arr: number[]): ISortReturn {
   const animationArray: number[][] = [];
 
   let min: number;
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < localArr.length; i++) {
     min = i;
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[j] < arr[min]) {
+    for (let j = i + 1; j < localArr.length; j++) {
+      if (localArr[j] < localArr[min]) {
         min = j;
       }
     }
     if (min !== i) {
-      swapTwo(arr, min, i);
+      swapTwo(localArr, min, i);
       animationArray.push([...localArr]);
     }
   }
