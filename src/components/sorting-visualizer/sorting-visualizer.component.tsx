@@ -12,6 +12,7 @@ import {
 import {
   bubbleSort,
   insertionSort,
+  selectionSort,
 } from "../../utils/sorting-algorithms/sorting-algorithms";
 
 const SortingVisualizer = () => {
@@ -44,7 +45,7 @@ const SortingVisualizer = () => {
   }, [barHeightMax]);
 
   const runTheAnimation = useCallback(() => {
-    if (dataSeriesIndex < dataSeries.length - 1) {
+    if (dataSeriesIndex < dataSeries.length) {
       setTimeout(() => {
         setDisplayArray(dataSeries[dataSeriesIndex]);
         setDataSeriesIndex((prev) => prev + 1);
@@ -77,6 +78,11 @@ const SortingVisualizer = () => {
     setDataSeries([...animationArray]);
   };
 
+  const animateSelectionSort = () => {
+    const { animationArray } = selectionSort(displayArray);
+    setDataSeries([...animationArray]);
+  };
+
   return (
     <>
       <div className="sorting-visualizer-container">
@@ -84,6 +90,7 @@ const SortingVisualizer = () => {
           resetTheArray={resetDisplayArray}
           bubbleSort={animateBubbleSort}
           insertionSort={animateInsertionSort}
+          selectionSort={animateSelectionSort}
         />
         {/*NOTE -  bar-container can be it's own component */}
         <div className="bar-container">

@@ -39,7 +39,10 @@ function bubbleSort(arr: number[]): ISortReturn {
 //#endregion
 
 //#region Selection Sort
-function selectionSort(arr: number[]): number[] {
+function selectionSort(arr: number[]): ISortReturn {
+  const localArr = [...arr];
+  const animationArray: number[][] = [];
+
   let min: number;
   for (let i = 0; i < arr.length; i++) {
     min = i;
@@ -50,9 +53,11 @@ function selectionSort(arr: number[]): number[] {
     }
     if (min !== i) {
       swapTwo(arr, min, i);
+      animationArray.push([...localArr]);
     }
   }
-  return arr;
+
+  return { sortedArray: localArr, animationArray };
 }
 //#endregion
 
