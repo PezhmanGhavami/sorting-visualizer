@@ -12,6 +12,7 @@ interface INavProps {
   bubbleSort: () => void;
   insertionSort: () => void;
   selectionSort: () => void;
+  mergeSort: () => void;
 }
 
 enum SortTypes {
@@ -52,7 +53,7 @@ const Nav: FC<INavProps> = (props) => {
         props.selectionSort();
         break;
       case SortTypes.merge:
-        props.bubbleSort();
+        props.mergeSort();
         break;
       case SortTypes.quick:
         props.bubbleSort();

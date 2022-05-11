@@ -39,6 +39,7 @@ function bubbleSort(arr: number[]): ISortReturn {
 //#endregion
 
 //#region Selection Sort
+//Works
 function selectionSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationArray: number[][] = [];
@@ -61,37 +62,116 @@ function selectionSort(arr: number[]): ISortReturn {
 }
 //#endregion
 
+//#region Heap Sort
+//NOTE - Add heap sort
+//#endregion
+
 //#region Merge Sort
-function merge(list1: number[], list2: number[]): number[] {
-  let merged: number[] = [],
-    i: number = 0,
-    j: number = 0;
-  while (i < list1.length && j < list2.length) {
-    if (list1[i] < list2[j]) {
-      merged.push(list1[i]);
-      i++;
+function merge(
+  mainArray: number[],
+  startIdx: number,
+  middleIdx: number,
+  endIdx: number,
+  auxiliaryArray: number[],
+  animations: number[][]
+): void {
+  let k = startIdx;
+  let i = startIdx;
+  let j = middleIdx + 1;
+  while (i <= middleIdx && j <= endIdx) {
+    // These are the values that we're comparing; we push them once
+    // to change their color.
+    animations.push([i, j]);
+    // These are the values that we're comparing; we push them a second
+    // time to revert their color.
+    animations.push([i, j]);
+    if (auxiliaryArray[i] <= auxiliaryArray[j]) {
+      // We overwrite the value at index k in the original array with the
+      // value at index i in the auxiliary array.
+      animations.push([k, auxiliaryArray[i]]);
+      mainArray[k++] = auxiliaryArray[i++];
     } else {
-      merged.push(list2[j]);
-      j++;
+      // We overwrite the value at index k in the original array with the
+      // value at index j in the auxiliary array.
+      animations.push([k, auxiliaryArray[j]]);
+      mainArray[k++] = auxiliaryArray[j++];
     }
   }
-  while (i < list1.length) {
-    merged.push(list1[i]);
-    i++;
+  while (i <= middleIdx) {
+    // These are the values that we're comparing; we push them once
+    // to change their color.
+    animations.push([i, i]);
+    // These are the values that we're comparing; we push them a second
+    // time to revert their color.
+    animations.push([i, i]);
+    // We overwrite the value at index k in the original array with the
+    // value at index i in the auxiliary array.
+    animations.push([k, auxiliaryArray[i]]);
+    mainArray[k++] = auxiliaryArray[i++];
   }
-  while (j < list2.length) {
-    merged.push(list2[j]);
-    j++;
+  while (j <= endIdx) {
+    // These are the values that we're comparing; we push them once
+    // to change their color.
+    animations.push([j, j]);
+    // These are the values that we're comparing; we push them a second
+    // time to revert their color.
+    animations.push([j, j]);
+    // We overwrite the value at index k in the original array with the
+    // value at index j in the auxiliary array.
+    animations.push([k, auxiliaryArray[j]]);
+    mainArray[k++] = auxiliaryArray[j++];
   }
-  return merged;
 }
 
-function mergeSort(list: number[]): number[] {
-  if (list.length <= 1) return list;
-  let mid = Math.floor(list.length / 2);
-  let left: number[] = mergeSort(list.slice(0, mid));
-  let right: number[] = mergeSort(list.slice(mid));
-  return merge(left, right);
+function callMerge(
+  mainArray: number[],
+  startIdx: number,
+  endIdx: number,
+  auxiliaryArray: number[],
+  animations: number[][]
+): void {
+  if (startIdx === endIdx) return;
+  const middleIdx = Math.floor((startIdx + endIdx) / 2);
+  callMerge(
+    auxiliaryArray,
+    startIdx,
+    middleIdx,
+    mainArray,
+    animations
+  );
+  callMerge(
+    auxiliaryArray,
+    middleIdx + 1,
+    endIdx,
+    mainArray,
+    animations
+  );
+  merge(
+    mainArray,
+    startIdx,
+    middleIdx,
+    endIdx,
+    auxiliaryArray,
+    animations
+  );
+}
+
+function mergeSort(arr: number[]): ISortReturn {
+  const localArr = [...arr];
+  const animationArray: number[][] = [];
+  const auxiliaryArray = localArr.slice();
+  if (localArr.length <= 1) {
+    return { sortedArray: localArr, animationArray };
+  }
+  callMerge(
+    localArr,
+    0,
+    localArr.length - 1,
+    auxiliaryArray,
+    animationArray
+  );
+
+  return { sortedArray: localArr, animationArray };
 }
 //#endregion
 
