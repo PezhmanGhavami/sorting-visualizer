@@ -12,7 +12,13 @@ import {
 import { bubbleSort } from "../../utils/sorting-algorithms/sorting-algorithms";
 
 const SortingVisualizer = () => {
-  const [theArray, setTheArray] = useState<number[]>([]);
+  const [displayArray, setDisplayArray] = useState<
+    number[]
+  >([]);
+  const [dataSeries, setDataSeries] = useState<number[][]>(
+    []
+  );
+  const [dataSeriesIndex, setDataSeriesIndex] = useState(0);
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
@@ -22,18 +28,29 @@ const SortingVisualizer = () => {
   const barWidth =
     (windowDimensions.width -
       windowDimensions.width * 0.5) /
-    theArray.length;
+    displayArray.length;
 
-  const resetTheArray = useCallback(() => {
+  const resetDisplayArray = useCallback(() => {
     const localArray: number[] = [];
     for (let i = 0; i < 100; i++) {
       localArray.push(randomIntFromBound(barHeightMax));
     }
-    setTheArray([...localArray]);
+    setDisplayArray([...localArray]);
+    setDataSeries([]);
+    setDataSeriesIndex(0);
   }, [barHeightMax]);
 
+  const runTheAnimation = useCallback(() => {
+    if (dataSeriesIndex < dataSeries.length - 1) {
+      setTimeout(() => {
+        setDisplayArray(dataSeries[dataSeriesIndex]);
+        setDataSeriesIndex((prev) => prev + 1);
+      }, 1); //the time is speed
+    }
+  }, [dataSeries, dataSeriesIndex]);
+
   useEffect(() => {
-    resetTheArray();
+    resetDisplayArray();
 
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
@@ -41,29 +58,27 @@ const SortingVisualizer = () => {
     window.addEventListener("resize", handleResize);
     return () =>
       window.removeEventListener("resize", handleResize);
-  }, [resetTheArray]);
+  }, [resetDisplayArray]);
+
+  useEffect(() => {
+    runTheAnimation();
+  }, [runTheAnimation]);
 
   const animateBubbleSort = () => {
-    const { animationArray } = bubbleSort(theArray);
-    let index = 0;
-
-    console.log(animationArray);
-
-    setTimeout(() => {
-      setTheArray(animationArray[index++]);
-    }, 30);
+    const { animationArray } = bubbleSort(displayArray);
+    setDataSeries([...animationArray]);
   };
 
   return (
     <>
       <div className="sorting-visualizer-container">
         <Nav
-          resetTheArray={resetTheArray}
+          resetTheArray={resetDisplayArray}
           bubbleSort={animateBubbleSort}
         />
         {/*NOTE -  bar-container can be it's own component */}
         <div className="bar-container">
-          {theArray.map((value, index) => (
+          {displayArray.map((value, index) => (
             <Bar
               key={index}
               height={value}
