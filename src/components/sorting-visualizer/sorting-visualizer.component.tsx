@@ -44,7 +44,14 @@ const SortingVisualizer = () => {
   }, [resetTheArray]);
 
   const animateBubbleSort = () => {
-    setTheArray(bubbleSort(theArray));
+    const { animationArray } = bubbleSort(theArray);
+    let index = 0;
+
+    console.log(animationArray);
+
+    setTimeout(() => {
+      setTheArray(animationArray[index++]);
+    }, 30);
   };
 
   return (

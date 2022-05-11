@@ -18,4 +18,10 @@ const getWindowDimensions = () => {
   };
 };
 
-export { randomIntFromBound, getWindowDimensions };
+const animateDataSeries = () => {};
+
+export {
+  randomIntFromBound,
+  getWindowDimensions,
+  animateDataSeries,
+};

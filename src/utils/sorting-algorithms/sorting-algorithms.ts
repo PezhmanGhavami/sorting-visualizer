@@ -5,26 +5,34 @@ import {
 
 //sorting algorithms copied from https://www.scien.cx/2022/03/16/sorting-algorithms-in-typescript/
 
+interface ISortReturn {
+  sortedArray: number[];
+  animationArray: number[][];
+}
+
 //#region Insertion Sort
-function insertionSort(arr: number[]): number[] {
-  for (let i = 1; i < arr.length; i++) {
+function insertionSort(arr: number[]): ISortReturn {
+  const localArr = [...arr];
+  const animationArray: number[][] = [];
+  for (let i = 1; i < localArr.length; i++) {
     for (let j = i - 1; j > -1; j--) {
-      sortTwo(arr, j + 1, j);
+      sortTwo(localArr, j + 1, j, animationArray);
     }
   }
-  return arr;
+  return { sortedArray: localArr, animationArray };
 }
 //#endregion
 
 //#region Bubble Sort
-function bubbleSort(arr: number[]): number[] {
+function bubbleSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
+  const animationArray: number[][] = [];
   for (let i = 0; i < localArr.length; i++) {
     for (let j = 0; j < localArr.length + i - 1; j++) {
-      sortTwo(localArr, j + 1, j);
+      sortTwo(localArr, j + 1, j, animationArray);
     }
   }
-  return localArr;
+  return { sortedArray: localArr, animationArray };
 }
 //#endregion
 
