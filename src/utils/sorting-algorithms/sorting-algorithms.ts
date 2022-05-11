@@ -3,6 +3,8 @@ import {
   swapTwo,
 } from "./sorting-algorithms.utils";
 
+//sorting algorithms copied from https://www.scien.cx/2022/03/16/sorting-algorithms-in-typescript/
+
 //#region Insertion Sort
 function insertionSort(arr: number[]): number[] {
   for (let i = 1; i < arr.length; i++) {
@@ -16,12 +18,13 @@ function insertionSort(arr: number[]): number[] {
 
 //#region Bubble Sort
 function bubbleSort(arr: number[]): number[] {
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr.length + i - 1; j++) {
-      sortTwo(arr, j + 1, j);
+  const localArr = [...arr];
+  for (let i = 0; i < localArr.length; i++) {
+    for (let j = 0; j < localArr.length + i - 1; j++) {
+      sortTwo(localArr, j + 1, j);
     }
   }
-  return arr;
+  return localArr;
 }
 //#endregion
 

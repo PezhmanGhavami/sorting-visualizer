@@ -9,6 +9,7 @@ import {
   getWindowDimensions,
   randomIntFromBound,
 } from "./sorting-visualizer.utils";
+import { bubbleSort } from "../../utils/sorting-algorithms/sorting-algorithms";
 
 const SortingVisualizer = () => {
   const [theArray, setTheArray] = useState<number[]>([]);
@@ -42,10 +43,18 @@ const SortingVisualizer = () => {
       window.removeEventListener("resize", handleResize);
   }, [resetTheArray]);
 
+  const animateBubbleSort = () => {
+    setTheArray(bubbleSort(theArray));
+  };
+
   return (
     <>
       <div className="sorting-visualizer-container">
-        <Nav resetTheArray={resetTheArray} />
+        <Nav
+          resetTheArray={resetTheArray}
+          bubbleSort={animateBubbleSort}
+        />
+        {/*NOTE -  bar-container can be it's own component */}
         <div className="bar-container">
           {theArray.map((value, index) => (
             <Bar
