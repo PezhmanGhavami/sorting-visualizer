@@ -18,21 +18,4 @@ const getWindowDimensions = () => {
   };
 };
 
-const arraysAreEqual = (
-  arrayOne: number[],
-  arrayTwo: number[]
-) => {
-  if (arrayOne.length !== arrayTwo.length) return false;
-  for (let i = 0; i < arrayOne.length; i++) {
-    if (arrayOne[i] !== arrayTwo[i]) {
-      return false;
-    }
-  }
-  return true;
-};
-
-export {
-  randomIntFromBound,
-  getWindowDimensions,
-  arraysAreEqual,
-};
+export { randomIntFromBound, getWindowDimensions };
