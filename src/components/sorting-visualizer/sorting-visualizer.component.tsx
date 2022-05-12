@@ -80,10 +80,10 @@ const SortingVisualizer = () => {
     for (let i = 0; i < barCount; i++) {
       localArray.push(randomIntFromBound(barHeightMax));
     }
-    setBars((prev) => ({
+    setBars({
       colors: new Array(barCount).fill(PRIMARY_COLOR),
       heights: [...localArray],
-    }));
+    });
     setDataSeries(dataSeriesDefaultValue);
     setDataSeriesIndex(0);
     const correctBarCount = getCorrectBarCount(barCount);
