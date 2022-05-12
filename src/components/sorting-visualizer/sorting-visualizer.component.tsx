@@ -40,6 +40,20 @@ const barsDefaultValue = {
   colors: [],
 };
 
+// const toggleColorForIndex = (
+//   arr: string[],
+//   index: number
+// ) => {
+//   const localArr = [...arr];
+//   if (localArr[index] === PRIMARY_COLOR) {
+//     localArr[index] = SECONDARY_COLOR;
+//   } else {
+//     localArr[index] = PRIMARY_COLOR;
+//   }
+
+//   return localArr;
+// };
+
 const SortingVisualizer = () => {
   const [bars, setBars] = useState<IBars>(barsDefaultValue);
   const [dataSeries, setDataSeries] =
@@ -80,10 +94,11 @@ const SortingVisualizer = () => {
     for (let i = 0; i < barCount; i++) {
       localArray.push(randomIntFromBound(barHeightMax));
     }
-    setBars({
+    setBars((prev) => ({
+      ...prev,
       colors: new Array(barCount).fill(PRIMARY_COLOR),
       heights: [...localArray],
-    });
+    }));
     setDataSeries(dataSeriesDefaultValue);
     setDataSeriesIndex(0);
     const correctBarCount = getCorrectBarCount(barCount);
@@ -94,6 +109,7 @@ const SortingVisualizer = () => {
   const runTheAnimation = useCallback(() => {
     if (dataSeriesIndex < dataSeries.atFrame.length) {
       setTimeout(() => {
+        // const newColors =
         setBars((prev) => ({
           ...prev,
           heights: [...dataSeries.atFrame[dataSeriesIndex]],

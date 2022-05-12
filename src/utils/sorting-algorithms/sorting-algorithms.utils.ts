@@ -21,7 +21,6 @@ export const sortTwo = (
   if (list[a] < list[b]) {
     animationData.selectedItems.push([a, b]);
     swapTwo(list, a, b);
-    animationData.selectedItems.push([a, b]);
     animationData.atFrame.push([...list]);
   }
 };
