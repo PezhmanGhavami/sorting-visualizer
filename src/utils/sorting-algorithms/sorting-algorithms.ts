@@ -10,20 +10,6 @@ interface ISortReturn {
   animationArray: number[][];
 }
 
-//#region Insertion Sort
-//Works
-function insertionSort(arr: number[]): ISortReturn {
-  const localArr = [...arr];
-  const animationArray: number[][] = [];
-  for (let i = 1; i < localArr.length; i++) {
-    for (let j = i - 1; j > -1; j--) {
-      sortTwo(localArr, j + 1, j, animationArray);
-    }
-  }
-  return { sortedArray: localArr, animationArray };
-}
-//#endregion
-
 //#region Bubble Sort
 //Works
 function bubbleSort(arr: number[]): ISortReturn {
@@ -31,6 +17,20 @@ function bubbleSort(arr: number[]): ISortReturn {
   const animationArray: number[][] = [];
   for (let i = 0; i < localArr.length; i++) {
     for (let j = 0; j < localArr.length + i - 1; j++) {
+      sortTwo(localArr, j + 1, j, animationArray);
+    }
+  }
+  return { sortedArray: localArr, animationArray };
+}
+//#endregion
+
+//#region Insertion Sort
+//Works
+function insertionSort(arr: number[]): ISortReturn {
+  const localArr = [...arr];
+  const animationArray: number[][] = [];
+  for (let i = 1; i < localArr.length; i++) {
+    for (let j = i - 1; j > -1; j--) {
       sortTwo(localArr, j + 1, j, animationArray);
     }
   }

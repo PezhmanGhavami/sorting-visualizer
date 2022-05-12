@@ -16,12 +16,6 @@ import {
   mergeSort,
 } from "../../utils/sorting-algorithms/sorting-algorithms";
 
-// Change this value for the speed of the animations.
-const ANIMATION_SPEED_MS = 1;
-
-// Change this value for the number of bars (value) in the array.
-const NUMBER_OF_ARRAY_BARS = 310;
-
 // This is the main color of the array bars.
 const PRIMARY_COLOR = "turquoise";
 
@@ -39,6 +33,7 @@ const SortingVisualizer = () => {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
+  const [animationSpeed, setAnimationSpeed] = useState(1);
 
   const barHeightMax =
     windowDimensions.height - windowDimensions.height * 0.2;
@@ -62,9 +57,9 @@ const SortingVisualizer = () => {
       setTimeout(() => {
         setDisplayArray(dataSeries[dataSeriesIndex]);
         setDataSeriesIndex((prev) => prev + 1);
-      }, 1); //the time is speed
+      }, animationSpeed);
     }
-  }, [dataSeries, dataSeriesIndex]);
+  }, [dataSeries, dataSeriesIndex, animationSpeed]);
 
   useEffect(() => {
     resetDisplayArray();
@@ -116,7 +111,7 @@ const SortingVisualizer = () => {
         setTimeout(() => {
           barOne.style.backgroundColor = color;
           barTwo.style.backgroundColor = color;
-        }, i * ANIMATION_SPEED_MS);
+        }, i * animationSpeed);
       } else {
         setTimeout(() => {
           const [barOneIdx, newHeight] = animationArray[i];
@@ -124,7 +119,7 @@ const SortingVisualizer = () => {
             barOneIdx
           ] as HTMLElement;
           barOne.style.height = `${newHeight}px`;
-        }, i * ANIMATION_SPEED_MS);
+        }, i * animationSpeed);
       }
     }
   };
