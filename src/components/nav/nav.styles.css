@@ -3,9 +3,11 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  min-width: 100%;
 }
 
 .nav__form {
+  min-width: 100%;
   display: flex;
   justify-content: space-around;
   align-items: center;
