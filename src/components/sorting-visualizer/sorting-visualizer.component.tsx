@@ -14,6 +14,7 @@ import {
   insertionSort,
   selectionSort,
   mergeSort,
+  quickSort,
 } from "../../utils/sorting-algorithms/sorting-algorithms";
 
 // This is the main color of the array bars.
@@ -76,6 +77,11 @@ const SortingVisualizer = () => {
     runTheAnimation();
   }, [runTheAnimation]);
 
+  const changeAnimationSpeed = (value: number) => {
+    console.log(animationSpeed);
+    setAnimationSpeed(value);
+  };
+
   const animateBubbleSort = () => {
     const { animationArray } = bubbleSort(displayArray);
     setDataSeries([...animationArray]);
@@ -124,15 +130,50 @@ const SortingVisualizer = () => {
     }
   };
 
+  const animateQuickSort = () => {
+    const { sortedArray, animationArray } =
+      quickSort(displayArray);
+    console.log(sortedArray);
+    console.log(animationArray);
+    // setDataSeries([...animationArray]);
+
+    for (let i = 0; i < animationArray.length; i++) {
+      const arrayBars =
+        document.getElementsByClassName("array-bar");
+      const isColorChange = i % 3 !== 2;
+      if (isColorChange) {
+        const [barOneIdx, barTwoIdx] = animationArray[i];
+        const barOne = arrayBars[barOneIdx] as HTMLElement;
+        const barTwo = arrayBars[barTwoIdx] as HTMLElement;
+        const color =
+          i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+        setTimeout(() => {
+          barOne.style.backgroundColor = color;
+          barTwo.style.backgroundColor = color;
+        }, i * animationSpeed);
+      } else {
+        setTimeout(() => {
+          const [barOneIdx, newHeight] = animationArray[i];
+          const barOne = arrayBars[
+            barOneIdx
+          ] as HTMLElement;
+          barOne.style.height = `${newHeight}px`;
+        }, i * animationSpeed);
+      }
+    }
+  };
+
   return (
     <>
       <div className="sorting-visualizer-container">
         <Nav
           resetTheArray={resetDisplayArray}
+          changeAnimationSpeed={changeAnimationSpeed}
           bubbleSort={animateBubbleSort}
           insertionSort={animateInsertionSort}
           selectionSort={animateSelectionSort}
           mergeSort={animateMergeSort}
+          quickSort={animateQuickSort}
         />
         {/*NOTE -  bar-container can be it's own component */}
         <div className="bar-container">

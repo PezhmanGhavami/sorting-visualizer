@@ -193,17 +193,26 @@ function getPivotIdx(
   return swapIdx;
 }
 
-function quickSort(
+function quickSortHelper(
   arr: number[],
   left: number = 0,
   right: number = arr.length - 1
 ): number[] {
   if (left < right) {
     let pivotIndex = getPivotIdx(arr, left, right);
-    quickSort(arr, left, pivotIndex - 1);
-    quickSort(arr, pivotIndex + 1, right);
+    quickSortHelper(arr, left, pivotIndex - 1);
+    quickSortHelper(arr, pivotIndex + 1, right);
   }
   return arr;
+}
+
+function quickSort(arr: number[]): ISortReturn {
+  const localArr = [...arr];
+  const animationArray: number[][] = [];
+
+  quickSortHelper(localArr);
+
+  return { sortedArray: localArr, animationArray };
 }
 //#endregion
 
