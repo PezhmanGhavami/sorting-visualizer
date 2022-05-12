@@ -16,6 +16,7 @@ import {
   mergeSort,
   quickSort,
 } from "../../utils/sorting-algorithms/sorting-algorithms";
+import { IAnimationData } from "../../utils/sorting-algorithms/sorting-algorithms.utils";
 
 // This is the main color of the array bars.
 const PRIMARY_COLOR = "turquoise";
@@ -23,11 +24,26 @@ const PRIMARY_COLOR = "turquoise";
 // This is the color of array bars that are being compared throughout the animations.
 const SECONDARY_COLOR = "red";
 
+const dataSeriesDefaultValue = {
+  atFrame: [],
+  selectedItems: [],
+  pointer: [],
+};
+
+interface IBars {
+  heights: number[];
+  colors: string[];
+}
+
+const barsDefaultValue = {
+  heights: [],
+  colors: [],
+};
+
 const SortingVisualizer = () => {
-  const [barArray, setBarArray] = useState<number[]>([]);
-  const [dataSeries, setDataSeries] = useState<number[][]>(
-    []
-  );
+  const [bars, setBars] = useState<IBars>(barsDefaultValue);
+  const [dataSeries, setDataSeries] =
+    useState<IAnimationData>(dataSeriesDefaultValue);
   const [dataSeriesIndex, setDataSeriesIndex] = useState(0);
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
@@ -44,7 +60,7 @@ const SortingVisualizer = () => {
   const barWidth =
     (windowDimensions.width -
       windowDimensions.width * 0.5) /
-    barArray.length;
+    bars.heights.length;
 
   const getCorrectBarCount = useCallback(
     (currentBars: number): number => {
@@ -64,8 +80,11 @@ const SortingVisualizer = () => {
     for (let i = 0; i < barCount; i++) {
       localArray.push(randomIntFromBound(barHeightMax));
     }
-    setBarArray([...localArray]);
-    setDataSeries([]);
+    setBars((prev) => ({
+      colors: new Array(barCount).fill(PRIMARY_COLOR),
+      heights: [...localArray],
+    }));
+    setDataSeries(dataSeriesDefaultValue);
     setDataSeriesIndex(0);
     const correctBarCount = getCorrectBarCount(barCount);
     correctBarCount !== barCount &&
@@ -73,9 +92,12 @@ const SortingVisualizer = () => {
   }, [barHeightMax, barCount, getCorrectBarCount]);
 
   const runTheAnimation = useCallback(() => {
-    if (dataSeriesIndex < dataSeries.length) {
+    if (dataSeriesIndex < dataSeries.atFrame.length) {
       setTimeout(() => {
-        setBarArray(dataSeries[dataSeriesIndex]);
+        setBars((prev) => ({
+          ...prev,
+          heights: [...dataSeries.atFrame[dataSeriesIndex]],
+        }));
         setDataSeriesIndex((prev) => prev + 1);
       }, animationSpeed);
     }
@@ -105,22 +127,23 @@ const SortingVisualizer = () => {
   };
 
   const animateBubbleSort = () => {
-    const { animationArray } = bubbleSort(barArray);
-    setDataSeries([...animationArray]);
+    const { animationData } = bubbleSort(bars.heights);
+    setDataSeries({ ...animationData });
   };
 
   const animateInsertionSort = () => {
-    const { animationArray } = insertionSort(barArray);
-    setDataSeries([...animationArray]);
+    const { animationData } = insertionSort(bars.heights);
+    setDataSeries({ ...animationData });
   };
 
   const animateSelectionSort = () => {
-    const { animationArray } = selectionSort(barArray);
-    setDataSeries([...animationArray]);
+    const { animationData } = selectionSort(bars.heights);
+    setDataSeries({ ...animationData });
   };
 
   const animateMergeSort = () => {
-    const { animationArray } = mergeSort(barArray);
+    const { animationData } = mergeSort(bars.heights);
+    const animationArray = animationData.atFrame;
     // console.log(sortedArray);
     // console.log(animationArray);
     // setDataSeries([...animationArray]);
@@ -152,7 +175,8 @@ const SortingVisualizer = () => {
   };
 
   const animateQuickSort = () => {
-    const { animationArray } = quickSort(barArray);
+    const { animationData } = quickSort(bars.heights);
+    const animationArray = animationData.atFrame;
     // console.log(sortedArray);
     // console.log(animationArray);
     // setDataSeries([...animationArray]);
@@ -200,11 +224,12 @@ const SortingVisualizer = () => {
         />
         {/*NOTE -  bar-container can be it's own component */}
         <div className="bar-container">
-          {barArray.map((value, index) => (
+          {bars.heights.map((value, index) => (
             <Bar
               key={index}
               height={value}
               width={barWidth}
+              backgroundColor={bars.colors[index]}
             />
           ))}
         </div>

@@ -5,11 +5,7 @@ import "./bar.styles.css";
 interface IBarProps {
   height: number;
   width: number;
-}
-
-enum BarColor {
-  PRIMARY_COLOR = "turquoise",
-  SECONDARY_COLOR = "red",
+  backgroundColor: string;
 }
 
 const Bar: FC<IBarProps> = (props) => {
@@ -17,7 +13,7 @@ const Bar: FC<IBarProps> = (props) => {
     <div
       className="array-bar"
       style={{
-        backgroundColor: BarColor.PRIMARY_COLOR,
+        backgroundColor: props.backgroundColor,
         height: `${props.height}px`,
         width: `${props.width}px`,
       }}

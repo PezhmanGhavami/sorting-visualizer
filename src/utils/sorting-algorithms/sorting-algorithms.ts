@@ -1,26 +1,34 @@
 import {
   sortTwo,
   swapTwo,
+  IAnimationData,
 } from "./sorting-algorithms.utils";
-
-//sorting algorithms copied from https://www.scien.cx/2022/03/16/sorting-algorithms-in-typescript/
 
 interface ISortReturn {
   sortedArray: number[];
-  animationArray: number[][];
+  animationData: IAnimationData;
 }
 
 //#region Bubble Sort
 //Works
 function bubbleSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
-  const animationArray: number[][] = [];
-  for (let i = 0; i < localArr.length; i++) {
-    for (let j = 0; j < localArr.length + i - 1; j++) {
-      sortTwo(localArr, j + 1, j, animationArray);
+  const animationData: IAnimationData = {
+    atFrame: [],
+    selectedItems: [],
+    pointer: [],
+  };
+  for (let indexA = 0; indexA < localArr.length; indexA++) {
+    for (
+      let indexB = 0;
+      indexB < localArr.length - indexA - 1;
+      indexB++
+    ) {
+      animationData.pointer.push(indexB);
+      sortTwo(localArr, indexB + 1, indexB, animationData);
     }
   }
-  return { sortedArray: localArr, animationArray };
+  return { sortedArray: localArr, animationData };
 }
 //#endregion
 
@@ -28,13 +36,18 @@ function bubbleSort(arr: number[]): ISortReturn {
 //Works
 function insertionSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
-  const animationArray: number[][] = [];
-  for (let i = 1; i < localArr.length; i++) {
-    for (let j = i - 1; j > -1; j--) {
-      sortTwo(localArr, j + 1, j, animationArray);
+  const animationData: IAnimationData = {
+    atFrame: [],
+    selectedItems: [],
+    pointer: [],
+  };
+  for (let indexA = 1; indexA < localArr.length; indexA++) {
+    for (let indexB = indexA - 1; indexB > -1; indexB--) {
+      animationData.pointer.push(indexB);
+      sortTwo(localArr, indexB + 1, indexB, animationData);
     }
   }
-  return { sortedArray: localArr, animationArray };
+  return { sortedArray: localArr, animationData };
 }
 //#endregion
 
@@ -42,7 +55,11 @@ function insertionSort(arr: number[]): ISortReturn {
 //Works
 function selectionSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
-  const animationArray: number[][] = [];
+  const animationData: IAnimationData = {
+    atFrame: [],
+    selectedItems: [],
+    pointer: [],
+  };
 
   let min: number;
   for (let i = 0; i < localArr.length; i++) {
@@ -54,11 +71,11 @@ function selectionSort(arr: number[]): ISortReturn {
     }
     if (min !== i) {
       swapTwo(localArr, min, i);
-      animationArray.push([...localArr]);
+      animationData.atFrame.push([...localArr]);
     }
   }
 
-  return { sortedArray: localArr, animationArray };
+  return { sortedArray: localArr, animationData };
 }
 //#endregion
 
@@ -158,20 +175,24 @@ function callMerge(
 
 function mergeSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
-  const animationArray: number[][] = [];
+  const animationData: IAnimationData = {
+    atFrame: [],
+    selectedItems: [],
+    pointer: [],
+  };
   const auxiliaryArray = [...localArr];
   if (localArr.length <= 1) {
-    return { sortedArray: localArr, animationArray };
+    return { sortedArray: localArr, animationData };
   }
   callMerge(
     localArr,
     0,
     localArr.length - 1,
     auxiliaryArray,
-    animationArray
+    animationData.atFrame
   );
 
-  return { sortedArray: localArr, animationArray };
+  return { sortedArray: localArr, animationData };
 }
 //#endregion
 
@@ -228,19 +249,23 @@ function quickSortHelper(
 
 function quickSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
-  const animationArray: number[][] = [];
+  const animationData: IAnimationData = {
+    atFrame: [],
+    selectedItems: [],
+    pointer: [],
+  };
   if (localArr.length <= 1) {
-    return { sortedArray: localArr, animationArray };
+    return { sortedArray: localArr, animationData };
   }
 
   quickSortHelper(
     localArr,
     0,
     localArr.length - 1,
-    animationArray
+    animationData.atFrame
   );
 
-  return { sortedArray: localArr, animationArray };
+  return { sortedArray: localArr, animationData };
 }
 //#endregion
 
