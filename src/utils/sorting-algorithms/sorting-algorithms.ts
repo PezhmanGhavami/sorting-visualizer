@@ -159,7 +159,7 @@ function callMerge(
 function mergeSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationArray: number[][] = [];
-  const auxiliaryArray = localArr.slice();
+  const auxiliaryArray = [...localArr];
   if (localArr.length <= 1) {
     return { sortedArray: localArr, animationArray };
   }
@@ -179,29 +179,49 @@ function mergeSort(arr: number[]): ISortReturn {
 function getPivotIdx(
   arr: number[],
   start: number = 0,
-  end: number = arr.length - 1
+  end: number = arr.length - 1,
+  animationArray: number[][]
 ): number {
   let swapIdx: number = start;
   let pivotValue: number = arr[start];
   for (let i = start + 1; i <= end; i++) {
     if (arr[i] < pivotValue) {
+      animationArray.push([start, swapIdx]);
+      animationArray.push([start, swapIdx]);
       swapIdx++;
       swapTwo(arr, i, swapIdx);
     }
   }
   swapTwo(arr, start, swapIdx);
+  animationArray.push([start, arr[swapIdx]]);
   return swapIdx;
 }
 
 function quickSortHelper(
   arr: number[],
   left: number = 0,
-  right: number = arr.length - 1
+  right: number = arr.length - 1,
+  animationArray: number[][]
 ): number[] {
   if (left < right) {
-    let pivotIndex = getPivotIdx(arr, left, right);
-    quickSortHelper(arr, left, pivotIndex - 1);
-    quickSortHelper(arr, pivotIndex + 1, right);
+    let pivotIndex = getPivotIdx(
+      arr,
+      left,
+      right,
+      animationArray
+    );
+    quickSortHelper(
+      arr,
+      left,
+      pivotIndex - 1,
+      animationArray
+    );
+    quickSortHelper(
+      arr,
+      pivotIndex + 1,
+      right,
+      animationArray
+    );
   }
   return arr;
 }
@@ -209,8 +229,16 @@ function quickSortHelper(
 function quickSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationArray: number[][] = [];
+  if (localArr.length <= 1) {
+    return { sortedArray: localArr, animationArray };
+  }
 
-  quickSortHelper(localArr);
+  quickSortHelper(
+    localArr,
+    0,
+    localArr.length - 1,
+    animationArray
+  );
 
   return { sortedArray: localArr, animationArray };
 }

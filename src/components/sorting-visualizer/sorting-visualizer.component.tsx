@@ -120,10 +120,9 @@ const SortingVisualizer = () => {
   };
 
   const animateMergeSort = () => {
-    const { sortedArray, animationArray } =
-      mergeSort(barArray);
-    console.log(sortedArray);
-    console.log(animationArray);
+    const { animationArray } = mergeSort(barArray);
+    // console.log(sortedArray);
+    // console.log(animationArray);
     // setDataSeries([...animationArray]);
 
     for (let i = 0; i < animationArray.length; i++) {
@@ -153,10 +152,9 @@ const SortingVisualizer = () => {
   };
 
   const animateQuickSort = () => {
-    const { sortedArray, animationArray } =
-      quickSort(barArray);
-    console.log(sortedArray);
-    console.log(animationArray);
+    const { animationArray } = quickSort(barArray);
+    // console.log(sortedArray);
+    // console.log(animationArray);
     // setDataSeries([...animationArray]);
 
     for (let i = 0; i < animationArray.length; i++) {
