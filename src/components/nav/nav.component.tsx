@@ -7,9 +7,16 @@ import {
 
 import "./nav.styles.css";
 
+interface IBarInfo {
+  barCount: number;
+  maxBarsForWidth: number;
+}
 interface INavProps {
   resetTheArray: () => void;
   changeAnimationSpeed: (value: number) => void;
+  changeBarCount: (value: number) => void;
+  barInfo: IBarInfo;
+  animationSpeed: number;
   bubbleSort: () => void;
   insertionSort: () => void;
   selectionSort: () => void;
@@ -32,12 +39,20 @@ const Nav: FC<INavProps> = (props) => {
     SortTypes.bubble
   );
 
-  const handleInputchange: ChangeEventHandler<
+  const handleInputChange: ChangeEventHandler<
     HTMLInputElement
   > = (event) => {
-    props.changeAnimationSpeed(
-      parseInt(event.currentTarget.value)
-    );
+    if (event.currentTarget.name === "barCount") {
+      props.changeBarCount(
+        parseInt(event.currentTarget.value)
+      );
+    } else if (
+      event.currentTarget.name === "animationSpeed"
+    ) {
+      props.changeAnimationSpeed(
+        parseInt(event.currentTarget.value)
+      );
+    }
   };
 
   const handleSelectChange: ChangeEventHandler<
@@ -74,23 +89,45 @@ const Nav: FC<INavProps> = (props) => {
   return (
     <div className="nav">
       <form className="nav__form" onSubmit={handleSubmit}>
-        <button type="button" onClick={props.resetTheArray}>
+        <button
+          className="nav__form__item"
+          type="button"
+          onClick={props.resetTheArray}
+        >
           Generate New Array
         </button>
-        <label htmlFor="animation-speed">
-          Frame Time:{" "}
-        </label>
-        <input
-          type="number"
-          name="animationSpeed"
-          id="animation-speed"
-          min={1}
-          max={100}
-          defaultValue={1}
-          step={1}
-          onChange={handleInputchange}
-        />
-        <div>
+
+        <div className="nav__form__item">
+          <label htmlFor="bar-count">Bar Count: </label>
+          <input
+            type="range"
+            name="barCount"
+            id="bar-count"
+            min={2}
+            max={props.barInfo.maxBarsForWidth}
+            step={1}
+            value={props.barInfo.barCount}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="nav__form__item">
+          <label htmlFor="animation-speed">
+            Frame Time:{" "}
+          </label>
+          <input
+            type="number"
+            name="animationSpeed"
+            id="animation-speed"
+            min={1}
+            max={100}
+            step={1}
+            value={props.animationSpeed}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="nav__form__item">
           <label htmlFor="sort-type">
             Sort Algorithm:{" "}
           </label>
@@ -117,7 +154,9 @@ const Nav: FC<INavProps> = (props) => {
             </option>
           </select>
         </div>
-        <button type="submit">Sort</button>
+        <button className="nav__form__item" type="submit">
+          Sort
+        </button>
       </form>
     </div>
   );

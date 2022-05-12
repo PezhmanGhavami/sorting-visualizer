@@ -24,9 +24,7 @@ const PRIMARY_COLOR = "turquoise";
 const SECONDARY_COLOR = "red";
 
 const SortingVisualizer = () => {
-  const [displayArray, setDisplayArray] = useState<
-    number[]
-  >([]);
+  const [barArray, setBarArray] = useState<number[]>([]);
   const [dataSeries, setDataSeries] = useState<number[][]>(
     []
   );
@@ -34,36 +32,57 @@ const SortingVisualizer = () => {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
-  const [animationSpeed, setAnimationSpeed] = useState(1);
+  const [animationSpeed, setAnimationSpeed] = useState(30);
+  const [barCount, setBarCount] = useState(20);
+
+  const maxBarsForWidth = Math.floor(
+    windowDimensions.width / 5
+  );
 
   const barHeightMax =
     windowDimensions.height - windowDimensions.height * 0.2;
   const barWidth =
     (windowDimensions.width -
       windowDimensions.width * 0.5) /
-    displayArray.length;
+    barArray.length;
 
-  const resetDisplayArray = useCallback(() => {
+  const getCorrectBarCount = useCallback(
+    (currentBars: number): number => {
+      if (currentBars > maxBarsForWidth) {
+        return maxBarsForWidth;
+      }
+      if (currentBars < 2) {
+        return 2;
+      }
+      return currentBars;
+    },
+    [maxBarsForWidth]
+  );
+
+  const restBarArray = useCallback(() => {
     const localArray: number[] = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < barCount; i++) {
       localArray.push(randomIntFromBound(barHeightMax));
     }
-    setDisplayArray([...localArray]);
+    setBarArray([...localArray]);
     setDataSeries([]);
     setDataSeriesIndex(0);
-  }, [barHeightMax]);
+    const correctBarCount = getCorrectBarCount(barCount);
+    correctBarCount !== barCount &&
+      setBarCount(correctBarCount);
+  }, [barHeightMax, barCount, getCorrectBarCount]);
 
   const runTheAnimation = useCallback(() => {
     if (dataSeriesIndex < dataSeries.length) {
       setTimeout(() => {
-        setDisplayArray(dataSeries[dataSeriesIndex]);
+        setBarArray(dataSeries[dataSeriesIndex]);
         setDataSeriesIndex((prev) => prev + 1);
       }, animationSpeed);
     }
   }, [dataSeries, dataSeriesIndex, animationSpeed]);
 
   useEffect(() => {
-    resetDisplayArray();
+    restBarArray();
 
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
@@ -71,35 +90,38 @@ const SortingVisualizer = () => {
     window.addEventListener("resize", handleResize);
     return () =>
       window.removeEventListener("resize", handleResize);
-  }, [resetDisplayArray]);
+  }, [restBarArray]);
 
   useEffect(() => {
     runTheAnimation();
   }, [runTheAnimation]);
 
   const changeAnimationSpeed = (value: number) => {
-    console.log(animationSpeed);
     setAnimationSpeed(value);
   };
 
+  const changeBarCount = (value: number) => {
+    setBarCount(getCorrectBarCount(value));
+  };
+
   const animateBubbleSort = () => {
-    const { animationArray } = bubbleSort(displayArray);
+    const { animationArray } = bubbleSort(barArray);
     setDataSeries([...animationArray]);
   };
 
   const animateInsertionSort = () => {
-    const { animationArray } = insertionSort(displayArray);
+    const { animationArray } = insertionSort(barArray);
     setDataSeries([...animationArray]);
   };
 
   const animateSelectionSort = () => {
-    const { animationArray } = selectionSort(displayArray);
+    const { animationArray } = selectionSort(barArray);
     setDataSeries([...animationArray]);
   };
 
   const animateMergeSort = () => {
     const { sortedArray, animationArray } =
-      mergeSort(displayArray);
+      mergeSort(barArray);
     console.log(sortedArray);
     console.log(animationArray);
     // setDataSeries([...animationArray]);
@@ -132,7 +154,7 @@ const SortingVisualizer = () => {
 
   const animateQuickSort = () => {
     const { sortedArray, animationArray } =
-      quickSort(displayArray);
+      quickSort(barArray);
     console.log(sortedArray);
     console.log(animationArray);
     // setDataSeries([...animationArray]);
@@ -167,17 +189,20 @@ const SortingVisualizer = () => {
     <>
       <div className="sorting-visualizer-container">
         <Nav
-          resetTheArray={resetDisplayArray}
+          resetTheArray={restBarArray}
           changeAnimationSpeed={changeAnimationSpeed}
+          changeBarCount={changeBarCount}
           bubbleSort={animateBubbleSort}
           insertionSort={animateInsertionSort}
           selectionSort={animateSelectionSort}
           mergeSort={animateMergeSort}
           quickSort={animateQuickSort}
+          barInfo={{ maxBarsForWidth, barCount }}
+          animationSpeed={animationSpeed}
         />
         {/*NOTE -  bar-container can be it's own component */}
         <div className="bar-container">
-          {displayArray.map((value, index) => (
+          {barArray.map((value, index) => (
             <Bar
               key={index}
               height={value}
