@@ -78,38 +78,50 @@ function insertionSort(barData: IBars): ISortReturn {
 //#endregion
 
 //#region Selection Sort
-//Animation is wrong
-function selectionSort(arr: number[]): ISortReturn {
-  const localArr = [...arr];
+//Works
+function selectionSort(barData: IBars): ISortReturn {
+  const localArr = [...barData.heights];
+  const localColors = [...barData.colors];
   const animationData: IAnimationData = {
     atFrame: [],
     atFrameColors: [],
   };
 
-  let min: number;
-  for (let i = 0; i < localArr.length; i++) {
-    min = i;
-    for (let j = i + 1; j < localArr.length; j++) {
-      if (localArr[j] < localArr[min]) {
-        min = j;
+  let currentMin: number;
+
+  for (let indexA = 0; indexA < localArr.length; indexA++) {
+    currentMin = indexA;
+    localColors[indexA] = BarColors.POTENTIALLY_SORTED;
+    animationData.atFrame.push([...localArr]);
+    animationData.atFrameColors.push([...localColors]);
+    for (
+      let indexB = indexA + 1;
+      indexB < localArr.length;
+      indexB++
+    ) {
+      localColors[indexB] =
+        BarColors.BEING_COMPARED_AGAINST;
+      animationData.atFrame.push([...localArr]);
+      animationData.atFrameColors.push([...localColors]);
+      if (localArr[indexB] < localArr[currentMin]) {
+        if (currentMin !== indexA) {
+          localColors[currentMin] = BarColors.NOT_SORTED;
+        }
+        currentMin = indexB;
+        localColors[currentMin] = BarColors.BEING_SORTED;
+        animationData.atFrame.push([...localArr]);
+        animationData.atFrameColors.push([...localColors]);
+      } else {
+        localColors[indexB] = BarColors.NOT_SORTED;
       }
     }
-    if (min !== i) {
-      swapTwo(localArr, min, i);
-      animationData.atFrame.push([...localArr]);
-      //Colors
-      animationData.atFrameColors.push(
-        new Array(localArr.length).fill(
-          BarColors.NOT_SORTED
-        )
-      );
-      const currentIndex =
-        animationData.atFrameColors.length - 1;
-      animationData.atFrameColors[currentIndex][min] =
-        BarColors.BEING_SORTED;
-      animationData.atFrameColors[currentIndex][i] =
-        BarColors.BEING_SORTED;
+    if (currentMin !== indexA) {
+      swapTwo(localArr, currentMin, indexA);
     }
+    animationData.atFrameColors.push([...localColors]);
+    localColors[currentMin] = BarColors.NOT_SORTED;
+    localColors[indexA] = BarColors.SORTED;
+    animationData.atFrame.push([...localArr]);
   }
 
   return { sortedArray: localArr, animationData };

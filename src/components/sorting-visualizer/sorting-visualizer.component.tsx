@@ -170,7 +170,7 @@ const SortingVisualizer = () => {
   };
 
   const animateSelectionSort = () => {
-    const { animationData } = selectionSort(bars.heights);
+    const { animationData } = selectionSort(bars);
     setDataSeries((prev) => ({
       ...prev,
       ...animationData,
