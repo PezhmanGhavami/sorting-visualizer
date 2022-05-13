@@ -28,7 +28,6 @@ interface IDataSeries extends IAnimationData {
 const dataSeriesDefaultValue: IDataSeries = {
   atFrame: [],
   atFrameColors: [],
-  pointer: [],
   isComplete: false,
 };
 
@@ -86,7 +85,7 @@ const SortingVisualizer = () => {
     setBars((prev) => ({
       ...prev,
       colors: new Array(barCount).fill(
-        BarColors.PRIMARY_COLOR
+        BarColors.NOT_SORTED
       ),
       heights: [...localArray],
     }));
@@ -124,7 +123,7 @@ const SortingVisualizer = () => {
       setBars((prev) => ({
         ...prev,
         colors: new Array(prev.colors.length).fill(
-          BarColors.FINISHED_COLOR
+          BarColors.SORTED
         ),
       }));
     }
@@ -162,7 +161,7 @@ const SortingVisualizer = () => {
   };
 
   const animateInsertionSort = () => {
-    const { animationData } = insertionSort(bars.heights);
+    const { animationData } = insertionSort(bars);
     setDataSeries((prev) => ({
       ...prev,
       ...animationData,
@@ -194,8 +193,8 @@ const SortingVisualizer = () => {
         const barTwo = arrayBars[barTwoIdx] as HTMLElement;
         const color =
           i % 3 === 0
-            ? BarColors.SECONDARY_COLOR
-            : BarColors.PRIMARY_COLOR;
+            ? BarColors.BEING_SORTED
+            : BarColors.NOT_SORTED;
         setTimeout(() => {
           barOne.style.backgroundColor = color;
           barTwo.style.backgroundColor = color;
@@ -239,8 +238,8 @@ const SortingVisualizer = () => {
         const barTwo = arrayBars[barTwoIdx] as HTMLElement;
         const color =
           i % 3 === 0
-            ? BarColors.SECONDARY_COLOR
-            : BarColors.PRIMARY_COLOR;
+            ? BarColors.BEING_SORTED
+            : BarColors.NOT_SORTED;
         setTimeout(() => {
           barOne.style.backgroundColor = color;
           barTwo.style.backgroundColor = color;

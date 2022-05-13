@@ -1,5 +1,4 @@
 import {
-  sortTwo,
   swapTwo,
   IAnimationData,
   BarColors,
@@ -20,7 +19,6 @@ function bubbleSort(barData: IBars): ISortReturn {
   const animationData: IAnimationData = {
     atFrame: [],
     atFrameColors: [],
-    pointer: [],
   };
   for (let indexA = 0; indexA < localArr.length; indexA++) {
     for (
@@ -28,22 +26,20 @@ function bubbleSort(barData: IBars): ISortReturn {
       indexB < localArr.length - indexA - 1;
       indexB++
     ) {
-      animationData.pointer.push(indexB);
-
       const a = indexB + 1;
       const b = indexB;
       if (localArr[a] < localArr[b]) {
         swapTwo(localArr, a, b);
-        localColors[a] = BarColors.SECONDARY_COLOR;
-        localColors[b] = BarColors.SECONDARY_COLOR;
+        localColors[a] = BarColors.BEING_SORTED;
+        localColors[b] = BarColors.BEING_SORTED;
         animationData.atFrameColors.push([...localColors]);
-        localColors[a] = BarColors.PRIMARY_COLOR;
-        localColors[b] = BarColors.PRIMARY_COLOR;
+        localColors[a] = BarColors.NOT_SORTED;
+        localColors[b] = BarColors.NOT_SORTED;
         animationData.atFrame.push([...localArr]);
       }
     }
     localColors[localArr.length - indexA - 1] =
-      BarColors.FINISHED_COLOR;
+      BarColors.SORTED;
   }
   return { sortedArray: localArr, animationData };
 }
@@ -51,18 +47,31 @@ function bubbleSort(barData: IBars): ISortReturn {
 
 //#region Insertion Sort
 //Works
-function insertionSort(arr: number[]): ISortReturn {
-  const localArr = [...arr];
+function insertionSort(barData: IBars): ISortReturn {
+  const localArr = [...barData.heights];
+  const localColors = [...barData.colors];
   const animationData: IAnimationData = {
     atFrame: [],
     atFrameColors: [],
-    pointer: [],
   };
   for (let indexA = 1; indexA < localArr.length; indexA++) {
     for (let indexB = indexA - 1; indexB > -1; indexB--) {
-      animationData.pointer.push(indexB);
-      sortTwo(localArr, indexB + 1, indexB, animationData);
+      const a = indexB + 1;
+      const b = indexB;
+      if (localArr[a] < localArr[b]) {
+        swapTwo(localArr, a, b);
+        const exColorA = localColors[a];
+        const exColorB = localColors[b];
+
+        localColors[a] = BarColors.BEING_SORTED;
+        localColors[b] = BarColors.BEING_SORTED;
+        animationData.atFrameColors.push([...localColors]);
+        localColors[a] = exColorA;
+        localColors[b] = exColorB;
+        animationData.atFrame.push([...localArr]);
+      }
     }
+    localColors[indexA - 1] = BarColors.POTENTIALLY_SORTED;
   }
   return { sortedArray: localArr, animationData };
 }
@@ -75,7 +84,6 @@ function selectionSort(arr: number[]): ISortReturn {
   const animationData: IAnimationData = {
     atFrame: [],
     atFrameColors: [],
-    pointer: [],
   };
 
   let min: number;
@@ -92,15 +100,15 @@ function selectionSort(arr: number[]): ISortReturn {
       //Colors
       animationData.atFrameColors.push(
         new Array(localArr.length).fill(
-          BarColors.PRIMARY_COLOR
+          BarColors.NOT_SORTED
         )
       );
       const currentIndex =
         animationData.atFrameColors.length - 1;
       animationData.atFrameColors[currentIndex][min] =
-        BarColors.SECONDARY_COLOR;
+        BarColors.BEING_SORTED;
       animationData.atFrameColors[currentIndex][i] =
-        BarColors.SECONDARY_COLOR;
+        BarColors.BEING_SORTED;
     }
   }
 
@@ -207,7 +215,6 @@ function mergeSort(arr: number[]): ISortReturn {
   const animationData: IAnimationData = {
     atFrame: [],
     atFrameColors: [],
-    pointer: [],
   };
   const auxiliaryArray = [...localArr];
   if (localArr.length <= 1) {
@@ -281,7 +288,6 @@ function quickSort(arr: number[]): ISortReturn {
   const animationData: IAnimationData = {
     atFrame: [],
     atFrameColors: [],
-    pointer: [],
   };
   if (localArr.length <= 1) {
     return { sortedArray: localArr, animationData };
