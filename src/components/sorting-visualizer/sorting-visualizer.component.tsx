@@ -21,14 +21,9 @@ import {
   BarColors,
 } from "../../utils/sorting-algorithms/sorting-algorithms.utils";
 
-interface IDataSeries extends IAnimationData {
-  isComplete: boolean;
-}
-
-const dataSeriesDefaultValue: IDataSeries = {
+const dataSeriesDefaultValue = {
   atFrame: [],
   atFrameColors: [],
-  isComplete: false,
 };
 
 export interface IBars {
@@ -43,15 +38,14 @@ const barsDefaultValue = {
 
 const SortingVisualizer = () => {
   const [bars, setBars] = useState<IBars>(barsDefaultValue);
-  const [dataSeries, setDataSeries] = useState<IDataSeries>(
-    dataSeriesDefaultValue
-  );
+  const [dataSeries, setDataSeries] =
+    useState<IAnimationData>(dataSeriesDefaultValue);
   const [dataSeriesIndex, setDataSeriesIndex] = useState(0);
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
-  const [animationSpeed, setAnimationSpeed] = useState(30);
-  const [barCount, setBarCount] = useState(20);
+  const [animationSpeed, setAnimationSpeed] = useState(250);
+  const [barCount, setBarCount] = useState(10);
 
   const maxBarsForWidth = Math.floor(
     windowDimensions.width / 5
@@ -109,25 +103,8 @@ const SortingVisualizer = () => {
           heights: [...dataSeries.atFrame[dataSeriesIndex]],
         });
         setDataSeriesIndex((prev) => prev + 1);
-        if (
-          dataSeriesIndex ===
-          dataSeries.atFrame.length - 1
-        ) {
-          setDataSeries((prev) => ({
-            ...prev,
-            isComplete: true,
-          }));
-        }
       }, animationSpeed);
-     } // else if (dataSeries.isComplete) {
-    //   //NOTE - make it so the compeletion flag gets triggered when the initial array is sorted
-    //   setBars((prev) => ({
-    //     ...prev,
-    //     colors: new Array(prev.colors.length).fill(
-    //       BarColors.SORTED
-    //     ),
-    //   }));
-    // }
+    }
   }, [dataSeries, dataSeriesIndex, animationSpeed]);
 
   useEffect(() => {
@@ -208,16 +185,6 @@ const SortingVisualizer = () => {
           ] as HTMLElement;
           barOne.style.height = `${newHeight}px`;
         }, i * animationSpeed);
-      }
-      if (i === animationArray.length - 1) {
-        setTimeout(
-          () =>
-            setDataSeries((prev) => ({
-              ...prev,
-              isComplete: true,
-            })),
-          i * animationSpeed
-        );
       }
     }
   };
