@@ -11,7 +11,7 @@ interface IBarProps {
 const Bar: FC<IBarProps> = (props) => {
   return (
     <div
-      className="array-bar"
+      className="bar"
       style={{
         backgroundColor: props.backgroundColor,
         height: `${props.height}px`,

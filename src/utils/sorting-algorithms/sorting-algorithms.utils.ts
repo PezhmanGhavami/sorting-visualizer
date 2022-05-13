@@ -1,7 +1,13 @@
 export interface IAnimationData {
   atFrame: number[][];
-  selectedItems: number[][];
+  atFrameColors: string[][];
   pointer: number[];
+}
+
+export enum BarColors {
+  PRIMARY_COLOR = "steelblue",
+  SECONDARY_COLOR = "red",
+  FINISHED_COLOR = "green",
 }
 
 export const swapTwo = (
@@ -19,7 +25,15 @@ export const sortTwo = (
   animationData: IAnimationData
 ) => {
   if (list[a] < list[b]) {
-    animationData.selectedItems.push([a, b]);
+    animationData.atFrameColors.push(
+      new Array(list.length).fill(BarColors.PRIMARY_COLOR)
+    );
+    const currentIndex =
+      animationData.atFrameColors.length - 1;
+    // animationData.atFrameColors[currentIndex][a] =
+    //   TEST_COLOR;
+    animationData.atFrameColors[currentIndex][b] =
+      BarColors.SECONDARY_COLOR;
     swapTwo(list, a, b);
     animationData.atFrame.push([...list]);
   }

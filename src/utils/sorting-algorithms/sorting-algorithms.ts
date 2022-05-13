@@ -15,7 +15,7 @@ function bubbleSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationData: IAnimationData = {
     atFrame: [],
-    selectedItems: [],
+    atFrameColors: [],
     pointer: [],
   };
   for (let indexA = 0; indexA < localArr.length; indexA++) {
@@ -38,7 +38,7 @@ function insertionSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationData: IAnimationData = {
     atFrame: [],
-    selectedItems: [],
+    atFrameColors: [],
     pointer: [],
   };
   for (let indexA = 1; indexA < localArr.length; indexA++) {
@@ -57,7 +57,7 @@ function selectionSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationData: IAnimationData = {
     atFrame: [],
-    selectedItems: [],
+    atFrameColors: [],
     pointer: [],
   };
 
@@ -177,7 +177,7 @@ function mergeSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationData: IAnimationData = {
     atFrame: [],
-    selectedItems: [],
+    atFrameColors: [],
     pointer: [],
   };
   const auxiliaryArray = [...localArr];
@@ -251,7 +251,7 @@ function quickSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationData: IAnimationData = {
     atFrame: [],
-    selectedItems: [],
+    atFrameColors: [],
     pointer: [],
   };
   if (localArr.length <= 1) {

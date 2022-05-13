@@ -16,18 +16,20 @@ import {
   mergeSort,
   quickSort,
 } from "../../utils/sorting-algorithms/sorting-algorithms";
-import { IAnimationData } from "../../utils/sorting-algorithms/sorting-algorithms.utils";
+import {
+  IAnimationData,
+  BarColors,
+} from "../../utils/sorting-algorithms/sorting-algorithms.utils";
 
-// This is the main color of the array bars.
-const PRIMARY_COLOR = "turquoise";
+interface IDataSeries extends IAnimationData {
+  isComplete: boolean;
+}
 
-// This is the color of array bars that are being compared throughout the animations.
-const SECONDARY_COLOR = "red";
-
-const dataSeriesDefaultValue = {
+const dataSeriesDefaultValue: IDataSeries = {
   atFrame: [],
-  selectedItems: [],
+  atFrameColors: [],
   pointer: [],
+  isComplete: false,
 };
 
 export interface IBars {
@@ -40,24 +42,11 @@ const barsDefaultValue = {
   colors: [],
 };
 
-// const toggleColorForIndex = (
-//   arr: string[],
-//   index: number
-// ) => {
-//   const localArr = [...arr];
-//   if (localArr[index] === PRIMARY_COLOR) {
-//     localArr[index] = SECONDARY_COLOR;
-//   } else {
-//     localArr[index] = PRIMARY_COLOR;
-//   }
-
-//   return localArr;
-// };
-
 const SortingVisualizer = () => {
   const [bars, setBars] = useState<IBars>(barsDefaultValue);
-  const [dataSeries, setDataSeries] =
-    useState<IAnimationData>(dataSeriesDefaultValue);
+  const [dataSeries, setDataSeries] = useState<IDataSeries>(
+    dataSeriesDefaultValue
+  );
   const [dataSeriesIndex, setDataSeriesIndex] = useState(0);
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
@@ -96,10 +85,15 @@ const SortingVisualizer = () => {
     }
     setBars((prev) => ({
       ...prev,
-      colors: new Array(barCount).fill(PRIMARY_COLOR),
+      colors: new Array(barCount).fill(
+        BarColors.PRIMARY_COLOR
+      ),
       heights: [...localArray],
     }));
-    setDataSeries(dataSeriesDefaultValue);
+    setDataSeries((prev) => ({
+      ...prev,
+      ...dataSeriesDefaultValue,
+    }));
     setDataSeriesIndex(0);
     const correctBarCount = getCorrectBarCount(barCount);
     correctBarCount !== barCount &&
@@ -109,13 +103,30 @@ const SortingVisualizer = () => {
   const runTheAnimation = useCallback(() => {
     if (dataSeriesIndex < dataSeries.atFrame.length) {
       setTimeout(() => {
-        // const newColors =
-        setBars((prev) => ({
-          ...prev,
+        setBars({
+          colors: [
+            ...dataSeries.atFrameColors[dataSeriesIndex],
+          ],
           heights: [...dataSeries.atFrame[dataSeriesIndex]],
-        }));
+        });
         setDataSeriesIndex((prev) => prev + 1);
+        if (
+          dataSeriesIndex ===
+          dataSeries.atFrame.length - 1
+        ) {
+          setDataSeries((prev) => ({
+            ...prev,
+            isComplete: true,
+          }));
+        }
       }, animationSpeed);
+    } else if (dataSeries.isComplete) {
+      setBars((prev) => ({
+        ...prev,
+        colors: new Array(prev.colors.length).fill(
+          BarColors.FINISHED_COLOR
+        ),
+      }));
     }
   }, [dataSeries, dataSeriesIndex, animationSpeed]);
 
@@ -144,17 +155,26 @@ const SortingVisualizer = () => {
 
   const animateBubbleSort = () => {
     const { animationData } = bubbleSort(bars.heights);
-    setDataSeries({ ...animationData });
+    setDataSeries((prev) => ({
+      ...prev,
+      ...animationData,
+    }));
   };
 
   const animateInsertionSort = () => {
     const { animationData } = insertionSort(bars.heights);
-    setDataSeries({ ...animationData });
+    setDataSeries((prev) => ({
+      ...prev,
+      ...animationData,
+    }));
   };
 
   const animateSelectionSort = () => {
     const { animationData } = selectionSort(bars.heights);
-    setDataSeries({ ...animationData });
+    setDataSeries((prev) => ({
+      ...prev,
+      ...animationData,
+    }));
   };
 
   const animateMergeSort = () => {
@@ -166,14 +186,16 @@ const SortingVisualizer = () => {
 
     for (let i = 0; i < animationArray.length; i++) {
       const arrayBars =
-        document.getElementsByClassName("array-bar");
+        document.getElementsByClassName("bar");
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
         const [barOneIdx, barTwoIdx] = animationArray[i];
         const barOne = arrayBars[barOneIdx] as HTMLElement;
         const barTwo = arrayBars[barTwoIdx] as HTMLElement;
         const color =
-          i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+          i % 3 === 0
+            ? BarColors.SECONDARY_COLOR
+            : BarColors.PRIMARY_COLOR;
         setTimeout(() => {
           barOne.style.backgroundColor = color;
           barTwo.style.backgroundColor = color;
@@ -187,6 +209,16 @@ const SortingVisualizer = () => {
           barOne.style.height = `${newHeight}px`;
         }, i * animationSpeed);
       }
+      if (i === animationArray.length - 1) {
+        setTimeout(
+          () =>
+            setDataSeries((prev) => ({
+              ...prev,
+              isComplete: true,
+            })),
+          i * animationSpeed
+        );
+      }
     }
   };
 
@@ -199,14 +231,16 @@ const SortingVisualizer = () => {
 
     for (let i = 0; i < animationArray.length; i++) {
       const arrayBars =
-        document.getElementsByClassName("array-bar");
+        document.getElementsByClassName("bar");
       const isColorChange = i % 3 !== 2;
       if (isColorChange) {
         const [barOneIdx, barTwoIdx] = animationArray[i];
         const barOne = arrayBars[barOneIdx] as HTMLElement;
         const barTwo = arrayBars[barTwoIdx] as HTMLElement;
         const color =
-          i % 3 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
+          i % 3 === 0
+            ? BarColors.SECONDARY_COLOR
+            : BarColors.PRIMARY_COLOR;
         setTimeout(() => {
           barOne.style.backgroundColor = color;
           barTwo.style.backgroundColor = color;
