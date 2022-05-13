@@ -40,6 +40,8 @@ function bubbleSort(barData: IBars): ISortReturn {
     }
     localColors[localArr.length - indexA - 1] =
       BarColors.SORTED;
+    animationData.atFrame.push([...localArr]);
+    animationData.atFrameColors.push([...localColors]);
   }
   return { sortedArray: localArr, animationData };
 }
@@ -72,7 +74,18 @@ function insertionSort(barData: IBars): ISortReturn {
       }
     }
     localColors[indexA - 1] = BarColors.POTENTIALLY_SORTED;
+    animationData.atFrame.push([...localArr]);
+    animationData.atFrameColors.push([...localColors]);
   }
+  localColors[localColors.length - 1] =
+    BarColors.POTENTIALLY_SORTED;
+  animationData.atFrame.push([...localArr]);
+  animationData.atFrameColors.push([...localColors]);
+
+  //Sort Compeleted
+  localColors.fill(BarColors.SORTED);
+  animationData.atFrame.push([...localArr]);
+  animationData.atFrameColors.push([...localColors]);
   return { sortedArray: localArr, animationData };
 }
 //#endregion
@@ -123,13 +136,16 @@ function selectionSort(barData: IBars): ISortReturn {
     localColors[indexA] = BarColors.SORTED;
     animationData.atFrame.push([...localArr]);
   }
+  localColors[localColors.length - 1] = BarColors.SORTED;
+  animationData.atFrame.push([...localArr]);
+  animationData.atFrameColors.push([...localColors]);
 
   return { sortedArray: localArr, animationData };
 }
 //#endregion
 
 //#region Heap Sort
-//NOTE - Add heap sort
+//TODO - Add heap sort
 //#endregion
 
 //#region Merge Sort
