@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 
 import "./sorting-visualizer.styles.css";
 
-import Bar from "../bar/bar.components";
+import BarContainer from "../bar-container/bar-container.component";
 import Nav from "../nav/nav.component";
 
 import {
@@ -30,7 +30,7 @@ const dataSeriesDefaultValue = {
   pointer: [],
 };
 
-interface IBars {
+export interface IBars {
   heights: number[];
   colors: string[];
 }
@@ -238,17 +238,7 @@ const SortingVisualizer = () => {
           barInfo={{ maxBarsForWidth, barCount }}
           animationSpeed={animationSpeed}
         />
-        {/*NOTE -  bar-container can be it's own component */}
-        <div className="bar-container">
-          {bars.heights.map((value, index) => (
-            <Bar
-              key={index}
-              height={value}
-              width={barWidth}
-              backgroundColor={bars.colors[index]}
-            />
-          ))}
-        </div>
+        <BarContainer bars={bars} barWidth={barWidth} />
       </div>
     </>
   );
