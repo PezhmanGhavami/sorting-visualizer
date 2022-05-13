@@ -149,170 +149,88 @@ function selectionSort(barData: IBars): ISortReturn {
 //#endregion
 
 //#region Merge Sort
-function merge(
-  mainArray: number[],
-  startIdx: number,
-  middleIdx: number,
-  endIdx: number,
-  auxiliaryArray: number[],
-  animations: number[][]
-): void {
-  let k = startIdx;
-  let i = startIdx;
-  let j = middleIdx + 1;
-  while (i <= middleIdx && j <= endIdx) {
-    // These are the values that we're comparing; we push them once
-    // to change their color.
-    animations.push([i, j]);
-    // These are the values that we're comparing; we push them a second
-    // time to revert their color.
-    animations.push([i, j]);
-    if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-      // We overwrite the value at index k in the original array with the
-      // value at index i in the auxiliary array.
-      animations.push([k, auxiliaryArray[i]]);
-      mainArray[k++] = auxiliaryArray[i++];
+function merge(list1: number[], list2: number[]): number[] {
+  let merged: number[] = [],
+    i: number = 0,
+    j: number = 0;
+  while (i < list1.length && j < list2.length) {
+    if (list1[i] < list2[j]) {
+      merged.push(list1[i]);
+      i++;
     } else {
-      // We overwrite the value at index k in the original array with the
-      // value at index j in the auxiliary array.
-      animations.push([k, auxiliaryArray[j]]);
-      mainArray[k++] = auxiliaryArray[j++];
+      merged.push(list2[j]);
+      j++;
     }
   }
-  while (i <= middleIdx) {
-    // These are the values that we're comparing; we push them once
-    // to change their color.
-    animations.push([i, i]);
-    // These are the values that we're comparing; we push them a second
-    // time to revert their color.
-    animations.push([i, i]);
-    // We overwrite the value at index k in the original array with the
-    // value at index i in the auxiliary array.
-    animations.push([k, auxiliaryArray[i]]);
-    mainArray[k++] = auxiliaryArray[i++];
+  while (i < list1.length) {
+    merged.push(list1[i]);
+    i++;
   }
-  while (j <= endIdx) {
-    // These are the values that we're comparing; we push them once
-    // to change their color.
-    animations.push([j, j]);
-    // These are the values that we're comparing; we push them a second
-    // time to revert their color.
-    animations.push([j, j]);
-    // We overwrite the value at index k in the original array with the
-    // value at index j in the auxiliary array.
-    animations.push([k, auxiliaryArray[j]]);
-    mainArray[k++] = auxiliaryArray[j++];
+  while (j < list2.length) {
+    merged.push(list2[j]);
+    j++;
   }
+  return merged;
 }
 
-function callMerge(
-  mainArray: number[],
-  startIdx: number,
-  endIdx: number,
-  auxiliaryArray: number[],
-  animations: number[][]
-): void {
-  if (startIdx === endIdx) return;
-  const middleIdx = Math.floor((startIdx + endIdx) / 2);
-  callMerge(
-    auxiliaryArray,
-    startIdx,
-    middleIdx,
-    mainArray,
-    animations
-  );
-  callMerge(
-    auxiliaryArray,
-    middleIdx + 1,
-    endIdx,
-    mainArray,
-    animations
-  );
-  merge(
-    mainArray,
-    startIdx,
-    middleIdx,
-    endIdx,
-    auxiliaryArray,
-    animations
-  );
+function callMerge(list: number[]): number[] {
+  if (list.length <= 1) return list;
+  let mid = Math.floor(list.length / 2);
+  let left: number[] = callMerge(list.slice(0, mid));
+  let right: number[] = callMerge(list.slice(mid));
+  return merge(left, right);
 }
 
-function mergeSort(arr: number[]): ISortReturn {
-  const localArr = [...arr];
+function mergeSort(barData: IBars): ISortReturn {
+  const localArr = [...barData.heights];
+  const localColors = [...barData.colors];
   const animationData: IAnimationData = {
     atFrame: [],
     atFrameColors: [],
   };
-  const auxiliaryArray = [...localArr];
   if (localArr.length <= 1) {
     return { sortedArray: localArr, animationData };
   }
-  callMerge(
-    localArr,
-    0,
-    localArr.length - 1,
-    auxiliaryArray,
-    animationData.atFrame
-  );
+  callMerge(localArr);
 
   return { sortedArray: localArr, animationData };
 }
 //#endregion
 
 //#region Quick Sort
-function getPivotIdx(
+function getPivotIndex(
   arr: number[],
   start: number = 0,
-  end: number = arr.length - 1,
-  animationArray: number[][]
+  end: number = arr.length - 1
 ): number {
   let swapIdx: number = start;
   let pivotValue: number = arr[start];
   for (let i = start + 1; i <= end; i++) {
     if (arr[i] < pivotValue) {
-      animationArray.push([start, swapIdx]);
-      animationArray.push([start, swapIdx]);
       swapIdx++;
       swapTwo(arr, i, swapIdx);
     }
   }
   swapTwo(arr, start, swapIdx);
-  animationArray.push([start, arr[swapIdx]]);
   return swapIdx;
 }
 
-function quickSortHelper(
+function runQuickSort(
   arr: number[],
   left: number = 0,
-  right: number = arr.length - 1,
-  animationArray: number[][]
+  right: number = arr.length - 1
 ): number[] {
   if (left < right) {
-    let pivotIndex = getPivotIdx(
-      arr,
-      left,
-      right,
-      animationArray
-    );
-    quickSortHelper(
-      arr,
-      left,
-      pivotIndex - 1,
-      animationArray
-    );
-    quickSortHelper(
-      arr,
-      pivotIndex + 1,
-      right,
-      animationArray
-    );
+    let pivotIndex = getPivotIndex(arr, left, right);
+    runQuickSort(arr, left, pivotIndex - 1);
+    runQuickSort(arr, pivotIndex + 1, right);
   }
   return arr;
 }
 
-function quickSort(arr: number[]): ISortReturn {
-  const localArr = [...arr];
+function quickSort(barData: IBars): ISortReturn {
+  const localArr = [...barData.heights];
+  const localColors = [...barData.colors];
   const animationData: IAnimationData = {
     atFrame: [],
     atFrameColors: [],
@@ -321,12 +239,7 @@ function quickSort(arr: number[]): ISortReturn {
     return { sortedArray: localArr, animationData };
   }
 
-  quickSortHelper(
-    localArr,
-    0,
-    localArr.length - 1,
-    animationData.atFrame
-  );
+  runQuickSort(localArr);
 
   return { sortedArray: localArr, animationData };
 }

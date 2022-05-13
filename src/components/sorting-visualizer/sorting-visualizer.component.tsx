@@ -155,73 +155,19 @@ const SortingVisualizer = () => {
   };
 
   const animateMergeSort = () => {
-    const { animationData } = mergeSort(bars.heights);
-    const animationArray = animationData.atFrame;
-    // console.log(sortedArray);
-    // console.log(animationArray);
-    // setDataSeries([...animationArray]);
-
-    for (let i = 0; i < animationArray.length; i++) {
-      const arrayBars =
-        document.getElementsByClassName("bar");
-      const isColorChange = i % 3 !== 2;
-      if (isColorChange) {
-        const [barOneIdx, barTwoIdx] = animationArray[i];
-        const barOne = arrayBars[barOneIdx] as HTMLElement;
-        const barTwo = arrayBars[barTwoIdx] as HTMLElement;
-        const color =
-          i % 3 === 0
-            ? BarColors.BEING_SORTED
-            : BarColors.NOT_SORTED;
-        setTimeout(() => {
-          barOne.style.backgroundColor = color;
-          barTwo.style.backgroundColor = color;
-        }, i * animationSpeed);
-      } else {
-        setTimeout(() => {
-          const [barOneIdx, newHeight] = animationArray[i];
-          const barOne = arrayBars[
-            barOneIdx
-          ] as HTMLElement;
-          barOne.style.height = `${newHeight}px`;
-        }, i * animationSpeed);
-      }
-    }
+    const { animationData } = mergeSort(bars);
+    setDataSeries((prev) => ({
+      ...prev,
+      ...animationData,
+    }));
   };
 
   const animateQuickSort = () => {
-    const { animationData } = quickSort(bars.heights);
-    const animationArray = animationData.atFrame;
-    // console.log(sortedArray);
-    // console.log(animationArray);
-    // setDataSeries([...animationArray]);
-
-    for (let i = 0; i < animationArray.length; i++) {
-      const arrayBars =
-        document.getElementsByClassName("bar");
-      const isColorChange = i % 3 !== 2;
-      if (isColorChange) {
-        const [barOneIdx, barTwoIdx] = animationArray[i];
-        const barOne = arrayBars[barOneIdx] as HTMLElement;
-        const barTwo = arrayBars[barTwoIdx] as HTMLElement;
-        const color =
-          i % 3 === 0
-            ? BarColors.BEING_SORTED
-            : BarColors.NOT_SORTED;
-        setTimeout(() => {
-          barOne.style.backgroundColor = color;
-          barTwo.style.backgroundColor = color;
-        }, i * animationSpeed);
-      } else {
-        setTimeout(() => {
-          const [barOneIdx, newHeight] = animationArray[i];
-          const barOne = arrayBars[
-            barOneIdx
-          ] as HTMLElement;
-          barOne.style.height = `${newHeight}px`;
-        }, i * animationSpeed);
-      }
-    }
+    const { animationData } = quickSort(bars);
+    setDataSeries((prev) => ({
+      ...prev,
+      ...animationData,
+    }));
   };
 
   return (
