@@ -31,7 +31,7 @@ function bubbleSort(barData: IBars): ISortReturn {
       if (localArr[a] < localArr[b]) {
         swapTwo(localArr, a, b);
         localColors[a] = BarColors.BEING_SORTED;
-        localColors[b] = BarColors.BEING_SORTED;
+        localColors[b] = BarColors.BEING_COMPARED_AGAINST;
         animationData.atFrameColors.push([...localColors]);
         localColors[a] = BarColors.NOT_SORTED;
         localColors[b] = BarColors.NOT_SORTED;
@@ -63,7 +63,7 @@ function insertionSort(barData: IBars): ISortReturn {
         const exColorA = localColors[a];
         const exColorB = localColors[b];
 
-        localColors[a] = BarColors.BEING_SORTED;
+        localColors[a] = BarColors.BEING_COMPARED_AGAINST;
         localColors[b] = BarColors.BEING_SORTED;
         animationData.atFrameColors.push([...localColors]);
         localColors[a] = exColorA;

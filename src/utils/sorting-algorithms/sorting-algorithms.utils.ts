@@ -5,7 +5,8 @@ export interface IAnimationData {
 
 export enum BarColors {
   NOT_SORTED = "steelblue",
-  BEING_SORTED = "red",
+  BEING_SORTED = "#48af69",
+  BEING_COMPARED_AGAINST = "#af4876",
   SORTED = "green",
   POTENTIALLY_SORTED = "purple",
 }

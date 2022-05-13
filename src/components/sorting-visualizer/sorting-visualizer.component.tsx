@@ -120,6 +120,7 @@ const SortingVisualizer = () => {
         }
       }, animationSpeed);
     } else if (dataSeries.isComplete) {
+      //NOTE - make it so the compeletion flag gets triggered when the initial array is sorted
       setBars((prev) => ({
         ...prev,
         colors: new Array(prev.colors.length).fill(
