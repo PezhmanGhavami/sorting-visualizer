@@ -2,7 +2,10 @@ import {
   sortTwo,
   swapTwo,
   IAnimationData,
+  BarColors,
 } from "./sorting-algorithms.utils";
+
+import { IBars } from "../../components/sorting-visualizer/sorting-visualizer.component";
 
 interface ISortReturn {
   sortedArray: number[];
@@ -11,8 +14,9 @@ interface ISortReturn {
 
 //#region Bubble Sort
 //Works
-function bubbleSort(arr: number[]): ISortReturn {
-  const localArr = [...arr];
+function bubbleSort(barData: IBars): ISortReturn {
+  const localArr = [...barData.heights];
+  const localColors = [...barData.colors];
   const animationData: IAnimationData = {
     atFrame: [],
     atFrameColors: [],
@@ -25,8 +29,21 @@ function bubbleSort(arr: number[]): ISortReturn {
       indexB++
     ) {
       animationData.pointer.push(indexB);
-      sortTwo(localArr, indexB + 1, indexB, animationData);
+
+      const a = indexB + 1;
+      const b = indexB;
+      if (localArr[a] < localArr[b]) {
+        swapTwo(localArr, a, b);
+        localColors[a] = BarColors.SECONDARY_COLOR;
+        localColors[b] = BarColors.SECONDARY_COLOR;
+        animationData.atFrameColors.push([...localColors]);
+        localColors[a] = BarColors.PRIMARY_COLOR;
+        localColors[b] = BarColors.PRIMARY_COLOR;
+        animationData.atFrame.push([...localArr]);
+      }
     }
+    localColors[localArr.length - indexA - 1] =
+      BarColors.FINISHED_COLOR;
   }
   return { sortedArray: localArr, animationData };
 }
@@ -52,7 +69,7 @@ function insertionSort(arr: number[]): ISortReturn {
 //#endregion
 
 //#region Selection Sort
-//Works
+//Animation is wrong
 function selectionSort(arr: number[]): ISortReturn {
   const localArr = [...arr];
   const animationData: IAnimationData = {
@@ -72,6 +89,18 @@ function selectionSort(arr: number[]): ISortReturn {
     if (min !== i) {
       swapTwo(localArr, min, i);
       animationData.atFrame.push([...localArr]);
+      //Colors
+      animationData.atFrameColors.push(
+        new Array(localArr.length).fill(
+          BarColors.PRIMARY_COLOR
+        )
+      );
+      const currentIndex =
+        animationData.atFrameColors.length - 1;
+      animationData.atFrameColors[currentIndex][min] =
+        BarColors.SECONDARY_COLOR;
+      animationData.atFrameColors[currentIndex][i] =
+        BarColors.SECONDARY_COLOR;
     }
   }
 

@@ -154,7 +154,7 @@ const SortingVisualizer = () => {
   };
 
   const animateBubbleSort = () => {
-    const { animationData } = bubbleSort(bars.heights);
+    const { animationData } = bubbleSort(bars);
     setDataSeries((prev) => ({
       ...prev,
       ...animationData,
