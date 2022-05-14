@@ -151,8 +151,8 @@ function selectionSort(barData: IBars): ISortReturn {
 //#region Merge Sort
 function merge(list1: number[], list2: number[]): number[] {
   let merged: number[] = [],
-    i: number = 0,
-    j: number = 0;
+    i = 0,
+    j = 0;
   while (i < list1.length && j < list2.length) {
     if (list1[i] < list2[j]) {
       merged.push(list1[i]);
@@ -173,11 +173,26 @@ function merge(list1: number[], list2: number[]): number[] {
   return merged;
 }
 
-function callMerge(list: number[]): number[] {
+function callMerge(
+  list: number[],
+  frame: number[],
+  fColors: string[],
+  aniData: IAnimationData
+): number[] {
   if (list.length <= 1) return list;
-  let mid = Math.floor(list.length / 2);
-  let left: number[] = callMerge(list.slice(0, mid));
-  let right: number[] = callMerge(list.slice(mid));
+  let middle = Math.floor(list.length / 2);
+  let left = callMerge(
+    list.slice(0, middle),
+    frame,
+    fColors,
+    aniData
+  );
+  let right = callMerge(
+    list.slice(middle),
+    frame,
+    fColors,
+    aniData
+  );
   return merge(left, right);
 }
 
@@ -191,9 +206,21 @@ function mergeSort(barData: IBars): ISortReturn {
   if (localArr.length <= 1) {
     return { sortedArray: localArr, animationData };
   }
-  callMerge(localArr);
 
-  return { sortedArray: localArr, animationData };
+  // callMerge(localArr, localArr, localColors, animationData);
+
+  const sortedArray = callMerge(
+    localArr,
+    localArr,
+    localColors,
+    animationData
+  );
+
+  localColors.fill(BarColors.SORTED);
+  animationData.atFrame.push(sortedArray);
+  animationData.atFrameColors.push(localColors);
+
+  return { sortedArray, animationData };
 }
 //#endregion
 
@@ -217,13 +244,30 @@ function getPivotIndex(
 
 function runQuickSort(
   arr: number[],
+  frame: number[],
+  fColors: string[],
+  aniData: IAnimationData,
   left: number = 0,
   right: number = arr.length - 1
 ): number[] {
   if (left < right) {
     let pivotIndex = getPivotIndex(arr, left, right);
-    runQuickSort(arr, left, pivotIndex - 1);
-    runQuickSort(arr, pivotIndex + 1, right);
+    runQuickSort(
+      arr,
+      frame,
+      fColors,
+      aniData,
+      left,
+      pivotIndex - 1
+    );
+    runQuickSort(
+      arr,
+      frame,
+      fColors,
+      aniData,
+      pivotIndex + 1,
+      right
+    );
   }
   return arr;
 }
@@ -239,9 +283,20 @@ function quickSort(barData: IBars): ISortReturn {
     return { sortedArray: localArr, animationData };
   }
 
-  runQuickSort(localArr);
+  // runQuickSort(localArr);
 
-  return { sortedArray: localArr, animationData };
+  const sortedArray = runQuickSort(
+    localArr,
+    localArr,
+    localColors,
+    animationData
+  );
+
+  localColors.fill(BarColors.SORTED);
+  animationData.atFrame.push(sortedArray);
+  animationData.atFrameColors.push(localColors);
+
+  return { sortedArray, animationData };
 }
 //#endregion
 
