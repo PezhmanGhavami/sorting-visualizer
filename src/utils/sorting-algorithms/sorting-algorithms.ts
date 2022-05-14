@@ -339,50 +339,95 @@ function mergeSort(barData: IBars): ISortReturn {
 
 //#region Quick Sort
 function getPivotIndex(
-  arr: number[],
+  localArr: number[],
+  localColors: string[],
+  animationData: IAnimationData,
   start: number = 0,
-  end: number = arr.length - 1
+  end: number = localArr.length - 1
 ): number {
   let swapIdx: number = start;
-  let pivotValue: number = arr[start];
+  let pivotValue: number = localArr[start];
   for (let i = start + 1; i <= end; i++) {
-    if (arr[i] < pivotValue) {
+    if (localArr[i] < pivotValue) {
       swapIdx++;
-      swapTwo(arr, i, swapIdx);
+      swapTwo(localArr, i, swapIdx);
+
+      const exColorA = localColors[i];
+      const exColorB = localColors[swapIdx];
+
+      localColors[i] = BarColors.BEING_SORTED;
+      localColors[swapIdx] =
+        BarColors.BEING_COMPARED_AGAINST;
+      addFrame(animationData, localArr, localColors);
+      localColors[i] = exColorA;
+      localColors[swapIdx] = exColorB;
+      addFrame(animationData, localArr, localColors);
     }
   }
-  swapTwo(arr, start, swapIdx);
+  swapTwo(localArr, start, swapIdx);
+
+  const exColorA = localColors[start];
+  const exColorB = localColors[swapIdx];
+
+  localColors[start] = BarColors.BEING_SORTED;
+  localColors[swapIdx] = BarColors.BEING_COMPARED_AGAINST;
+  addFrame(animationData, localArr, localColors);
+  localColors[start] = exColorA;
+  localColors[swapIdx] = exColorB;
+  addFrame(animationData, localArr, localColors);
   return swapIdx;
 }
 
 function runQuickSort(
-  arr: number[],
-  frame: number[],
-  fColors: string[],
-  aniData: IAnimationData,
-  left: number = 0,
-  right: number = arr.length - 1
-): number[] {
+  localArr: number[],
+  localColors: string[],
+  animationData: IAnimationData,
+  left: number,
+  right: number
+): void {
   if (left < right) {
-    let pivotIndex = getPivotIndex(arr, left, right);
+    let pivotIndex = getPivotIndex(
+      localArr,
+      localColors,
+      animationData,
+      left,
+      right
+    );
     runQuickSort(
-      arr,
-      frame,
-      fColors,
-      aniData,
+      localArr,
+      localColors,
+      animationData,
       left,
       pivotIndex - 1
     );
+    localColors.fill(
+      BarColors.POTENTIALLY_SORTED,
+      left,
+      pivotIndex
+    );
+    addFrame(animationData, localArr, localColors);
+
     runQuickSort(
-      arr,
-      frame,
-      fColors,
-      aniData,
+      localArr,
+      localColors,
+      animationData,
       pivotIndex + 1,
       right
     );
+    localColors.fill(
+      BarColors.POTENTIALLY_SORTED,
+      pivotIndex + 1,
+      right + 1
+    );
+    addFrame(animationData, localArr, localColors);
   }
-  return arr;
+
+  localColors.fill(
+    BarColors.POTENTIALLY_SORTED,
+    left,
+    right + 1
+  );
+  addFrame(animationData, localArr, localColors);
 }
 
 function quickSort(barData: IBars): ISortReturn {
@@ -396,19 +441,18 @@ function quickSort(barData: IBars): ISortReturn {
     return { sortedArray: localArr, animationData };
   }
 
-  // runQuickSort(localArr);
-
-  const sortedArray = runQuickSort(
-    localArr,
+  runQuickSort(
     localArr,
     localColors,
-    animationData
+    animationData,
+    0,
+    localArr.length - 1
   );
 
   localColors.fill(BarColors.SORTED);
-  addFrame(animationData, sortedArray, localColors);
+  addFrame(animationData, localArr, localColors);
 
-  return { sortedArray, animationData };
+  return { sortedArray: localArr, animationData };
 }
 //#endregion
 
