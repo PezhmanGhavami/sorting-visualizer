@@ -1,5 +1,6 @@
 import {
   swapTwo,
+  addFrame,
   IAnimationData,
   BarColors,
 } from "./sorting-algorithms.utils";
@@ -32,16 +33,14 @@ function bubbleSort(barData: IBars): ISortReturn {
         swapTwo(localArr, a, b);
         localColors[a] = BarColors.BEING_SORTED;
         localColors[b] = BarColors.BEING_COMPARED_AGAINST;
-        animationData.atFrameColors.push([...localColors]);
+        addFrame(animationData, localArr, localColors);
         localColors[a] = BarColors.NOT_SORTED;
         localColors[b] = BarColors.NOT_SORTED;
-        animationData.atFrame.push([...localArr]);
       }
     }
     localColors[localArr.length - indexA - 1] =
       BarColors.SORTED;
-    animationData.atFrame.push([...localArr]);
-    animationData.atFrameColors.push([...localColors]);
+    addFrame(animationData, localArr, localColors);
   }
   return { sortedArray: localArr, animationData };
 }
@@ -67,25 +66,21 @@ function insertionSort(barData: IBars): ISortReturn {
 
         localColors[a] = BarColors.BEING_COMPARED_AGAINST;
         localColors[b] = BarColors.BEING_SORTED;
-        animationData.atFrameColors.push([...localColors]);
+        addFrame(animationData, localArr, localColors);
         localColors[a] = exColorA;
         localColors[b] = exColorB;
-        animationData.atFrame.push([...localArr]);
       }
     }
     localColors[indexA - 1] = BarColors.POTENTIALLY_SORTED;
-    animationData.atFrame.push([...localArr]);
-    animationData.atFrameColors.push([...localColors]);
+    addFrame(animationData, localArr, localColors);
   }
   localColors[localColors.length - 1] =
     BarColors.POTENTIALLY_SORTED;
-  animationData.atFrame.push([...localArr]);
-  animationData.atFrameColors.push([...localColors]);
+  addFrame(animationData, localArr, localColors);
 
   //Sort Compeleted
   localColors.fill(BarColors.SORTED);
-  animationData.atFrame.push([...localArr]);
-  animationData.atFrameColors.push([...localColors]);
+  addFrame(animationData, localArr, localColors);
   return { sortedArray: localArr, animationData };
 }
 //#endregion
@@ -105,8 +100,8 @@ function selectionSort(barData: IBars): ISortReturn {
   for (let indexA = 0; indexA < localArr.length; indexA++) {
     currentMin = indexA;
     localColors[indexA] = BarColors.POTENTIALLY_SORTED;
-    animationData.atFrame.push([...localArr]);
-    animationData.atFrameColors.push([...localColors]);
+    addFrame(animationData, localArr, localColors);
+
     for (
       let indexB = indexA + 1;
       indexB < localArr.length;
@@ -114,16 +109,15 @@ function selectionSort(barData: IBars): ISortReturn {
     ) {
       localColors[indexB] =
         BarColors.BEING_COMPARED_AGAINST;
-      animationData.atFrame.push([...localArr]);
-      animationData.atFrameColors.push([...localColors]);
+      addFrame(animationData, localArr, localColors);
+
       if (localArr[indexB] < localArr[currentMin]) {
         if (currentMin !== indexA) {
           localColors[currentMin] = BarColors.NOT_SORTED;
         }
         currentMin = indexB;
         localColors[currentMin] = BarColors.BEING_SORTED;
-        animationData.atFrame.push([...localArr]);
-        animationData.atFrameColors.push([...localColors]);
+        addFrame(animationData, localArr, localColors);
       } else {
         localColors[indexB] = BarColors.NOT_SORTED;
       }
@@ -131,14 +125,13 @@ function selectionSort(barData: IBars): ISortReturn {
     if (currentMin !== indexA) {
       swapTwo(localArr, currentMin, indexA);
     }
-    animationData.atFrameColors.push([...localColors]);
+    addFrame(animationData, localArr, localColors);
+
     localColors[currentMin] = BarColors.NOT_SORTED;
     localColors[indexA] = BarColors.SORTED;
-    animationData.atFrame.push([...localArr]);
   }
   localColors[localColors.length - 1] = BarColors.SORTED;
-  animationData.atFrame.push([...localArr]);
-  animationData.atFrameColors.push([...localColors]);
+  addFrame(animationData, localArr, localColors);
 
   return { sortedArray: localArr, animationData };
 }
@@ -217,8 +210,7 @@ function mergeSort(barData: IBars): ISortReturn {
   );
 
   localColors.fill(BarColors.SORTED);
-  animationData.atFrame.push(sortedArray);
-  animationData.atFrameColors.push(localColors);
+  addFrame(animationData, sortedArray, localColors);
 
   return { sortedArray, animationData };
 }
@@ -293,8 +285,7 @@ function quickSort(barData: IBars): ISortReturn {
   );
 
   localColors.fill(BarColors.SORTED);
-  animationData.atFrame.push(sortedArray);
-  animationData.atFrameColors.push(localColors);
+  addFrame(animationData, sortedArray, localColors);
 
   return { sortedArray, animationData };
 }

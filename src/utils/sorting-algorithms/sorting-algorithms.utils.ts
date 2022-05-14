@@ -18,3 +18,12 @@ export const swapTwo = (
 ) => {
   [list[a], list[b]] = [list[b], list[a]];
 };
+
+export const addFrame = (
+  animationData: IAnimationData,
+  frame: number[],
+  frameColors: string[]
+) => {
+  animationData.atFrame.push([...frame]);
+  animationData.atFrameColors.push([...frameColors]);
+};
