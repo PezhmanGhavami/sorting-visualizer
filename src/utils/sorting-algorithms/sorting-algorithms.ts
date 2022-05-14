@@ -174,24 +174,38 @@ function merge(
     indexOfLeftSubArray < leftArraySize &&
     indexOfRightSubArray < rightArraySize
   ) {
+    const exColorM = localColors[indexOfMergedArray];
     if (
       leftArr[indexOfLeftSubArray] <=
       rightArr[indexOfRightSubArray]
     ) {
+      const exColorL = localColors[indexOfLeftSubArray];
+      localColors[indexOfLeftSubArray] =
+        BarColors.BEING_COMPARED_AGAINST;
       localColors[indexOfMergedArray] =
         BarColors.BEING_SORTED;
       localArr[indexOfMergedArray] =
         leftArr[indexOfLeftSubArray];
+      addFrame(animationData, localArr, localColors);
+      localColors[indexOfLeftSubArray] = exColorL;
+
       indexOfLeftSubArray++;
     } else {
+      const exColorR = localColors[indexOfRightSubArray];
+      localColors[indexOfRightSubArray] =
+        BarColors.BEING_COMPARED_AGAINST;
       localColors[indexOfMergedArray] =
         BarColors.BEING_SORTED;
       localArr[indexOfMergedArray] =
         rightArr[indexOfRightSubArray];
+      addFrame(animationData, localArr, localColors);
+      localColors[indexOfRightSubArray] = exColorR;
+
       indexOfRightSubArray++;
     }
+    localColors[indexOfMergedArray] = exColorM;
     addFrame(animationData, localArr, localColors);
-    localColors[indexOfMergedArray] = BarColors.NOT_SORTED;
+
     indexOfMergedArray++;
   }
 
@@ -199,10 +213,16 @@ function merge(
     //extra element in left array
     localArr[indexOfMergedArray] =
       leftArr[indexOfLeftSubArray];
+    const exColorM = localColors[indexOfMergedArray];
+    const exColorL = localColors[indexOfLeftSubArray];
+    localColors[indexOfLeftSubArray] =
+      BarColors.BEING_COMPARED_AGAINST;
     localColors[indexOfMergedArray] =
       BarColors.BEING_SORTED;
     addFrame(animationData, localArr, localColors);
-    localColors[indexOfMergedArray] = BarColors.NOT_SORTED;
+    localColors[indexOfMergedArray] = exColorM;
+    localColors[indexOfLeftSubArray] = exColorL;
+    addFrame(animationData, localArr, localColors);
 
     indexOfLeftSubArray++;
     indexOfMergedArray++;
@@ -212,11 +232,17 @@ function merge(
     //extra element in right array
     localArr[indexOfMergedArray] =
       rightArr[indexOfRightSubArray];
+    const exColorM = localColors[indexOfMergedArray];
+    const exColorR = localColors[indexOfRightSubArray];
+    localColors[indexOfRightSubArray] =
+      BarColors.BEING_COMPARED_AGAINST;
     localColors[indexOfMergedArray] =
       BarColors.BEING_SORTED;
     addFrame(animationData, localArr, localColors);
-    localColors[indexOfMergedArray] = BarColors.NOT_SORTED;
-    
+    localColors[indexOfMergedArray] = exColorM;
+    localColors[indexOfRightSubArray] = exColorR;
+    addFrame(animationData, localArr, localColors);
+
     indexOfRightSubArray++;
     indexOfMergedArray++;
   }
@@ -239,6 +265,12 @@ function callMerge(
       start,
       middle
     );
+    localColors.fill(
+      BarColors.POTENTIALLY_SORTED,
+      start,
+      middle + 1
+    );
+    addFrame(animationData, localArr, localColors);
     //right side
     callMerge(
       localArr,
@@ -247,6 +279,12 @@ function callMerge(
       middle + 1,
       end
     );
+    localColors.fill(
+      BarColors.POTENTIALLY_SORTED,
+      middle + 1,
+      end + 1
+    );
+    addFrame(animationData, localArr, localColors);
 
     //merge the arrays
     merge(
