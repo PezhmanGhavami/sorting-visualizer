@@ -142,51 +142,114 @@ function selectionSort(barData: IBars): ISortReturn {
 //#endregion
 
 //#region Merge Sort
-function merge(list1: number[], list2: number[]): number[] {
-  let merged: number[] = [],
-    i = 0,
-    j = 0;
-  while (i < list1.length && j < list2.length) {
-    if (list1[i] < list2[j]) {
-      merged.push(list1[i]);
-      i++;
+function merge(
+  localArr: number[],
+  localColors: string[],
+  animationData: IAnimationData,
+  left: number,
+  middle: number,
+  right: number
+): void {
+  console.log(left);
+  console.log(middle);
+  console.log(right);
+  //size of left and right sub-arrays
+  const leftArraySize = middle - left + 1;
+  const rightArraySize = right - middle;
+  console.log(leftArraySize);
+  console.log(rightArraySize);
+  const leftArr: number[] = new Array(leftArraySize).fill(
+    0
+  );
+  const rightArr: number[] = new Array(rightArraySize).fill(
+    0
+  );
+
+  //fill left and right sub-arrays
+  for (let index = 0; index < leftArraySize; index++) {
+    leftArr[index] = localArr[left + index];
+  }
+  for (let index = 0; index < rightArraySize; index++) {
+    rightArr[index] = localArr[middle + 1 + index];
+  }
+
+  let indexOfLeftSubArray = 0;
+  let indexOfRightSubArray = 0;
+  let indexOfMergedArray = left;
+  //marge temp arrays to real array
+
+  while (
+    indexOfLeftSubArray < leftArraySize &&
+    indexOfRightSubArray < rightArraySize
+  ) {
+    if (
+      leftArr[indexOfLeftSubArray] <=
+      rightArr[indexOfRightSubArray]
+    ) {
+      localArr[indexOfMergedArray] =
+        leftArr[indexOfLeftSubArray];
+      indexOfLeftSubArray++;
     } else {
-      merged.push(list2[j]);
-      j++;
+      localArr[indexOfMergedArray] =
+        rightArr[indexOfRightSubArray];
+      indexOfRightSubArray++;
     }
+    indexOfMergedArray++;
   }
-  while (i < list1.length) {
-    merged.push(list1[i]);
-    i++;
+
+  while (indexOfLeftSubArray < leftArraySize) {
+    //extra element in left array
+    localArr[indexOfMergedArray] =
+      leftArr[indexOfLeftSubArray];
+    indexOfLeftSubArray++;
+    indexOfMergedArray++;
   }
-  while (j < list2.length) {
-    merged.push(list2[j]);
-    j++;
+
+  while (indexOfRightSubArray < rightArraySize) {
+    //extra element in right array
+    localArr[indexOfMergedArray] =
+      rightArr[indexOfRightSubArray];
+    indexOfRightSubArray++;
+    indexOfMergedArray++;
   }
-  return merged;
 }
 
 function callMerge(
-  list: number[],
-  frame: number[],
-  fColors: string[],
-  aniData: IAnimationData
-): number[] {
-  if (list.length <= 1) return list;
-  let middle = Math.floor(list.length / 2);
-  let left = callMerge(
-    list.slice(0, middle),
-    frame,
-    fColors,
-    aniData
-  );
-  let right = callMerge(
-    list.slice(middle),
-    frame,
-    fColors,
-    aniData
-  );
-  return merge(left, right);
+  localArr: number[],
+  localColors: string[],
+  animationData: IAnimationData,
+  start: number,
+  end: number
+): void {
+  if (start < end) {
+    const middle = Math.floor((start + end) / 2);
+    //left side
+    callMerge(
+      localArr,
+      localColors,
+      animationData,
+      start,
+      middle
+    );
+    //right side
+    callMerge(
+      localArr,
+      localColors,
+      animationData,
+      middle + 1,
+      end
+    );
+
+    //merge the arrays
+    merge(
+      localArr,
+      localColors,
+      animationData,
+      start,
+      middle,
+      end
+    );
+  }
 }
 
 function mergeSort(barData: IBars): ISortReturn {
@@ -200,19 +263,18 @@ function mergeSort(barData: IBars): ISortReturn {
     return { sortedArray: localArr, animationData };
   }
 
-  // callMerge(localArr, localArr, localColors, animationData);
-
-  const sortedArray = callMerge(
-    localArr,
+  callMerge(
     localArr,
     localColors,
-    animationData
+    animationData,
+    0,
+    localArr.length - 1
   );
 
   localColors.fill(BarColors.SORTED);
-  addFrame(animationData, sortedArray, localColors);
+  addFrame(animationData, localArr, localColors);
 
-  return { sortedArray, animationData };
+  return { sortedArray: localArr, animationData };
 }
 //#endregion
 
