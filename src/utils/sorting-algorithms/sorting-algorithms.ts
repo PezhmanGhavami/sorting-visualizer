@@ -178,14 +178,20 @@ function merge(
       leftArr[indexOfLeftSubArray] <=
       rightArr[indexOfRightSubArray]
     ) {
+      localColors[indexOfMergedArray] =
+        BarColors.BEING_SORTED;
       localArr[indexOfMergedArray] =
         leftArr[indexOfLeftSubArray];
       indexOfLeftSubArray++;
     } else {
+      localColors[indexOfMergedArray] =
+        BarColors.BEING_SORTED;
       localArr[indexOfMergedArray] =
         rightArr[indexOfRightSubArray];
       indexOfRightSubArray++;
     }
+    addFrame(animationData, localArr, localColors);
+    localColors[indexOfMergedArray] = BarColors.NOT_SORTED;
     indexOfMergedArray++;
   }
 
@@ -193,6 +199,11 @@ function merge(
     //extra element in left array
     localArr[indexOfMergedArray] =
       leftArr[indexOfLeftSubArray];
+    localColors[indexOfMergedArray] =
+      BarColors.BEING_SORTED;
+    addFrame(animationData, localArr, localColors);
+    localColors[indexOfMergedArray] = BarColors.NOT_SORTED;
+
     indexOfLeftSubArray++;
     indexOfMergedArray++;
   }
@@ -201,6 +212,11 @@ function merge(
     //extra element in right array
     localArr[indexOfMergedArray] =
       rightArr[indexOfRightSubArray];
+    localColors[indexOfMergedArray] =
+      BarColors.BEING_SORTED;
+    addFrame(animationData, localArr, localColors);
+    localColors[indexOfMergedArray] = BarColors.NOT_SORTED;
+    
     indexOfRightSubArray++;
     indexOfMergedArray++;
   }
