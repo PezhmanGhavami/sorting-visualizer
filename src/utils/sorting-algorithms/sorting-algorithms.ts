@@ -150,20 +150,12 @@ function merge(
   middle: number,
   right: number
 ): void {
-  console.log(left);
-  console.log(middle);
-  console.log(right);
   //size of left and right sub-arrays
   const leftArraySize = middle - left + 1;
   const rightArraySize = right - middle;
-  console.log(leftArraySize);
-  console.log(rightArraySize);
-  const leftArr: number[] = new Array(leftArraySize).fill(
-    0
-  );
-  const rightArr: number[] = new Array(rightArraySize).fill(
-    0
-  );
+
+  const leftArr: number[] = new Array(leftArraySize);
+  const rightArr: number[] = new Array(rightArraySize);
 
   //fill left and right sub-arrays
   for (let index = 0; index < leftArraySize; index++) {
