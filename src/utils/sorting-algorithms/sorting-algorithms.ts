@@ -13,7 +13,6 @@ interface ISortReturn {
 }
 
 //#region Bubble Sort
-//Works
 function bubbleSort(barData: IBars): ISortReturn {
   const localArr = [...barData.heights];
   const localColors = [...barData.colors];
@@ -47,7 +46,6 @@ function bubbleSort(barData: IBars): ISortReturn {
 //#endregion
 
 //#region Insertion Sort
-//Works
 function insertionSort(barData: IBars): ISortReturn {
   const localArr = [...barData.heights];
   const localColors = [...barData.colors];
@@ -86,7 +84,6 @@ function insertionSort(barData: IBars): ISortReturn {
 //#endregion
 
 //#region Selection Sort
-//Works
 function selectionSort(barData: IBars): ISortReturn {
   const localArr = [...barData.heights];
   const localColors = [...barData.colors];
