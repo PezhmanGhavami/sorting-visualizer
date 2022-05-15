@@ -342,11 +342,13 @@ function getPivotIndex(
   localArr: number[],
   localColors: string[],
   animationData: IAnimationData,
-  start: number = 0,
-  end: number = localArr.length - 1
+  start: number,
+  end: number
 ): number {
   let swapIdx: number = start;
   let pivotValue: number = localArr[start];
+  localColors[start] = BarColors.SELECTED;
+  addFrame(animationData, localArr, localColors);
   for (let i = start + 1; i <= end; i++) {
     if (localArr[i] < pivotValue) {
       swapIdx++;
@@ -366,14 +368,11 @@ function getPivotIndex(
   }
   swapTwo(localArr, start, swapIdx);
 
-  const exColorA = localColors[start];
-  const exColorB = localColors[swapIdx];
-
   localColors[start] = BarColors.BEING_SORTED;
   localColors[swapIdx] = BarColors.BEING_COMPARED_AGAINST;
   addFrame(animationData, localArr, localColors);
-  localColors[start] = exColorA;
-  localColors[swapIdx] = exColorB;
+  localColors[start] = BarColors.SELECTED;
+  localColors[swapIdx] = BarColors.POTENTIALLY_SORTED;
   addFrame(animationData, localArr, localColors);
   return swapIdx;
 }
@@ -400,11 +399,7 @@ function runQuickSort(
       left,
       pivotIndex - 1
     );
-    localColors.fill(
-      BarColors.POTENTIALLY_SORTED,
-      left,
-      pivotIndex
-    );
+    localColors.fill(BarColors.SORTED, left, pivotIndex);
     addFrame(animationData, localArr, localColors);
 
     runQuickSort(
@@ -415,18 +410,14 @@ function runQuickSort(
       right
     );
     localColors.fill(
-      BarColors.POTENTIALLY_SORTED,
+      BarColors.SORTED,
       pivotIndex + 1,
       right + 1
     );
     addFrame(animationData, localArr, localColors);
   }
 
-  localColors.fill(
-    BarColors.POTENTIALLY_SORTED,
-    left,
-    right + 1
-  );
+  localColors.fill(BarColors.SORTED, left, right + 1);
   addFrame(animationData, localArr, localColors);
 }
 

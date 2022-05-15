@@ -9,6 +9,7 @@ export enum BarColors {
   BEING_COMPARED_AGAINST = "#af4876",
   SORTED = "green",
   POTENTIALLY_SORTED = "purple",
+  SELECTED = "red",
 }
 
 export const swapTwo = (
