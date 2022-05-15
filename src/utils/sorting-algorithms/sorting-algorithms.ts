@@ -137,10 +137,6 @@ function selectionSort(barData: IBars): ISortReturn {
 }
 //#endregion
 
-//#region Heap Sort
-//TODO - Add heap sort
-//#endregion
-
 //#region Merge Sort
 function merge(
   localArr: number[],
@@ -261,7 +257,7 @@ function merge(
   }
 }
 
-function callMerge(
+function runMergeSort(
   localArr: number[],
   localColors: string[],
   animationData: IAnimationData,
@@ -271,7 +267,7 @@ function callMerge(
   if (start < end) {
     const middle = Math.floor((start + end) / 2);
     //left side
-    callMerge(
+    runMergeSort(
       localArr,
       localColors,
       animationData,
@@ -285,7 +281,7 @@ function callMerge(
     );
     addFrame(animationData, localArr, localColors);
     //right side
-    callMerge(
+    runMergeSort(
       localArr,
       localColors,
       animationData,
@@ -322,7 +318,7 @@ function mergeSort(barData: IBars): ISortReturn {
     return { sortedArray: localArr, animationData };
   }
 
-  callMerge(
+  runMergeSort(
     localArr,
     localColors,
     animationData,
@@ -449,8 +445,8 @@ function quickSort(barData: IBars): ISortReturn {
 
 export {
   insertionSort,
-  mergeSort,
   bubbleSort,
   selectionSort,
+  mergeSort,
   quickSort,
 };
