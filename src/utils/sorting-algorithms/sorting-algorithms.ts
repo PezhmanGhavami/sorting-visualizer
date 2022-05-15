@@ -374,43 +374,45 @@ function runQuickSort(
   localArr: number[],
   localColors: string[],
   animationData: IAnimationData,
-  left: number,
-  right: number
+  start: number,
+  end: number
 ): void {
-  if (left < right) {
+  if (start < end) {
     let pivotIndex = getPivotIndex(
       localArr,
       localColors,
       animationData,
-      left,
-      right
+      start,
+      end
     );
+    //left side
     runQuickSort(
       localArr,
       localColors,
       animationData,
-      left,
+      start,
       pivotIndex - 1
     );
-    localColors.fill(BarColors.SORTED, left, pivotIndex);
+    localColors.fill(BarColors.SORTED, start, pivotIndex);
     addFrame(animationData, localArr, localColors);
 
+    //right side
     runQuickSort(
       localArr,
       localColors,
       animationData,
       pivotIndex + 1,
-      right
+      end
     );
     localColors.fill(
       BarColors.SORTED,
       pivotIndex + 1,
-      right + 1
+      end + 1
     );
     addFrame(animationData, localArr, localColors);
   }
 
-  localColors.fill(BarColors.SORTED, left, right + 1);
+  localColors.fill(BarColors.SORTED, start, end + 1);
   addFrame(animationData, localArr, localColors);
 }
 

@@ -171,23 +171,21 @@ const SortingVisualizer = () => {
   };
 
   return (
-    <>
-      <div className="sorting-visualizer-container">
-        <Nav
-          resetTheArray={restBarArray}
-          changeAnimationSpeed={changeAnimationSpeed}
-          changeBarCount={changeBarCount}
-          bubbleSort={animateBubbleSort}
-          insertionSort={animateInsertionSort}
-          selectionSort={animateSelectionSort}
-          mergeSort={animateMergeSort}
-          quickSort={animateQuickSort}
-          barInfo={{ maxBarsForWidth, barCount }}
-          animationSpeed={animationSpeed}
-        />
-        <BarContainer bars={bars} barWidth={barWidth} />
-      </div>
-    </>
+    <div className="sorting-visualizer-container">
+      <Nav
+        resetTheArray={restBarArray}
+        changeAnimationSpeed={changeAnimationSpeed}
+        changeBarCount={changeBarCount}
+        bubbleSort={animateBubbleSort}
+        insertionSort={animateInsertionSort}
+        selectionSort={animateSelectionSort}
+        mergeSort={animateMergeSort}
+        quickSort={animateQuickSort}
+        barInfo={{ maxBarsForWidth, barCount }}
+        animationSpeed={animationSpeed}
+      />
+      <BarContainer bars={bars} barWidth={barWidth} />
+    </div>
   );
 };
 
