@@ -44,15 +44,21 @@ const SortingVisualizer = () => {
   const [bars, setBars] = useState<IBars>(barsDefaultValue);
   const [dataSeries, setDataSeries] =
     useState<IAnimationData>(dataSeriesDefaultValue);
-  const [dataSeriesIndex, setDataSeriesIndex] = useState(0);
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
-  const [animationSpeed, setAnimationSpeed] = useState(250);
   const [animationState, setAnimationState] =
     useState<IAnimationState>(animationStateDefaultValue);
   const [barCount, setBarCount] = useState(10);
-  const [playAnimation, setPlayAnimation] = useState(false);
+
+  const {
+    frameDelay,
+    maxFrameDelay,
+    minFrameDelay,
+    currentFrame,
+    playback,
+    stop,
+  } = animationState;
 
   const maxBarsForWidth = Math.floor(
     windowDimensions.width / 5
@@ -94,32 +100,47 @@ const SortingVisualizer = () => {
       ...prev,
       ...dataSeriesDefaultValue,
     }));
-    setDataSeriesIndex(0);
+    setAnimationState((prev) => ({
+      ...prev,
+      currentFrame: 0,
+      playback: false,
+      stop: false,
+    }));
     const correctBarCount = getCorrectBarCount(barCount);
     correctBarCount !== barCount &&
       setBarCount(correctBarCount);
   }, [barHeightMax, barCount, getCorrectBarCount]);
 
   const runTheAnimation = useCallback(() => {
-    if (
-      dataSeriesIndex < dataSeries.atFrame.length &&
-      playAnimation
-    ) {
-      setTimeout(() => {
+    if (currentFrame < dataSeries.atFrame.length && !stop) {
+      if (playback) {
+        setTimeout(() => {
+          setBars({
+            colors: [
+              ...dataSeries.atFrameColors[currentFrame],
+            ],
+            heights: [...dataSeries.atFrame[currentFrame]],
+          });
+          setAnimationState((prev) => ({
+            ...prev,
+            currentFrame: prev.currentFrame + 1,
+          }));
+        }, frameDelay);
+      } else {
         setBars({
           colors: [
-            ...dataSeries.atFrameColors[dataSeriesIndex],
+            ...dataSeries.atFrameColors[currentFrame],
           ],
-          heights: [...dataSeries.atFrame[dataSeriesIndex]],
+          heights: [...dataSeries.atFrame[currentFrame]],
         });
-        setDataSeriesIndex((prev) => prev + 1);
-      }, animationSpeed);
+      }
     }
   }, [
     dataSeries,
-    dataSeriesIndex,
-    animationSpeed,
-    playAnimation,
+    currentFrame,
+    frameDelay,
+    playback,
+    stop,
   ]);
 
   useEffect(() => {
@@ -138,52 +159,75 @@ const SortingVisualizer = () => {
   }, [runTheAnimation]);
 
   const changeAnimationSpeed = (value: number) => {
-    value = value > 500 ? 500 : value < 1 ? 1 : value;
-    setAnimationSpeed(value);
+    value =
+      value > maxFrameDelay
+        ? 500
+        : value < minFrameDelay
+        ? 1
+        : value;
+    setAnimationState((prev) => ({
+      ...prev,
+      frameDelay: value,
+    }));
   };
 
   const changeBarCount = (value: number) => {
     setBarCount(getCorrectBarCount(value));
   };
 
-  const animateBubbleSort = () => {
-    const { animationData } = bubbleSort(bars);
+  const changeCurrentFrame = (value: number) => {
+    value =
+      value > dataSeries.atFrame.length
+        ? dataSeries.atFrame.length
+        : value < 0
+        ? 0
+        : value;
+    setAnimationState((prev) => ({
+      ...prev,
+      currentFrame: value,
+    }));
+  };
+
+  const togglePlayback = () => {
+    setAnimationState((prev) => ({
+      ...prev,
+      playback: !prev.playback,
+    }));
+  };
+
+  const setupAnimation = (
+    animationData: IAnimationData
+  ) => {
     setDataSeries((prev) => ({
       ...prev,
       ...animationData,
     }));
+    togglePlayback();
+  };
+
+  const animateBubbleSort = () => {
+    const { animationData } = bubbleSort(bars);
+    setupAnimation(animationData);
   };
 
   const animateInsertionSort = () => {
     const { animationData } = insertionSort(bars);
-    setDataSeries((prev) => ({
-      ...prev,
-      ...animationData,
-    }));
+    setupAnimation(animationData);
   };
 
   const animateSelectionSort = () => {
     const { animationData } = selectionSort(bars);
-    setDataSeries((prev) => ({
-      ...prev,
-      ...animationData,
-    }));
+    setupAnimation(animationData);
   };
 
   const animateMergeSort = () => {
     const { animationData } = mergeSort(bars);
-    setDataSeries((prev) => ({
-      ...prev,
-      ...animationData,
-    }));
+    setupAnimation(animationData);
   };
 
   const animateQuickSort = () => {
     const { animationData } = quickSort(bars);
-    setDataSeries((prev) => ({
-      ...prev,
-      ...animationData,
-    }));
+    setupAnimation(animationData);
   };
 
   return (
@@ -198,10 +242,9 @@ const SortingVisualizer = () => {
         mergeSort={animateMergeSort}
         quickSort={animateQuickSort}
         barInfo={{ maxBarsForWidth, barCount }}
-        playAnimation={playAnimation}
-        animationSpeed={animationSpeed}
+        animationState={animationState}
         animationFrames={dataSeries.atFrame.length}
-        currentFrame={dataSeriesIndex}
+        changeCurrentFrame={changeCurrentFrame}
       />
       <BarContainer bars={bars} barWidth={barWidth} />
     </div>

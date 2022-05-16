@@ -5,6 +5,8 @@ import {
   ChangeEventHandler,
 } from "react";
 
+import { IAnimationState } from "../sorting-visualizer/sorting-visualizer.utils";
+
 import "./nav.styles.css";
 
 interface IBarInfo {
@@ -12,19 +14,18 @@ interface IBarInfo {
   maxBarsForWidth: number;
 }
 interface INavProps {
-  resetTheArray: () => void;
-  changeAnimationSpeed: (value: number) => void;
-  changeBarCount: (value: number) => void;
   barInfo: IBarInfo;
-  animationSpeed: number;
-  playAnimation: boolean;
   animationFrames: number;
-  currentFrame: number;
+  animationState: IAnimationState;
+  resetTheArray: () => void;
   bubbleSort: () => void;
   insertionSort: () => void;
   selectionSort: () => void;
   mergeSort: () => void;
   quickSort: () => void;
+  changeAnimationSpeed: (value: number) => void;
+  changeBarCount: (value: number) => void;
+  changeCurrentFrame: (value: number) => void;
 }
 
 enum SortTypes {
@@ -52,21 +53,18 @@ const Nav: FC<INavProps> = (props) => {
     HTMLInputElement
   > = (event) => {
     const changeAction = event.currentTarget.name;
+    const value = event.currentTarget.value;
     switch (changeAction) {
       case InputChangeTypes.BAR_COUNT: {
-        props.changeBarCount(
-          parseInt(event.currentTarget.value) || 2
-        );
+        props.changeBarCount(parseInt(value) || 2);
         break;
       }
       case InputChangeTypes.ANIMATION_SPEED: {
-        props.changeAnimationSpeed(
-          parseInt(event.currentTarget.value) || 1
-        );
+        props.changeAnimationSpeed(parseInt(value) || 1);
         break;
       }
       case InputChangeTypes.TIMELINE: {
-        //TODO - add a setter for the currentFrame value
+        props.changeCurrentFrame(parseInt(value) || 0);
       }
     }
   };
@@ -136,10 +134,10 @@ const Nav: FC<INavProps> = (props) => {
               type="range"
               name={InputChangeTypes.ANIMATION_SPEED}
               id="animation-speed"
-              min={1}
-              max={500}
+              min={props.animationState.minFrameDelay}
+              max={props.animationState.maxFrameDelay}
               step={1}
-              value={props.animationSpeed}
+              value={props.animationState.frameDelay}
               onChange={handleInputChange}
             />
           </div>
@@ -179,18 +177,24 @@ const Nav: FC<INavProps> = (props) => {
             type="range"
             name={InputChangeTypes.TIMELINE}
             id="sort-timeline"
-            value={props.currentFrame}
-            max={props.animationFrames}
+            value={props.animationState.currentFrame}
+            max={props.animationFrames - 1}
             onChange={handleInputChange}
-            disabled
+            disabled={!Boolean(props.animationFrames)}
           />
-          <button className="nav__form__item" type="submit">
-            {props.playAnimation ? "pause" : "play"}
+          <button
+            className="nav__form__item"
+            type="submit"
+            disabled={props.animationState.stop}
+          >
+            {props.animationState.playback
+              ? "pause"
+              : "play"}
           </button>
           <button
             className="nav__form__item"
             type="button"
-            disabled={!props.playAnimation}
+            disabled={!props.animationState.playback}
           >
             stop
           </button>
