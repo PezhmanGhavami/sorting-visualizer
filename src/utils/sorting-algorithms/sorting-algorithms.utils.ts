@@ -1,16 +1,4 @@
-export interface IAnimationData {
-  atFrame: number[][];
-  atFrameColors: string[][];
-}
-
-export enum BarColors {
-  NOT_SORTED = "steelblue",
-  BEING_SORTED = "#48af69",
-  BEING_COMPARED_AGAINST = "#af4876",
-  SORTED = "green",
-  POTENTIALLY_SORTED = "purple",
-  SELECTED = "red",
-}
+import { IAnimationData } from "../../components/sorting-visualizer/sorting-visualizer.utils";
 
 export const swapTwo = (
   list: number[],

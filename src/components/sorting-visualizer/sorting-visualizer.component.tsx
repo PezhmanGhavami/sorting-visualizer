@@ -6,6 +6,8 @@ import BarContainer from "../bar-container/bar-container.component";
 import Nav from "../nav/nav.component";
 
 import {
+  BarColors,
+  IAnimationData,
   getWindowDimensions,
   randomIntFromBound,
 } from "./sorting-visualizer.utils";
@@ -16,10 +18,6 @@ import {
   mergeSort,
   quickSort,
 } from "../../utils/sorting-algorithms/sorting-algorithms";
-import {
-  IAnimationData,
-  BarColors,
-} from "../../utils/sorting-algorithms/sorting-algorithms.utils";
 
 const dataSeriesDefaultValue = {
   atFrame: [],
@@ -123,6 +121,7 @@ const SortingVisualizer = () => {
   }, [runTheAnimation]);
 
   const changeAnimationSpeed = (value: number) => {
+    value = value > 500 ? 500 : value;
     setAnimationSpeed(value);
   };
 

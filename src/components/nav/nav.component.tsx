@@ -44,13 +44,13 @@ const Nav: FC<INavProps> = (props) => {
   > = (event) => {
     if (event.currentTarget.name === "barCount") {
       props.changeBarCount(
-        parseInt(event.currentTarget.value)
+        parseInt(event.currentTarget.value) || 2
       );
     } else if (
       event.currentTarget.name === "animationSpeed"
     ) {
       props.changeAnimationSpeed(
-        parseInt(event.currentTarget.value)
+        parseInt(event.currentTarget.value) || 1
       );
     }
   };

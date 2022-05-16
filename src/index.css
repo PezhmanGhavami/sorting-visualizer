@@ -73,6 +73,43 @@ select {
   }
 }
 
+:root {
+  --p: hsl(262 80% 50%);
+  --pf: hsl(262 80% 40%);
+  --sf: hsl(316 70% 40%);
+  --af: hsl(175 70% 33%);
+  --in: hsl(198 93% 60%);
+  --su: hsl(158 64% 52%);
+  --wa: hsl(43 96% 56%);
+  --er: hsl(0 91% 71%);
+  --inc: hsl(198 100% 12%);
+  --suc: hsl(158 100% 10%);
+  --wac: hsl(43 100% 11%);
+  --erc: hsl(0 100% 14%);
+  --rounded-box: 1rem;
+  --rounded-btn: 0.5rem;
+  --rounded-badge: 1.9rem;
+  --animation-btn: 0.25s;
+  --animation-input: 0.2s;
+  --btn-text-case: uppercase;
+  --btn-focus-scale: 0.95;
+  --border-btn: 1px;
+  --tab-border: 1px;
+  --tab-radius: 0.5rem;
+  --pc: hsl(0 0% 100%);
+  --s: hsl(316 70% 50%);
+  --sc: hsl(0 0% 100%);
+  --a: hsl(175 70% 41%);
+  --ac: hsl(0 0% 100%);
+  --n: hsl(218 18% 12%);
+  --nf: hsl(223 17% 8%);
+  --nc: hsl(220 13% 69%);
+  --b1: hsl(220 18% 20%);
+  --b2: hsl(220 17% 17%);
+  --b3: hsl(219 18% 15%);
+  --bc: hsl(220 13% 69%);
+}
+
 /* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

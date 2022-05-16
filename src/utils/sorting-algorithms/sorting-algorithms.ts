@@ -1,9 +1,11 @@
 import {
   swapTwo,
   addFrame,
-  IAnimationData,
-  BarColors,
 } from "./sorting-algorithms.utils";
+import {
+  BarColors,
+  IAnimationData,
+} from "../../components/sorting-visualizer/sorting-visualizer.utils";
 
 import { IBars } from "../../components/sorting-visualizer/sorting-visualizer.component";
 
@@ -96,7 +98,7 @@ function selectionSort(barData: IBars): ISortReturn {
 
   for (let indexA = 0; indexA < localArr.length; indexA++) {
     currentMin = indexA;
-    localColors[indexA] = BarColors.POTENTIALLY_SORTED;
+    localColors[indexA] = BarColors.SELECTED;
     addFrame(animationData, localArr, localColors);
 
     for (
