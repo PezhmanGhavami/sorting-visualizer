@@ -413,9 +413,6 @@ function runQuickSort(
     );
     addFrame(animationData, localArr, localColors);
   }
-
-  localColors.fill(BarColors.SORTED, start, end + 1);
-  addFrame(animationData, localArr, localColors);
 }
 
 function quickSort(barData: IBars): ISortReturn {

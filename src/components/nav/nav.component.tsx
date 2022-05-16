@@ -105,6 +105,7 @@ const Nav: FC<INavProps> = (props) => {
         break;
     }
   };
+  //TODO - change the layour so that the settings will be available under a cog, and will be inline with the controller section
   return (
     <div className="nav">
       <form className="nav__form" onSubmit={handleSubmit}>
