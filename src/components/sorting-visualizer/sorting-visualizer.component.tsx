@@ -134,6 +134,12 @@ const SortingVisualizer = () => {
           heights: [...dataSeries.atFrame[currentFrame]],
         });
       }
+    } else if (
+      playback &&
+      dataSeries.atFrame.length &&
+      currentFrame >= dataSeries.atFrame.length
+    ) {
+      togglePlayback();
     }
   }, [
     dataSeries,
@@ -245,6 +251,7 @@ const SortingVisualizer = () => {
         animationState={animationState}
         animationFrames={dataSeries.atFrame.length}
         changeCurrentFrame={changeCurrentFrame}
+        togglePlayback={togglePlayback}
       />
       <BarContainer bars={bars} barWidth={barWidth} />
     </div>

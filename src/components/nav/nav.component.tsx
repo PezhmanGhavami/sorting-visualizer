@@ -23,6 +23,7 @@ interface INavProps {
   selectionSort: () => void;
   mergeSort: () => void;
   quickSort: () => void;
+  togglePlayback: () => void;
   changeAnimationSpeed: (value: number) => void;
   changeBarCount: (value: number) => void;
   changeCurrentFrame: (value: number) => void;
@@ -83,6 +84,9 @@ const Nav: FC<INavProps> = (props) => {
     event
   ) => {
     event.preventDefault();
+    if (props.animationFrames) {
+      return props.togglePlayback();
+    }
     switch (sortType) {
       case SortTypes.BUBBLE:
         props.bubbleSort();
@@ -182,21 +186,10 @@ const Nav: FC<INavProps> = (props) => {
             onChange={handleInputChange}
             disabled={!Boolean(props.animationFrames)}
           />
-          <button
-            className="nav__form__item"
-            type="submit"
-            disabled={props.animationState.stop}
-          >
+          <button className="nav__form__item" type="submit">
             {props.animationState.playback
               ? "pause"
               : "play"}
-          </button>
-          <button
-            className="nav__form__item"
-            type="button"
-            disabled={!props.animationState.playback}
-          >
-            stop
           </button>
         </div>
       </form>
