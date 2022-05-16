@@ -7,7 +7,7 @@ import {
   IAnimationData,
 } from "../../components/sorting-visualizer/sorting-visualizer.utils";
 
-import { IBars } from "../../components/sorting-visualizer/sorting-visualizer.component";
+import { IBars } from "../../components/sorting-visualizer/sorting-visualizer.utils";
 
 interface ISortReturn {
   sortedArray: number[];

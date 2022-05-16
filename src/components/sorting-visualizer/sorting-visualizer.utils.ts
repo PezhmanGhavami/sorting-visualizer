@@ -3,6 +3,20 @@ export interface IAnimationData {
   atFrameColors: string[][];
 }
 
+export interface IBars {
+  heights: number[];
+  colors: string[];
+}
+
+export interface IAnimationState {
+  frameDelay: number;
+  maxFrameDelay: number;
+  minFrameDelay: number;
+  currentFrame: number;
+  playback: boolean;
+  stop: boolean;
+}
+
 export enum BarColors {
   NOT_SORTED = "steelblue",
   BEING_SORTED = "#48af69",
@@ -11,7 +25,6 @@ export enum BarColors {
   POTENTIALLY_SORTED = "purple",
   SELECTED = "red",
 }
-
 
 //returns a random number between min and max (both included); if we don't want the max bound to be included, we can simply remove the plus one
 const randomIntFromBound = (

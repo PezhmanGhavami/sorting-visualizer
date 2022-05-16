@@ -17,6 +17,9 @@ interface INavProps {
   changeBarCount: (value: number) => void;
   barInfo: IBarInfo;
   animationSpeed: number;
+  playAnimation: boolean;
+  animationFrames: number;
+  currentFrame: number;
   bubbleSort: () => void;
   insertionSort: () => void;
   selectionSort: () => void;
@@ -25,17 +28,17 @@ interface INavProps {
 }
 
 enum SortTypes {
-  BUBBLE = "bubble",
-  INSERTION = "insertion",
-  SELECTION = "selection",
-  MERGE = "merge",
-  QUICK = "quick",
+  BUBBLE = "BUBBLE",
+  INSERTION = "INSERTION",
+  SELECTION = "SELECTION",
+  MERGE = "MERGE",
+  QUICK = "QUICK",
 }
 
 enum InputChangeTypes {
   BAR_COUNT = "barCount",
   ANIMATION_SPEED = "animationSpeed",
-  SORT_TIMELINE = "sortTimeline",
+  TIMELINE = "timeline",
 }
 
 type SortTypesKey = keyof typeof SortTypes;
@@ -44,8 +47,6 @@ const Nav: FC<INavProps> = (props) => {
   const [sortType, setSortType] = useState(
     SortTypes.BUBBLE
   );
-
-  const [temp, setTemp] = useState(1);
 
   const handleInputChange: ChangeEventHandler<
     HTMLInputElement
@@ -64,8 +65,8 @@ const Nav: FC<INavProps> = (props) => {
         );
         break;
       }
-      case InputChangeTypes.SORT_TIMELINE: {
-        setTemp(parseInt(event.currentTarget.value) || 1);
+      case InputChangeTypes.TIMELINE: {
+        //TODO - add a setter for the currentFrame value
       }
     }
   };
@@ -73,6 +74,7 @@ const Nav: FC<INavProps> = (props) => {
   const handleSelectChange: ChangeEventHandler<
     HTMLSelectElement
   > = (event) => {
+    console.log(event.currentTarget.value);
     setSortType(
       SortTypes[event.currentTarget.value as SortTypesKey]
     );
@@ -128,10 +130,10 @@ const Nav: FC<INavProps> = (props) => {
 
           <div className="nav__form__item">
             <label htmlFor="animation-speed">
-              Frame Time:{" "}
+              Frame Delay:{" "}
             </label>
             <input
-              type="number"
+              type="range"
               name={InputChangeTypes.ANIMATION_SPEED}
               id="animation-speed"
               min={1}
@@ -175,16 +177,22 @@ const Nav: FC<INavProps> = (props) => {
           <input
             // className="nav__form__item"
             type="range"
-            name={InputChangeTypes.SORT_TIMELINE}
+            name={InputChangeTypes.TIMELINE}
             id="sort-timeline"
-            value={temp}
-            min={1}
-            max={100}
+            value={props.currentFrame}
+            max={props.animationFrames}
             onChange={handleInputChange}
             disabled
           />
           <button className="nav__form__item" type="submit">
-            Sort
+            {props.playAnimation ? "pause" : "play"}
+          </button>
+          <button
+            className="nav__form__item"
+            type="button"
+            disabled={!props.playAnimation}
+          >
+            stop
           </button>
         </div>
       </form>

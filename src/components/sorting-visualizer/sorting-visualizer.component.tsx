@@ -6,8 +6,10 @@ import BarContainer from "../bar-container/bar-container.component";
 import Nav from "../nav/nav.component";
 
 import {
+  IBars,
   BarColors,
   IAnimationData,
+  IAnimationState,
   getWindowDimensions,
   randomIntFromBound,
 } from "./sorting-visualizer.utils";
@@ -24,14 +26,18 @@ const dataSeriesDefaultValue = {
   atFrameColors: [],
 };
 
-export interface IBars {
-  heights: number[];
-  colors: string[];
-}
-
 const barsDefaultValue = {
   heights: [],
   colors: [],
+};
+
+const animationStateDefaultValue = {
+  frameDelay: 250,
+  maxFrameDelay: 500,
+  minFrameDelay: 1,
+  currentFrame: 0,
+  playback: false,
+  stop: false,
 };
 
 const SortingVisualizer = () => {
@@ -43,7 +49,10 @@ const SortingVisualizer = () => {
     getWindowDimensions()
   );
   const [animationSpeed, setAnimationSpeed] = useState(250);
+  const [animationState, setAnimationState] =
+    useState<IAnimationState>(animationStateDefaultValue);
   const [barCount, setBarCount] = useState(10);
+  const [playAnimation, setPlayAnimation] = useState(false);
 
   const maxBarsForWidth = Math.floor(
     windowDimensions.width / 5
@@ -92,7 +101,10 @@ const SortingVisualizer = () => {
   }, [barHeightMax, barCount, getCorrectBarCount]);
 
   const runTheAnimation = useCallback(() => {
-    if (dataSeriesIndex < dataSeries.atFrame.length) {
+    if (
+      dataSeriesIndex < dataSeries.atFrame.length &&
+      playAnimation
+    ) {
       setTimeout(() => {
         setBars({
           colors: [
@@ -103,7 +115,12 @@ const SortingVisualizer = () => {
         setDataSeriesIndex((prev) => prev + 1);
       }, animationSpeed);
     }
-  }, [dataSeries, dataSeriesIndex, animationSpeed]);
+  }, [
+    dataSeries,
+    dataSeriesIndex,
+    animationSpeed,
+    playAnimation,
+  ]);
 
   useEffect(() => {
     restBarArray();
@@ -121,7 +138,7 @@ const SortingVisualizer = () => {
   }, [runTheAnimation]);
 
   const changeAnimationSpeed = (value: number) => {
-    value = value > 500 ? 500 : value;
+    value = value > 500 ? 500 : value < 1 ? 1 : value;
     setAnimationSpeed(value);
   };
 
@@ -181,7 +198,10 @@ const SortingVisualizer = () => {
         mergeSort={animateMergeSort}
         quickSort={animateQuickSort}
         barInfo={{ maxBarsForWidth, barCount }}
+        playAnimation={playAnimation}
         animationSpeed={animationSpeed}
+        animationFrames={dataSeries.atFrame.length}
+        currentFrame={dataSeriesIndex}
       />
       <BarContainer bars={bars} barWidth={barWidth} />
     </div>
