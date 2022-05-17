@@ -73,7 +73,6 @@ const Nav: FC<INavProps> = (props) => {
   const handleSelectChange: ChangeEventHandler<
     HTMLSelectElement
   > = (event) => {
-    console.log(event.currentTarget.value);
     setSortType(
       SortTypes[event.currentTarget.value as SortTypesKey]
     );
