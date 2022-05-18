@@ -1,5 +1,6 @@
 .nav {
   /* margin-top: 2vh; */
+  position: relative;
   padding: 0 2vw;
   display: flex;
   justify-content: space-around;
@@ -7,11 +8,35 @@
   /* min-width: 100%; */
 }
 
+.modal-container {
+  position: absolute;
+  min-width: 25vmax;
+  min-height: 30vmax;
+  /* padding: 5vmin 5vmin; */
+  /* background-color: hsla(0, 0%, 10%, 0.3); */
+  background-color: var(--background-color-2);
+  z-index: 1;
+  bottom: 6vh;
+  right: 30vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--border-radius);
+}
+
+.close {
+  position: absolute;
+  top: 1px;
+  right: 1vh;
+  font-size: 2em;
+  cursor: pointer;
+}
+
 .nav-settings {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
-  min-width: 100%;
 }
 
 .nav-controllers {

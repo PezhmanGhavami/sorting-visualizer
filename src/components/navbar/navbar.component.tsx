@@ -49,6 +49,11 @@ const Nav: FC<INavProps> = (props) => {
   const [sortType, setSortType] = useState(
     SortTypes.BUBBLE
   );
+  const [openModal, setOpenModal] = useState(false);
+
+  const toggleModal = () => {
+    setOpenModal((prev) => !prev);
+  };
 
   const handleInputChange: ChangeEventHandler<
     HTMLInputElement
@@ -108,86 +113,98 @@ const Nav: FC<INavProps> = (props) => {
   return (
     <nav className="nav">
       <form className="nav__form" onSubmit={handleSubmit}>
-        <div className="nav-settings">
-          <button
-            className="nav__form__item"
-            type="button"
-            onClick={props.resetTheArray}
-          >
-            Generate New Array
-          </button>
-          <div className="nav__form__item">
-            <label htmlFor="bar-count">Bar Count: </label>
-            <span
-              className="tooltiptext"
-              id="animation-speed-tooltiptext"
-            >
-              {props.barInfo.barCount}
+        {openModal && (
+          <div className="modal-container">
+            <span onClick={toggleModal} className="close">
+              &times;
             </span>
-            <input
-              type="range"
-              name={InputChangeTypes.BAR_COUNT}
-              id="bar-count"
-              min={2}
-              max={props.barInfo.maxBarsForWidth}
-              step={1}
-              value={props.barInfo.barCount}
-              onChange={handleInputChange}
-            />
-          </div>
+            <div className="nav-settings">
+              <button
+                className="nav__form__item"
+                type="button"
+                onClick={props.resetTheArray}
+              >
+                Generate New Array
+              </button>
+              <div className="nav__form__item">
+                <label htmlFor="bar-count">
+                  Bar Count:{" "}
+                </label>
+                <span
+                  className="tooltiptext"
+                  id="animation-speed-tooltiptext"
+                >
+                  {props.barInfo.barCount}
+                </span>
+                <input
+                  type="range"
+                  name={InputChangeTypes.BAR_COUNT}
+                  id="bar-count"
+                  min={2}
+                  max={props.barInfo.maxBarsForWidth}
+                  step={1}
+                  value={props.barInfo.barCount}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-          <div className="nav__form__item">
-            <label htmlFor="animation-speed">
-              Frame Delay:{" "}
-            </label>
-            <span
-              className="tooltiptext"
-              id="animation-speed-tooltiptext"
-            >
-              {props.animationState.frameDelay}ms
-            </span>
-            <input
-              type="range"
-              name={InputChangeTypes.ANIMATION_SPEED}
-              id="animation-speed"
-              min={props.animationState.minFrameDelay}
-              max={props.animationState.maxFrameDelay}
-              step={1}
-              value={props.animationState.frameDelay}
-              onChange={handleInputChange}
-            />
-          </div>
+              <div className="nav__form__item">
+                <label htmlFor="animation-speed">
+                  Frame Delay:{" "}
+                </label>
+                <span
+                  className="tooltiptext"
+                  id="animation-speed-tooltiptext"
+                >
+                  {props.animationState.frameDelay}ms
+                </span>
+                <input
+                  type="range"
+                  name={InputChangeTypes.ANIMATION_SPEED}
+                  id="animation-speed"
+                  min={props.animationState.minFrameDelay}
+                  max={props.animationState.maxFrameDelay}
+                  step={1}
+                  value={props.animationState.frameDelay}
+                  onChange={handleInputChange}
+                />
+              </div>
 
-          <div className="nav__form__item">
-            <label htmlFor="sort-type">
-              Sort Algorithm:{" "}
-            </label>
-            <select
-              id="sort-type"
-              name="sortType"
-              value={sortType}
-              onChange={handleSelectChange}
-            >
-              <option value={SortTypes.BUBBLE}>
-                Bubble Sort
-              </option>
-              <option value={SortTypes.INSERTION}>
-                Insertion Sort
-              </option>
-              <option value={SortTypes.SELECTION}>
-                Selection Sort
-              </option>
-              <option value={SortTypes.MERGE}>
-                Merge Sort
-              </option>
-              <option value={SortTypes.QUICK}>
-                Quick Sort
-              </option>
-            </select>
+              <div className="nav__form__item">
+                <label htmlFor="sort-type">
+                  Sort Algorithm:{" "}
+                </label>
+                <select
+                  id="sort-type"
+                  name="sortType"
+                  value={sortType}
+                  onChange={handleSelectChange}
+                >
+                  <option value={SortTypes.BUBBLE}>
+                    Bubble Sort
+                  </option>
+                  <option value={SortTypes.INSERTION}>
+                    Insertion Sort
+                  </option>
+                  <option value={SortTypes.SELECTION}>
+                    Selection Sort
+                  </option>
+                  <option value={SortTypes.MERGE}>
+                    Merge Sort
+                  </option>
+                  <option value={SortTypes.QUICK}>
+                    Quick Sort
+                  </option>
+                </select>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="nav-controllers">
+          <button type="button" onClick={toggleModal}>
+            Open Modal
+          </button>
           <input
             // className="nav__form__item"
             type="range"
