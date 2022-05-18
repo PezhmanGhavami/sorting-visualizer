@@ -118,6 +118,12 @@ const Nav: FC<INavProps> = (props) => {
           </button>
           <div className="nav__form__item">
             <label htmlFor="bar-count">Bar Count: </label>
+            <span
+              className="tooltiptext"
+              id="animation-speed-tooltiptext"
+            >
+              {props.barInfo.barCount}
+            </span>
             <input
               type="range"
               name={InputChangeTypes.BAR_COUNT}
@@ -134,6 +140,12 @@ const Nav: FC<INavProps> = (props) => {
             <label htmlFor="animation-speed">
               Frame Delay:{" "}
             </label>
+            <span
+              className="tooltiptext"
+              id="animation-speed-tooltiptext"
+            >
+              {props.animationState.frameDelay}ms
+            </span>
             <input
               type="range"
               name={InputChangeTypes.ANIMATION_SPEED}
