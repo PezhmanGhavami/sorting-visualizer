@@ -2,6 +2,8 @@ import { FC } from "react";
 import Bar from "../bar/bar.components";
 import { IBars } from "../sorting-visualizer/sorting-visualizer.utils";
 
+import "./bar-container.styles.css";
+
 interface IBarContainer {
   bars: IBars;
   barWidth: number;

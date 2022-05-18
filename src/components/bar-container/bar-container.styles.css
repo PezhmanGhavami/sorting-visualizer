@@ -1,0 +1,6 @@
+.bar-container {
+  flex: 2;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 2vh;
+}

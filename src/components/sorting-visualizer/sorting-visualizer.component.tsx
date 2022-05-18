@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import "./sorting-visualizer.styles.css";
 
 import BarContainer from "../bar-container/bar-container.component";
-import Nav from "../nav/nav.component";
+import Nav from "../navba/navbar.component";
 
 import {
   IBars,

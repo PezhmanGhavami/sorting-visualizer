@@ -7,7 +7,7 @@ import {
 
 import { IAnimationState } from "../sorting-visualizer/sorting-visualizer.utils";
 
-import "./nav.styles.css";
+import "./navbar.styles.css";
 
 interface IBarInfo {
   barCount: number;
@@ -106,7 +106,7 @@ const Nav: FC<INavProps> = (props) => {
   };
   //TODO - change the layour so that the settings will be available under a cog, and will be inline with the controller section
   return (
-    <div className="nav">
+    <nav className="nav">
       <form className="nav__form" onSubmit={handleSubmit}>
         <div className="nav-settings">
           <button
@@ -193,7 +193,13 @@ const Nav: FC<INavProps> = (props) => {
           </button>
         </div>
       </form>
-    </div>
+
+      <div className="burger">
+        <div className="line1"></div>
+        <div className="line2"></div>
+        <div className="line3"></div>
+      </div>
+    </nav>
   );
 };
 

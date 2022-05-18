@@ -1,11 +1,10 @@
 .nav {
-  margin-top: 2vh;
+  /* margin-top: 2vh; */
   padding: 0 2vw;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  min-width: 100%;
-  /* word-break: break-word; */
+  /* min-width: 100%; */
 }
 
 .nav-settings {
