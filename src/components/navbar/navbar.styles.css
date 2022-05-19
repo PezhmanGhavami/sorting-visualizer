@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  /* min-width: 100%; */
+  min-width: 100%;
 }
 
 .modal-container {
@@ -16,8 +16,8 @@
   /* background-color: hsla(0, 0%, 10%, 0.3); */
   background-color: var(--background-color-2);
   z-index: 1;
-  bottom: 6vh;
-  right: 30vw;
+  top: 6vh;
+  /* right: 30vw; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,4 +64,44 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.button {
+  color: var(--text-color-lb, hsl(0, 0%, 0%));
+  background-color: var(
+    --background-color-3,
+    hsl(0, 0%, 91%)
+  );
+  border: var(--background-color-3, hsl(0, 0%, 91%)) 2px
+    solid;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+.button:hover {
+  color: var(--text-color-db, hsl(0, 0%, 0%));
+  background-color: var(
+    --background-color-3-hover,
+    hsl(0, 0%, 91%)
+  );
+  border: var(--background-color-3-hover, hsl(0, 0%, 91%))
+    2px solid;
+}
+
+.play-pause {
+  background-color: transparent;
+  border: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg-component {
+  width: 35px;
+  height: 35px;
+  fill: var(--background-color-3);
+  margin: 2vmax;
+  cursor: pointer;
+}
+.svg-component:hover {
+  fill: var(--background-color-3-hover);
 }

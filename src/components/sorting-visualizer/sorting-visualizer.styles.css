@@ -2,13 +2,7 @@
   max-width: 100%;
   min-height: 100vh;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
-}
-
-@media screen and (min-width: 992px) {
-  .sorting-visualizer-container {
-    flex-direction: row;
-  }
 }

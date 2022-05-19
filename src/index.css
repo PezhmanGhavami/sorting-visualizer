@@ -84,33 +84,13 @@ select {
 }
 
 body {
+  font-family: "Roboto Flex", sans-serif;
   background-color: var(
     --background-color,
     hsl(200, 6%, 20%)
   );
   color: var(--text-color-db, hsl(0, 7%, 78%));
 }
-button {
-  color: var(--text-color-lb, hsl(0, 0%, 0%));
-  background-color: var(
-    --background-color-3,
-    hsl(0, 0%, 91%)
-  );
-  border: var(--background-color-3, hsl(0, 0%, 91%)) 2px
-    solid;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-}
-button:hover {
-  color: var(--text-color-db, hsl(0, 0%, 0%));
-  background-color: var(
-    --background-color-3-hover,
-    hsl(0, 0%, 91%)
-  );
-  border: var(--background-color-3-hover, hsl(0, 0%, 91%))
-    2px solid;
-}
-
 select {
   background-color: var(--background-color-3);
   border: var(--background-color-3, hsl(0, 0%, 91%)) 2px

@@ -9,6 +9,10 @@ import { IAnimationState } from "../sorting-visualizer/sorting-visualizer.utils"
 
 import "./navbar.styles.css";
 
+import { ReactComponent as Play } from "../../assets/svgs/play.svg";
+import { ReactComponent as Pause } from "../../assets/svgs/pause.svg";
+import { ReactComponent as Cog } from "../../assets/svgs/cog.svg";
+
 interface IBarInfo {
   barCount: number;
   maxBarsForWidth: number;
@@ -120,7 +124,7 @@ const Nav: FC<INavProps> = (props) => {
             </span>
             <div className="nav-settings">
               <button
-                className="nav__form__item"
+                className=" button nav__form__item"
                 type="button"
                 onClick={props.resetTheArray}
               >
@@ -202,9 +206,11 @@ const Nav: FC<INavProps> = (props) => {
         )}
 
         <div className="nav-controllers">
-          <button type="button" onClick={toggleModal}>
-            Open Modal
-          </button>
+          <Cog
+            onClick={toggleModal}
+            className="svg-component"
+          />
+
           <input
             // className="nav__form__item"
             type="range"
@@ -215,10 +221,15 @@ const Nav: FC<INavProps> = (props) => {
             onChange={handleInputChange}
             disabled={!Boolean(props.animationFrames)}
           />
-          <button className="nav__form__item" type="submit">
-            {props.animationState.playback
-              ? "pause"
-              : "play"}
+          <button
+            className="play-pause"
+            type="submit"
+          >
+            {props.animationState.playback ? (
+              <Pause className="svg-component" />
+            ) : (
+              <Play className="svg-component" />
+            )}
           </button>
         </div>
       </form>
