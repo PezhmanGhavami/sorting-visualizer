@@ -79,7 +79,9 @@ select {
   --text-color-db: hsl(0, 0%, 78%);
   --text-color-lb: hsl(0, 0%, 0%);
   --background-color-3: hsl(0, 0%, 91%);
-  --background-color-3-hover: hsl(0, 0%, 32%);
+  --background-color-3-hover: hsl(0, 0%, 40%);
+  --background-color-3-hover-2: hsl(0, 0%, 60%);
+  /* --background-color-3-hover: hsl(0, 0%, 32%); */
   --border-radius: 8px;
 }
 
@@ -105,37 +107,6 @@ input[type="range"] {
 .nav__form__item {
   position: relative;
 }
-
-.nav__form__item .tooltiptext {
-  visibility: hidden;
-  width: 95%;
-  background-color: var(--background-color-3);
-  color: var(--text-color-lb);
-  text-align: center;
-  border-radius: var(--border-radius);
-  position: absolute;
-  z-index: 1;
-  bottom: 2vh;
-}
-
-/* input[type="range"]:hover ~ .tooltiptext {
-  cursor: pointer;
-} */
-
-.nav__form__item:hover .tooltiptext {
-  visibility: visible;
-}
-
-/* .nav__form__item .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #f38080 transparent transparent transparent;
-} */
 
 /* body {
   margin: 0;

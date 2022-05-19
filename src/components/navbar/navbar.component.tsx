@@ -3,6 +3,9 @@ import {
   useState,
   FormEventHandler,
   ChangeEventHandler,
+  ButtonHTMLAttributes,
+  MouseEventHandler,
+  MouseEvent,
 } from "react";
 
 import { IAnimationState } from "../sorting-visualizer/sorting-visualizer.utils";
@@ -55,7 +58,7 @@ const Nav: FC<INavProps> = (props) => {
   );
   const [openModal, setOpenModal] = useState(false);
 
-  const toggleModal = () => {
+  const toggleModal: MouseEventHandler = (event) => {
     setOpenModal((prev) => !prev);
   };
 
@@ -113,27 +116,47 @@ const Nav: FC<INavProps> = (props) => {
         break;
     }
   };
-  //TODO - change the layour so that the settings will be available under a cog, and will be inline with the controller section
+
+  const stopPropagation = (
+    event: MouseEvent<HTMLDivElement>
+  ) => {
+    event.stopPropagation();
+  };
+
+  //TODO - corret the namings
+
   return (
-    <nav className="nav">
-      <form className="nav__form" onSubmit={handleSubmit}>
-        {openModal && (
-          <div className="modal-container">
+    <>
+      {openModal && (
+        <div
+          onClick={toggleModal}
+          className="modal-overlay"
+        >
+          <div
+            onClick={(e) => {
+              stopPropagation(e);
+            }}
+            className="modal-container"
+          >
             <span onClick={toggleModal} className="close">
               &times;
             </span>
             <div className="nav-settings">
-              <button
-                className=" button nav__form__item"
-                type="button"
-                onClick={props.resetTheArray}
-              >
-                Generate New Array
-              </button>
+              <div className="nav__form__item">
+                <button
+                  className=" button"
+                  type="button"
+                  onClick={props.resetTheArray}
+                >
+                  Generate New Array
+                </button>
+              </div>
+
               <div className="nav__form__item">
                 <label htmlFor="bar-count">
-                  {props.barInfo.barCount} Bars
+                  Bar Count:{" "}
                 </label>
+                <span>{props.barInfo.barCount} Bars</span>
                 <input
                   type="range"
                   name={InputChangeTypes.BAR_COUNT}
@@ -149,8 +172,10 @@ const Nav: FC<INavProps> = (props) => {
               <div className="nav__form__item">
                 <label htmlFor="animation-speed">
                   Frame Delay:{" "}
-                {props.animationState.frameDelay}ms
                 </label>
+                <span>
+                  {props.animationState.frameDelay}ms
+                </span>
                 <input
                   type="range"
                   name={InputChangeTypes.ANIMATION_SPEED}
@@ -192,34 +217,37 @@ const Nav: FC<INavProps> = (props) => {
               </div>
             </div>
           </div>
-        )}
-
-        <div className="nav-controllers">
-          <Cog
-            onClick={toggleModal}
-            className="svg-component"
-          />
-
-          <input
-            // className="nav__form__item"
-            type="range"
-            name={InputChangeTypes.TIMELINE}
-            id="sort-timeline"
-            value={props.animationState.currentFrame}
-            max={props.animationFrames - 1}
-            onChange={handleInputChange}
-            disabled={!Boolean(props.animationFrames)}
-          />
-          <button className="play-pause" type="submit">
-            {props.animationState.playback ? (
-              <Pause className="svg-component" />
-            ) : (
-              <Play className="svg-component" />
-            )}
-          </button>
         </div>
-      </form>
-    </nav>
+      )}
+
+      <nav className="nav">
+        <form className="nav__form" onSubmit={handleSubmit}>
+          <div className="nav-controllers">
+            <Cog
+              onClick={toggleModal}
+              className="svg-component"
+            />
+
+            <input
+              type="range"
+              name={InputChangeTypes.TIMELINE}
+              id="sort-timeline"
+              value={props.animationState.currentFrame}
+              max={props.animationFrames - 1}
+              onChange={handleInputChange}
+              disabled={!Boolean(props.animationFrames)}
+            />
+            <button className="play-pause" type="submit">
+              {props.animationState.playback ? (
+                <Pause className="svg-component" />
+              ) : (
+                <Play className="svg-component" />
+              )}
+            </button>
+          </div>
+        </form>
+      </nav>
+    </>
   );
 };
 
