@@ -132,14 +132,8 @@ const Nav: FC<INavProps> = (props) => {
               </button>
               <div className="nav__form__item">
                 <label htmlFor="bar-count">
-                  Bar Count:{" "}
+                  {props.barInfo.barCount} Bars
                 </label>
-                <span
-                  className="tooltiptext"
-                  id="animation-speed-tooltiptext"
-                >
-                  {props.barInfo.barCount}
-                </span>
                 <input
                   type="range"
                   name={InputChangeTypes.BAR_COUNT}
@@ -155,13 +149,8 @@ const Nav: FC<INavProps> = (props) => {
               <div className="nav__form__item">
                 <label htmlFor="animation-speed">
                   Frame Delay:{" "}
+                {props.animationState.frameDelay}ms
                 </label>
-                <span
-                  className="tooltiptext"
-                  id="animation-speed-tooltiptext"
-                >
-                  {props.animationState.frameDelay}ms
-                </span>
                 <input
                   type="range"
                   name={InputChangeTypes.ANIMATION_SPEED}
@@ -221,10 +210,7 @@ const Nav: FC<INavProps> = (props) => {
             onChange={handleInputChange}
             disabled={!Boolean(props.animationFrames)}
           />
-          <button
-            className="play-pause"
-            type="submit"
-          >
+          <button className="play-pause" type="submit">
             {props.animationState.playback ? (
               <Pause className="svg-component" />
             ) : (
@@ -233,12 +219,6 @@ const Nav: FC<INavProps> = (props) => {
           </button>
         </div>
       </form>
-
-      <div className="burger">
-        <div className="line1"></div>
-        <div className="line2"></div>
-        <div className="line3"></div>
-      </div>
     </nav>
   );
 };

@@ -6,22 +6,35 @@
   justify-content: space-around;
   align-items: center;
   min-width: 100%;
+  min-height: 10vh;
 }
 
 .modal-container {
   position: absolute;
-  min-width: 25vmax;
-  min-height: 30vmax;
+  /* min-width: 75vw;
+  min-height: 45vmax; */
+  min-width: 35vmax;
+  min-height: 40vmax;
   /* padding: 5vmin 5vmin; */
   /* background-color: hsla(0, 0%, 10%, 0.3); */
   background-color: var(--background-color-2);
   z-index: 1;
-  top: 6vh;
+  /* top: 20vh; */
+  top: 10vh;
   /* right: 30vw; */
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: var(--border-radius);
+}
+
+@media screen and (min-width: 1200px) {
+  .modal-container {
+    top: 10vh;
+    left: 4vw;
+    min-width: 15vmax;
+    min-height: 20vmax;
+  }
 }
 
 .close {

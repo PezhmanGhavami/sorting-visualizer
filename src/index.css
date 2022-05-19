@@ -97,9 +97,6 @@ select {
     solid;
   border-radius: var(--border-radius);
 }
-option:hover {
-  background-color: var(--background-color-3-hover);
-}
 
 input[type="range"] {
   cursor: pointer;
@@ -120,6 +117,10 @@ input[type="range"] {
   z-index: 1;
   bottom: 2vh;
 }
+
+/* input[type="range"]:hover ~ .tooltiptext {
+  cursor: pointer;
+} */
 
 .nav__form__item:hover .tooltiptext {
   visibility: visible;
