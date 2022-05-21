@@ -1,5 +1,4 @@
 //TODO - light/dark mode
-//TODO - make the settings more suitable for desktop
 
 import {
   FC,

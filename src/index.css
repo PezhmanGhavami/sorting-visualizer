@@ -76,8 +76,8 @@ select {
 :root {
   --background-color: hsl(200, 6%, 20%);
   --background-color-2: hsl(200, 6%, 30%);
-  --text-color-db: hsl(0, 0%, 78%);
-  --text-color-lb: hsl(0, 0%, 0%);
+  --text-color-db: hsl(0, 0%, 82%);
+  --text-color-lb: hsl(0, 0%, 16%);
   --background-color-3: hsl(0, 0%, 91%);
   --background-color-3-hover: hsl(0, 0%, 40%);
   --background-color-3-hover-2: hsl(0, 0%, 60%);
