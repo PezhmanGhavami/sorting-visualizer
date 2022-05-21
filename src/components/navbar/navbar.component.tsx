@@ -1,10 +1,9 @@
 import {
   FC,
   useState,
+  MouseEvent,
   FormEventHandler,
   ChangeEventHandler,
-  MouseEventHandler,
-  MouseEvent,
 } from "react";
 
 import { IAnimationState } from "../sorting-visualizer/sorting-visualizer.utils";

@@ -22,6 +22,9 @@ function bubbleSort(barData: IBars): ISortReturn {
     atFrame: [],
     atFrameColors: [],
   };
+
+  addFrame(animationData, localArr, localColors);
+
   for (let indexA = 0; indexA < localArr.length; indexA++) {
     for (
       let indexB = 0;
@@ -55,6 +58,9 @@ function insertionSort(barData: IBars): ISortReturn {
     atFrame: [],
     atFrameColors: [],
   };
+
+  addFrame(animationData, localArr, localColors);
+
   for (let indexA = 1; indexA < localArr.length; indexA++) {
     for (let indexB = indexA - 1; indexB > -1; indexB--) {
       const a = indexB + 1;
@@ -93,6 +99,8 @@ function selectionSort(barData: IBars): ISortReturn {
     atFrame: [],
     atFrameColors: [],
   };
+
+  addFrame(animationData, localArr, localColors);
 
   let currentMin: number;
 
@@ -313,6 +321,9 @@ function mergeSort(barData: IBars): ISortReturn {
     atFrame: [],
     atFrameColors: [],
   };
+
+  addFrame(animationData, localArr, localColors);
+
   if (localArr.length <= 1) {
     return { sortedArray: localArr, animationData };
   }
@@ -422,6 +433,9 @@ function quickSort(barData: IBars): ISortReturn {
     atFrame: [],
     atFrameColors: [],
   };
+
+  addFrame(animationData, localArr, localColors);
+
   if (localArr.length <= 1) {
     return { sortedArray: localArr, animationData };
   }
