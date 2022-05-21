@@ -34,11 +34,11 @@ interface INavProps {
 }
 
 enum SortTypes {
-  BUBBLE = "BUBBLE",
-  INSERTION = "INSERTION",
-  SELECTION = "SELECTION",
-  MERGE = "MERGE",
-  QUICK = "QUICK",
+  BUBBLE = "bubble",
+  INSERTION = "insertion",
+  SELECTION = "selection",
+  MERGE = "merge",
+  QUICK = "quick",
 }
 
 enum InputChangeTypes {
@@ -47,8 +47,6 @@ enum InputChangeTypes {
   TIMELINE = "timeline",
   SORT_TYPE = "sortType",
 }
-
-type SortTypesKey = keyof typeof SortTypes;
 
 const Navbar: FC<INavProps> = (props) => {
   const [sortType, setSortType] = useState(
@@ -79,11 +77,7 @@ const Navbar: FC<INavProps> = (props) => {
         break;
       }
       case InputChangeTypes.SORT_TYPE: {
-        setSortType(
-          SortTypes[
-            event.currentTarget.value as SortTypesKey
-          ]
-        );
+        setSortType(value as SortTypes);
         props.resetTheArray();
         break;
       }
@@ -122,7 +116,7 @@ const Navbar: FC<INavProps> = (props) => {
   //TODO - corret the namings
 
   return (
-    <>
+    <nav className="navbar">
       {openModal && (
         <div
           onClick={toggleModal}
@@ -214,37 +208,35 @@ const Navbar: FC<INavProps> = (props) => {
         </div>
       )}
 
-      <nav className="navbar">
-        <div className="nav-controllers">
-          <Cog
-            onClick={toggleModal}
-            className="svg-component"
-          />
+      <div className="nav-controllers">
+        <Cog
+          onClick={toggleModal}
+          className="svg-component"
+        />
 
-          <input
-            type="range"
-            name={InputChangeTypes.TIMELINE}
-            id="sort-timeline"
-            value={props.animationState.currentFrame}
-            max={props.animationFrames - 1}
-            onChange={handleChange}
-            disabled={!Boolean(props.animationFrames)}
-          />
+        <input
+          type="range"
+          name={InputChangeTypes.TIMELINE}
+          id="sort-timeline"
+          value={props.animationState.currentFrame}
+          max={props.animationFrames - 1}
+          onChange={handleChange}
+          disabled={!Boolean(props.animationFrames)}
+        />
 
-          <button
-            className="flow-control"
-            type="button"
-            onClick={handleFlow}
-          >
-            {props.animationState.playback ? (
-              <Pause className="svg-component" />
-            ) : (
-              <Play className="svg-component" />
-            )}
-          </button>
-        </div>
-      </nav>
-    </>
+        <button
+          className="flow-control"
+          type="button"
+          onClick={handleFlow}
+        >
+          {props.animationState.playback ? (
+            <Pause className="svg-component" />
+          ) : (
+            <Play className="svg-component" />
+          )}
+        </button>
+      </div>
+    </nav>
   );
 };
 
