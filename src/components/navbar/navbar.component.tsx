@@ -2,7 +2,6 @@ import {
   FC,
   useState,
   MouseEvent,
-  FormEventHandler,
   ChangeEventHandler,
 } from "react";
 
@@ -46,11 +45,12 @@ enum InputChangeTypes {
   BAR_COUNT = "barCount",
   ANIMATION_SPEED = "animationSpeed",
   TIMELINE = "timeline",
+  SORT_TYPE = "sortType",
 }
 
 type SortTypesKey = keyof typeof SortTypes;
 
-const Nav: FC<INavProps> = (props) => {
+const Navbar: FC<INavProps> = (props) => {
   const [sortType, setSortType] = useState(
     SortTypes.BUBBLE
   );
@@ -60,8 +60,8 @@ const Nav: FC<INavProps> = (props) => {
     setOpenModal((prev) => !prev);
   };
 
-  const handleInputChange: ChangeEventHandler<
-    HTMLInputElement
+  const handleChange: ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
   > = (event) => {
     const changeAction = event.currentTarget.name;
     const value = event.currentTarget.value;
@@ -76,23 +76,21 @@ const Nav: FC<INavProps> = (props) => {
       }
       case InputChangeTypes.TIMELINE: {
         props.changeCurrentFrame(parseInt(value) || 0);
+        break;
+      }
+      case InputChangeTypes.SORT_TYPE: {
+        setSortType(
+          SortTypes[
+            event.currentTarget.value as SortTypesKey
+          ]
+        );
+        props.resetTheArray();
+        break;
       }
     }
   };
 
-  const handleSelectChange: ChangeEventHandler<
-    HTMLSelectElement
-  > = (event) => {
-    setSortType(
-      SortTypes[event.currentTarget.value as SortTypesKey]
-    );
-    props.resetTheArray();
-  };
-
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (
-    event
-  ) => {
-    event.preventDefault();
+  const handleFlow = () => {
     if (props.animationFrames) {
       return props.togglePlayback();
     }
@@ -161,7 +159,7 @@ const Nav: FC<INavProps> = (props) => {
                   max={props.barInfo.maxBarsForWidth}
                   step={1}
                   value={props.barInfo.barCount}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -180,7 +178,7 @@ const Nav: FC<INavProps> = (props) => {
                   max={props.animationState.maxFrameDelay}
                   step={1}
                   value={props.animationState.frameDelay}
-                  onChange={handleInputChange}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -190,9 +188,9 @@ const Nav: FC<INavProps> = (props) => {
                 </label>
                 <select
                   id="sort-type"
-                  name="sortType"
+                  name={InputChangeTypes.SORT_TYPE}
                   value={sortType}
-                  onChange={handleSelectChange}
+                  onChange={handleChange}
                 >
                   <option value={SortTypes.BUBBLE}>
                     Bubble Sort
@@ -216,35 +214,38 @@ const Nav: FC<INavProps> = (props) => {
         </div>
       )}
 
-      <nav className="nav">
-        <form className="nav__form" onSubmit={handleSubmit}>
-          <div className="nav-controllers">
-            <Cog
-              onClick={toggleModal}
-              className="svg-component"
-            />
+      <nav className="navbar">
+        <div className="nav-controllers">
+          <Cog
+            onClick={toggleModal}
+            className="svg-component"
+          />
 
-            <input
-              type="range"
-              name={InputChangeTypes.TIMELINE}
-              id="sort-timeline"
-              value={props.animationState.currentFrame}
-              max={props.animationFrames - 1}
-              onChange={handleInputChange}
-              disabled={!Boolean(props.animationFrames)}
-            />
-            <button className="play-pause" type="submit">
-              {props.animationState.playback ? (
-                <Pause className="svg-component" />
-              ) : (
-                <Play className="svg-component" />
-              )}
-            </button>
-          </div>
-        </form>
+          <input
+            type="range"
+            name={InputChangeTypes.TIMELINE}
+            id="sort-timeline"
+            value={props.animationState.currentFrame}
+            max={props.animationFrames - 1}
+            onChange={handleChange}
+            disabled={!Boolean(props.animationFrames)}
+          />
+
+          <button
+            className="flow-control"
+            type="button"
+            onClick={handleFlow}
+          >
+            {props.animationState.playback ? (
+              <Pause className="svg-component" />
+            ) : (
+              <Play className="svg-component" />
+            )}
+          </button>
+        </div>
       </nav>
     </>
   );
 };
 
-export default Nav;
+export default Navbar;
