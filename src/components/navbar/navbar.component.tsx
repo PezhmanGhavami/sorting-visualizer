@@ -113,8 +113,6 @@ const Navbar: FC<INavProps> = (props) => {
     event.stopPropagation();
   };
 
-  //TODO - corret the namings
-
   return (
     <nav className="navbar">
       {openModal && (
@@ -132,7 +130,7 @@ const Navbar: FC<INavProps> = (props) => {
             <div className="nav-settings">
               <div className="nav-settings-item">
                 <button
-                  className=" button"
+                  className="button"
                   type="button"
                   onClick={props.resetTheArray}
                 >
