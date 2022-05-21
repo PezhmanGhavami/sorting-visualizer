@@ -14,7 +14,6 @@ export interface IAnimationState {
   minFrameDelay: number;
   currentFrame: number;
   playback: boolean;
-  stop: boolean;
 }
 
 export enum BarColors {

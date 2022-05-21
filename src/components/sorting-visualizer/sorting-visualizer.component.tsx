@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 import "./sorting-visualizer.styles.css";
 
 import BarContainer from "../bar-container/bar-container.component";
-import Nav from "../navbar/navbar.component";
+import Navbar from "../navbar/navbar.component";
 
 import {
   IBars,
@@ -37,7 +37,6 @@ const animationStateDefaultValue = {
   minFrameDelay: 1,
   currentFrame: 0,
   playback: false,
-  stop: false,
 };
 
 const SortingVisualizer = () => {
@@ -57,7 +56,6 @@ const SortingVisualizer = () => {
     minFrameDelay,
     currentFrame,
     playback,
-    stop,
   } = animationState;
 
   const maxBarsForWidth = Math.floor(
@@ -104,7 +102,6 @@ const SortingVisualizer = () => {
       ...prev,
       currentFrame: 0,
       playback: false,
-      stop: false,
     }));
     const correctBarCount = getCorrectBarCount(barCount);
     correctBarCount !== barCount &&
@@ -112,7 +109,7 @@ const SortingVisualizer = () => {
   }, [barHeightMax, barCount, getCorrectBarCount]);
 
   const runTheAnimation = useCallback(() => {
-    if (currentFrame < dataSeries.atFrame.length && !stop) {
+    if (currentFrame < dataSeries.atFrame.length) {
       if (playback) {
         setTimeout(() => {
           setBars({
@@ -141,13 +138,7 @@ const SortingVisualizer = () => {
     ) {
       togglePlayback();
     }
-  }, [
-    dataSeries,
-    currentFrame,
-    frameDelay,
-    playback,
-    stop,
-  ]);
+  }, [dataSeries, currentFrame, frameDelay, playback]);
 
   useEffect(() => {
     restBarArray();
@@ -167,9 +158,9 @@ const SortingVisualizer = () => {
   const changeAnimationSpeed = (value: number) => {
     value =
       value > maxFrameDelay
-        ? 500
+        ? maxFrameDelay
         : value < minFrameDelay
-        ? 1
+        ? minFrameDelay
         : value;
     setAnimationState((prev) => ({
       ...prev,
@@ -238,7 +229,7 @@ const SortingVisualizer = () => {
 
   return (
     <div className="sorting-visualizer-container">
-      <Nav
+      <Navbar
         resetTheArray={restBarArray}
         changeAnimationSpeed={changeAnimationSpeed}
         changeBarCount={changeBarCount}
