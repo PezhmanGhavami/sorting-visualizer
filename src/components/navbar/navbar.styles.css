@@ -51,6 +51,7 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
+  min-width: 100%;
 }
 
 .nav-settings-item {
@@ -71,8 +72,10 @@
   cursor: pointer;
 }
 
-/* .navbar input[type="range"] {
-} */
+#bar-count,
+#animation-speed {
+  min-width: 42%;
+}
 
 #bar-count,
 #animation-speed,
