@@ -3,7 +3,6 @@ import {
   useState,
   FormEventHandler,
   ChangeEventHandler,
-  ButtonHTMLAttributes,
   MouseEventHandler,
   MouseEvent,
 } from "react";
@@ -58,7 +57,7 @@ const Nav: FC<INavProps> = (props) => {
   );
   const [openModal, setOpenModal] = useState(false);
 
-  const toggleModal: MouseEventHandler = (event) => {
+  const toggleModal = () => {
     setOpenModal((prev) => !prev);
   };
 
@@ -133,9 +132,7 @@ const Nav: FC<INavProps> = (props) => {
           className="modal-overlay"
         >
           <div
-            onClick={(e) => {
-              stopPropagation(e);
-            }}
+            onClick={stopPropagation}
             className="modal-container"
           >
             <span onClick={toggleModal} className="close">
