@@ -1,5 +1,4 @@
 .navbar {
-  /* margin-top: 2vh; */
   position: relative;
   padding: 0 2vw;
   display: flex;
@@ -21,7 +20,6 @@
 
 .modal-container {
   z-index: 1001;
-
   position: absolute;
   top: 50%;
   left: 50%;
@@ -30,15 +28,7 @@
   min-height: 40vmax;
   max-width: 100%;
   max-height: 100%;
-  /* min-width: 75vw;
-  min-height: 45vmax; */
-
-  /* padding: 5vmin 5vmin; */
-  /* background-color: hsla(0, 0%, 10%, 0.3); */
   background-color: var(--background-color-2);
-  /* top: 20vh; */
-  /* top: 10vh; */
-  /* right: 30vw; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,12 +38,12 @@
 }
 
 .close {
+  z-index: 1002;
   position: absolute;
   top: 1px;
   right: 1vh;
   font-size: 2em;
   cursor: pointer;
-  z-index: 1002;
 }
 
 .nav-settings {
@@ -63,26 +53,7 @@
   align-items: center;
 }
 
-.nav-controllers {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  min-width: 100%;
-}
-
-.nav-controllers input[type="range"] {
-  flex: 1;
-}
-
-/* .nav__form {
-  min-width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-} */
-
-.nav__form__item {
+.nav-settings-item {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -90,6 +61,34 @@
   align-items: center;
   margin: 1vmax 0;
   width: 100%;
+}
+
+#sort-type {
+  background-color: var(--background-color-3);
+  border: var(--background-color-3, hsl(0, 0%, 91%)) 2px
+    solid;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+/* .navbar input[type="range"] {
+} */
+
+#bar-count,
+#animation-speed,
+#sort-timeline {
+  cursor: pointer;
+}
+
+.nav-controllers {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-width: 100%;
+}
+
+#sort-timeline {
+  flex: 1;
 }
 
 .button {

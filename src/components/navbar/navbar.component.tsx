@@ -130,7 +130,7 @@ const Navbar: FC<INavProps> = (props) => {
               &times;
             </span>
             <div className="nav-settings">
-              <div className="nav__form__item">
+              <div className="nav-settings-item">
                 <button
                   className=" button"
                   type="button"
@@ -140,7 +140,7 @@ const Navbar: FC<INavProps> = (props) => {
                 </button>
               </div>
 
-              <div className="nav__form__item">
+              <div className="nav-settings-item">
                 <label htmlFor="bar-count">
                   Bar Count:{" "}
                 </label>
@@ -157,7 +157,7 @@ const Navbar: FC<INavProps> = (props) => {
                 />
               </div>
 
-              <div className="nav__form__item">
+              <div className="nav-settings-item">
                 <label htmlFor="animation-speed">
                   Frame Delay:{" "}
                 </label>
@@ -176,7 +176,7 @@ const Navbar: FC<INavProps> = (props) => {
                 />
               </div>
 
-              <div className="nav__form__item">
+              <div className="nav-settings-item">
                 <label htmlFor="sort-type">
                   Sort Algorithm:{" "}
                 </label>

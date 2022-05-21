@@ -81,7 +81,6 @@ select {
   --background-color-3: hsl(0, 0%, 91%);
   --background-color-3-hover: hsl(0, 0%, 40%);
   --background-color-3-hover-2: hsl(0, 0%, 60%);
-  /* --background-color-3-hover: hsl(0, 0%, 32%); */
   --border-radius: 8px;
 }
 
@@ -92,14 +91,4 @@ body {
     hsl(200, 6%, 20%)
   );
   color: var(--text-color-db, hsl(0, 7%, 78%));
-}
-select {
-  background-color: var(--background-color-3);
-  border: var(--background-color-3, hsl(0, 0%, 91%)) 2px
-    solid;
-  border-radius: var(--border-radius);
-}
-
-input[type="range"] {
-  cursor: pointer;
 }
