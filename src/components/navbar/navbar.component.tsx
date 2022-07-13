@@ -148,7 +148,18 @@ const Navbar: FC<INavProps> = (props) => {
                 <label htmlFor="bar-count">
                   Bar Count:{" "}
                 </label>
-                <span>{props.barInfo.barCount} Bars</span>
+                <span>
+                  {props.barInfo.barCount} Bars{" "}
+                  <span
+                    className="info"
+                    tabIndex={0}
+                    id="bar-count-info"
+                    data-bar-count-info="The bigger the width of your screen, the more bars you can fit in it. (Try landscape mode)"
+                  >
+                    {" "}
+                    ⓘ
+                  </span>
+                </span>
                 <input
                   type="range"
                   name={InputChangeTypes.BAR_COUNT}
@@ -170,7 +181,8 @@ const Navbar: FC<INavProps> = (props) => {
                   <span
                     className="info"
                     tabIndex={0}
-                    data-info-title="Lower is faster"
+                    id="animation-speed-info"
+                    data-animation-speed-info="Lower is faster"
                   >
                     {" "}
                     ⓘ
@@ -232,6 +244,13 @@ const Navbar: FC<INavProps> = (props) => {
           type="range"
           name={InputChangeTypes.TIMELINE}
           id="sort-timeline"
+          title={
+            !Boolean(props.animationFrames)
+              ? ""
+              : `${props.animationState.currentFrame} / ${
+                  props.animationFrames - 1
+                }`
+          }
           value={props.animationState.currentFrame}
           max={props.animationFrames - 1}
           onChange={handleChange}

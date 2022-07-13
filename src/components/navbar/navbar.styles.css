@@ -139,9 +139,9 @@
 }
 .info:hover::after,
 .info:focus::after {
-  content: attr(data-info-title);
   padding: 1vmax;
   width: max-content;
+  max-width: 35vw;
   text-align: center;
   font-size: 18px;
   color: #eee;
@@ -149,19 +149,34 @@
   border-radius: 5px;
   position: absolute;
   background: #000e;
+  z-index: 1002;
+}
+#animation-speed-info:hover::after,
+#animation-speed-info:focus::after {
+  content: attr(data-animation-speed-info);
+}
+#bar-count-info:hover::after,
+#bar-count-info:focus::after {
+  content: attr(data-bar-count-info);
+}
+
+@media only screen and (max-width: 991px) and (orientation: landscape) {
+  .modal-container {
+    min-height: 42vmax;
+  }
 }
 
 @media only screen and (min-width: 992px) {
   .navbar {
     font-size: 20px;
   }
-  .modal-container{
+  .modal-container {
     min-height: 45vmax;
   }
 }
 
 @media only screen and (min-width: 1200px) {
-  .modal-container{
+  .modal-container {
     min-height: 40vmax;
   }
 }
