@@ -82,7 +82,7 @@ const SortingVisualizer = () => {
     [maxBarsForWidth]
   );
 
-  const restBarArray = useCallback(() => {
+  const resetBarArray = useCallback(() => {
     const localArray: number[] = [];
     for (let i = 0; i < barCount; i++) {
       localArray.push(randomIntFromBound(barHeightMax));
@@ -141,7 +141,7 @@ const SortingVisualizer = () => {
   }, [dataSeries, currentFrame, frameDelay, playback]);
 
   useEffect(() => {
-    restBarArray();
+    resetBarArray();
 
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
@@ -149,7 +149,7 @@ const SortingVisualizer = () => {
     window.addEventListener("resize", handleResize);
     return () =>
       window.removeEventListener("resize", handleResize);
-  }, [restBarArray]);
+  }, [resetBarArray]);
 
   useEffect(() => {
     runTheAnimation();
@@ -230,7 +230,7 @@ const SortingVisualizer = () => {
   return (
     <div className="sorting-visualizer-container">
       <Navbar
-        resetTheArray={restBarArray}
+        resetTheArray={resetBarArray}
         changeAnimationSpeed={changeAnimationSpeed}
         changeBarCount={changeBarCount}
         bubbleSort={animateBubbleSort}
