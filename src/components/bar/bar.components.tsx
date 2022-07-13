@@ -12,6 +12,7 @@ const Bar: FC<IBarProps> = (props) => {
   return (
     <div
       className="bar"
+      title={props.height.toString()}
       style={{
         backgroundColor: props.backgroundColor,
         height: `${props.height}px`,

@@ -41,9 +41,10 @@
   z-index: 1002;
   position: absolute;
   top: 1px;
-  right: 1vh;
+  right: 1px;
   font-size: 2em;
   cursor: pointer;
+  padding: 0 2vmax;
 }
 
 .nav-settings {
@@ -66,7 +67,7 @@
 
 #sort-type {
   background-color: var(--background-color-3);
-  border: var(--background-color-3, hsl(0, 0%, 91%)) 2px
+  border: var(--background-color-3) 2px
     solid;
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -95,27 +96,23 @@
 }
 
 .button {
-  color: var(--text-color-lb, hsl(0, 0%, 0%));
+  color: var(--text-color-lb);
   background-color: var(
-    --background-color-3,
-    hsl(0, 0%, 91%)
+    --background-color-3
   );
-  border: var(--background-color-3, hsl(0, 0%, 91%)) 2px
+  border: var(--background-color-3) 1px
     solid;
   border-radius: var(--border-radius);
   cursor: pointer;
 }
 .button:hover {
-  color: var(--text-color-db, hsl(0, 0%, 0%));
-  background-color: var(
-    --background-color-3-hover,
-    hsl(0, 0%, 91%)
-  );
-  border: var(--background-color-3-hover, hsl(0, 0%, 91%))
-    2px solid;
+  color: var(--text-color-db);
+  background-color: var(--background-color-3-hover);
+  border: var(--background-color-3-hover) 1px solid;
 }
 
-.flow-control {
+.flow-control,
+.sort-settings {
   background-color: transparent;
   border: transparent;
   display: flex;
@@ -138,4 +135,34 @@
   /* filter: drop-shadow(
     0px 0px 1px var(--background-color-3)
   ); */
+}
+
+.info {
+  position: relative;
+  cursor: help;
+}
+.info:hover::after,
+.info:focus::after {
+  content: attr(data-info-title);
+  padding: 1vmax;
+  width: max-content;
+  text-align: center;
+  font-size: 18px;
+  color: #eee;
+  border: 1px solid #fff5;
+  border-radius: 5px;
+  position: absolute;
+  background: #000e;
+}
+
+@media only screen and (min-width: 768px) {
+  .navbar {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .navbar {
+    font-size: 23px;
+  }
 }

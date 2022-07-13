@@ -126,7 +126,11 @@ const Navbar: FC<INavProps> = (props) => {
             onClick={stopPropagation}
             className="modal-container"
           >
-            <span onClick={toggleModal} className="close">
+            <span
+              title="Close Settings"
+              onClick={toggleModal}
+              className="close"
+            >
               &times;
             </span>
             <div className="nav-settings">
@@ -163,6 +167,14 @@ const Navbar: FC<INavProps> = (props) => {
                 </label>
                 <span>
                   {props.animationState.frameDelay}ms
+                  <span
+                    className="info"
+                    tabIndex={0}
+                    data-info-title="Lower is faster"
+                  >
+                    {" "}
+                    ⓘ
+                  </span>
                 </span>
                 <input
                   type="range"
@@ -209,10 +221,12 @@ const Navbar: FC<INavProps> = (props) => {
       )}
 
       <div className="nav-controllers">
-        <Cog
-          onClick={toggleModal}
-          className="svg-component"
-        />
+        <button className="sort-settings" title="Settings">
+          <Cog
+            onClick={toggleModal}
+            className="svg-component"
+          />
+        </button>
 
         <input
           type="range"
@@ -228,6 +242,9 @@ const Navbar: FC<INavProps> = (props) => {
           className="flow-control"
           type="button"
           onClick={handleFlow}
+          title={
+            props.animationState.playback ? "Pause" : "Play"
+          }
         >
           {props.animationState.playback ? (
             <Pause className="svg-component" />
