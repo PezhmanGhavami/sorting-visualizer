@@ -25,7 +25,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   min-width: 35vmax;
-  min-height: 40vmax;
+  min-height: 50vmax;
   max-width: 100%;
   max-height: 100%;
   background-color: var(--background-color-2);
@@ -67,8 +67,7 @@
 
 #sort-type {
   background-color: var(--background-color-3);
-  border: var(--background-color-3) 2px
-    solid;
+  border: var(--background-color-3) 2px solid;
   border-radius: var(--border-radius);
   cursor: pointer;
 }
@@ -97,18 +96,15 @@
 
 .button {
   color: var(--text-color-lb);
-  background-color: var(
-    --background-color-3
-  );
-  border: var(--background-color-3) 1px
-    solid;
+  background-color: var(--background-color-3);
+  border: var(--text-color-lb) 1px solid;
   border-radius: var(--border-radius);
   cursor: pointer;
 }
 .button:hover {
   color: var(--text-color-db);
   background-color: var(--background-color-3-hover);
-  border: var(--background-color-3-hover) 1px solid;
+  border: var(--text-color-db) 1px solid;
 }
 
 .flow-control,
@@ -155,14 +151,17 @@
   background: #000e;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 992px) {
   .navbar {
     font-size: 20px;
+  }
+  .modal-container{
+    min-height: 45vmax;
   }
 }
 
 @media only screen and (min-width: 1200px) {
-  .navbar {
-    font-size: 23px;
+  .modal-container{
+    min-height: 40vmax;
   }
 }
