@@ -139,6 +139,7 @@
 }
 .info:hover::after,
 .info:focus::after {
+  content: attr(data-info);
   padding: 1vmax;
   width: max-content;
   max-width: 35vw;
@@ -150,14 +151,6 @@
   position: absolute;
   background: #000e;
   z-index: 1002;
-}
-#animation-speed-info:hover::after,
-#animation-speed-info:focus::after {
-  content: attr(data-animation-speed-info);
-}
-#bar-count-info:hover::after,
-#bar-count-info:focus::after {
-  content: attr(data-bar-count-info);
 }
 
 @media only screen and (max-width: 991px) and (orientation: landscape) {

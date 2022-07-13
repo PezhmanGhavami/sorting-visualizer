@@ -153,8 +153,7 @@ const Navbar: FC<INavProps> = (props) => {
                   <span
                     className="info"
                     tabIndex={0}
-                    id="bar-count-info"
-                    data-bar-count-info="The bigger the width of your screen, the more bars you can fit in it. (Try landscape mode)"
+                    data-info="The bigger the width of your screen, the more bars you can fit in it. (Try landscape mode)"
                   >
                     {" "}
                     ⓘ
@@ -181,8 +180,7 @@ const Navbar: FC<INavProps> = (props) => {
                   <span
                     className="info"
                     tabIndex={0}
-                    id="animation-speed-info"
-                    data-animation-speed-info="Lower is faster"
+                    data-info="Lower is faster"
                   >
                     {" "}
                     ⓘ
