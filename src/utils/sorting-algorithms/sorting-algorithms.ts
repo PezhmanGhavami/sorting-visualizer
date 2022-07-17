@@ -74,13 +74,23 @@ function insertionSort(barData: IBars): ISortReturn {
     for (let indexB = indexA - 1; indexB > -1; indexB--) {
       const a = indexB + 1;
       const b = indexB;
-      if (localArr[a] < localArr[b]) {
-        swapTwo(localArr, a, b);
-        const exColorA = localColors[a];
-        const exColorB = localColors[b];
 
+      const exColorA = localColors[a];
+      const exColorB = localColors[b];
+
+      if (localArr[a] < localArr[b]) {
         localColors[a] = BarColors.BEING_COMPARED_AGAINST;
         localColors[b] = BarColors.BEING_SORTED;
+        addFrame(animationData, localArr, localColors);
+        localColors[a] = BarColors.SELECTED;
+        localColors[b] = BarColors.SELECTED;
+        swapTwo(localArr, a, b);
+        addFrame(animationData, localArr, localColors);
+        localColors[a] = exColorA;
+        localColors[b] = exColorB;
+      }else{
+        localColors[a] = BarColors.BEING_SORTED;
+        localColors[b] = BarColors.BEING_COMPARED_AGAINST;
         addFrame(animationData, localArr, localColors);
         localColors[a] = exColorA;
         localColors[b] = exColorB;
