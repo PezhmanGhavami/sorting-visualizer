@@ -40,6 +40,12 @@ function bubbleSort(barData: IBars): ISortReturn {
         addFrame(animationData, localArr, localColors);
         localColors[a] = BarColors.NOT_SORTED;
         localColors[b] = BarColors.NOT_SORTED;
+      } else {
+        localColors[a] = BarColors.BEING_SORTED;
+        localColors[b] = BarColors.BEING_COMPARED_AGAINST;
+        addFrame(animationData, localArr, localColors);
+        localColors[a] = BarColors.POTENTIALLY_SORTED;
+        localColors[b] = BarColors.POTENTIALLY_SORTED;
       }
     }
     localColors[localArr.length - indexA - 1] =
