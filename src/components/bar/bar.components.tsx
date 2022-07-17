@@ -1,5 +1,3 @@
-import { FC } from "react";
-
 import "./bar.styles.css";
 
 interface IBarProps {
@@ -8,7 +6,7 @@ interface IBarProps {
   backgroundColor: string;
 }
 
-const Bar: FC<IBarProps> = (props) => {
+const Bar = (props: IBarProps) => {
   return (
     <div
       className="bar"

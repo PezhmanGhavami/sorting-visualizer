@@ -1,7 +1,6 @@
 //TODO - light/dark mode
 
 import {
-  FC,
   useState,
   MouseEvent,
   ChangeEventHandler,
@@ -50,7 +49,7 @@ enum InputChangeTypes {
   SORT_TYPE = "sortType",
 }
 
-const Navbar: FC<INavProps> = (props) => {
+const Navbar = (props: INavProps) => {
   const [sortType, setSortType] = useState(
     SortTypes.BUBBLE
   );

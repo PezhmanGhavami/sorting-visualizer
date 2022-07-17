@@ -1,4 +1,3 @@
-import { FC } from "react";
 import Bar from "../bar/bar.components";
 import { IBars } from "../sorting-visualizer/sorting-visualizer.utils";
 
@@ -9,10 +8,10 @@ interface IBarContainer {
   barWidth: number;
 }
 
-const BarContainer: FC<IBarContainer> = ({
+const BarContainer = ({
   bars,
   barWidth,
-}) => {
+}: IBarContainer) => {
   return (
     <div className="bar-container">
       {bars.heights.map((value, index) => (
