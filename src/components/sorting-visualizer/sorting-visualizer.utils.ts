@@ -17,12 +17,12 @@ export interface IAnimationState {
 }
 
 export enum BarColors {
-  NOT_SORTED = "#247dc7",
-  BEING_SORTED = "#48af69",
-  BEING_COMPARED_AGAINST = "#af4876",
-  SORTED = "green",
-  POTENTIALLY_SORTED = "purple",
-  SELECTED = "red",
+  NOT_SORTED = "#708090",
+  BEING_SORTED = "#247dc7",
+  BEING_COMPARED_AGAINST = "#ff3d7f",
+  SORTED = "#228b22",
+  POTENTIALLY_SORTED = "#816797",
+  SELECTED = "#daa520",
 }
 
 //returns a random number between min and max (both included); if we don't want the max bound to be included, we can simply remove the plus one
