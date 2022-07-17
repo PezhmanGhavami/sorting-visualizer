@@ -34,9 +34,12 @@ function bubbleSort(barData: IBars): ISortReturn {
       const a = indexB + 1;
       const b = indexB;
       if (localArr[a] < localArr[b]) {
-        swapTwo(localArr, a, b);
         localColors[a] = BarColors.BEING_SORTED;
         localColors[b] = BarColors.BEING_COMPARED_AGAINST;
+        addFrame(animationData, localArr, localColors);
+        localColors[a] = BarColors.SELECTED;
+        localColors[b] = BarColors.SELECTED;
+        swapTwo(localArr, a, b);
         addFrame(animationData, localArr, localColors);
         localColors[a] = BarColors.NOT_SORTED;
         localColors[b] = BarColors.NOT_SORTED;
@@ -44,8 +47,8 @@ function bubbleSort(barData: IBars): ISortReturn {
         localColors[a] = BarColors.BEING_SORTED;
         localColors[b] = BarColors.BEING_COMPARED_AGAINST;
         addFrame(animationData, localArr, localColors);
-        localColors[a] = BarColors.POTENTIALLY_SORTED;
-        localColors[b] = BarColors.POTENTIALLY_SORTED;
+        localColors[a] = BarColors.NOT_SORTED;
+        localColors[b] = BarColors.NOT_SORTED;
       }
     }
     localColors[localArr.length - indexA - 1] =
