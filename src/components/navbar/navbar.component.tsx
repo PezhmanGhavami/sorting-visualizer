@@ -137,6 +137,7 @@ const Navbar = (props: INavProps) => {
                 <button
                   className="button"
                   type="button"
+                  title="Click to generate a new array"
                   onClick={props.resetTheArray}
                 >
                   Generate New Array
