@@ -17,7 +17,7 @@ export interface IAnimationState {
 }
 
 export enum BarColors {
-  NOT_SORTED = "#708090",
+  NOT_SORTED = "#D1D5DB",
   BEING_SORTED = "#247dc7",
   BEING_COMPARED_AGAINST = "#ff3d7f",
   SORTED = "#228b22",

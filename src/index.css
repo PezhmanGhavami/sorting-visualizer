@@ -74,21 +74,17 @@ select {
 }
 
 :root {
-  --background-color: hsl(200, 6%, 20%);
-  --background-color-2: hsl(200, 6%, 30%);
-  --text-color-db: hsl(0, 0%, 82%);
-  --text-color-lb: hsl(0, 0%, 16%);
-  --background-color-3: hsl(0, 0%, 91%);
-  --background-color-3-hover: hsl(0, 0%, 40%);
-  --background-color-3-hover-2: hsl(0, 0%, 60%);
+  --background-color: #111827;
+  --background-color-2: #1f2937;
+  --button-success: #059669;
+  --text-color: #f9fafb;
   --border-radius: 8px;
+  --brightens: 0.85;
 }
 
 body {
   font-family: "Roboto Flex", sans-serif;
-  background-color: var(
-    --background-color,
-    hsl(200, 6%, 20%)
-  );
-  color: var(--text-color-db, hsl(0, 7%, 78%));
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 17px;
 }

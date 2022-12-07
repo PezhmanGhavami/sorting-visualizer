@@ -1,6 +1,6 @@
 .navbar {
   position: relative;
-  padding: 0 2vw;
+  padding: 0 1rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -11,23 +11,20 @@
 .modal-overlay {
   z-index: 1000;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: hsla(0, 0%, 0%, 0.3);
+  inset: 0;
+  background-color: #0008;
 }
 
 .modal-container {
   z-index: 1001;
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
+  margin: 0 auto;
+  padding: 3.5rem 0;
   transform: translate(-50%, -50%);
-  min-width: 35vmax;
-  min-height: 50vmax;
-  max-width: 100%;
-  max-height: 100%;
+  width: 95%;
+  max-width: 350px;
   background-color: var(--background-color-2);
   display: flex;
   justify-content: center;
@@ -40,11 +37,14 @@
 .close {
   z-index: 1002;
   position: absolute;
-  top: 1px;
-  right: 1px;
-  font-size: 2em;
+  top: -4px;
+  right: 0px;
+  font-size: 2.5rem;
   cursor: pointer;
-  padding: 0 2vmax;
+  padding: 0 1rem;
+}
+.close:hover {
+  filter: brightness(var(--brightens));
 }
 
 .nav-settings {
@@ -65,11 +65,16 @@
   width: 100%;
 }
 
-#sort-type {
-  background-color: var(--background-color-3);
-  border: var(--background-color-3) 2px solid;
+select#sort-type {
+  background-color: var(--background-color-2);
+  color: var(--text-color);
+  padding: 0.2rem 0.5rem;
+  border: #4b5563 2px solid;
   border-radius: var(--border-radius);
   cursor: pointer;
+}
+select#sort-type:hover {
+  filter: brightness(var(--brightens));
 }
 
 #bar-count,
@@ -95,16 +100,15 @@
 }
 
 .button {
-  color: var(--text-color-lb);
-  background-color: var(--background-color-3);
-  border: var(--text-color-lb) 1px solid;
+  color: var(--text-color);
+  background-color: var(--button-success);
+  border: 0;
   border-radius: var(--border-radius);
   cursor: pointer;
+  padding: 0.25rem 0.5rem;
 }
 .button:hover {
-  color: var(--text-color-db);
-  background-color: var(--background-color-3-hover);
-  border: var(--text-color-db) 1px solid;
+  filter: brightness(var(--brightens));
 }
 
 .flow-control,
@@ -119,18 +123,12 @@
 .svg-component {
   width: 35px;
   height: 35px;
-  fill: var(--background-color-3);
+  fill: var(--text-color);
   margin: 2vmax;
   cursor: pointer;
-  /* filter: drop-shadow(
-    0px 0px 1px var(--background-color-3-hover)
-  ); */
 }
 .svg-component:hover {
-  fill: var(--background-color-3-hover-2);
-  /* filter: drop-shadow(
-    0px 0px 1px var(--background-color-3)
-  ); */
+  filter: opacity(var(--brightens));
 }
 
 .info {
@@ -144,32 +142,17 @@
   width: max-content;
   max-width: 35vw;
   text-align: center;
-  font-size: 18px;
-  color: #eee;
-  border: 1px solid #fff5;
-  border-radius: 5px;
+  border: 1px solid #6b7280;
+  border-radius: var(--border-radius);
   position: absolute;
-  background: #000e;
+  background: #374151;
   z-index: 1002;
-}
-
-@media only screen and (max-width: 991px) and (orientation: landscape) {
-  .modal-container {
-    min-height: 42vmax;
-  }
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 @media only screen and (min-width: 992px) {
-  .navbar {
-    font-size: 20px;
-  }
   .modal-container {
-    min-height: 45vmax;
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .modal-container {
-    min-height: 40vmax;
+    max-width: 380px;
   }
 }
