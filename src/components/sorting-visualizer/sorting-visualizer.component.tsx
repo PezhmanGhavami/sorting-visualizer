@@ -49,6 +49,7 @@ const SortingVisualizer = () => {
   const [animationState, setAnimationState] =
     useState<IAnimationState>(animationStateDefaultValue);
   const [barCount, setBarCount] = useState(10);
+  const [showRepoToast, setShowRepoToast] = useState(true);
 
   const {
     frameDelay,
@@ -227,6 +228,10 @@ const SortingVisualizer = () => {
     setupAnimation(animationData);
   };
 
+  const closeToast = () => {
+    setShowRepoToast(false);
+  };
+
   return (
     <div className="sorting-visualizer-container">
       <Navbar
@@ -245,6 +250,27 @@ const SortingVisualizer = () => {
         togglePlayback={togglePlayback}
       />
       <BarContainer bars={bars} barWidth={barWidth} />
+      {showRepoToast && (
+        <div className="repo-toast">
+          <span
+            title="Close repository link"
+            onClick={closeToast}
+          >
+            &times;
+          </span>
+          <p>
+            This project is made for educational purposes.
+            You can find the source code here:
+          </p>
+          <a
+            href="https://github.com/PezhmanGhavami/sorting-visualizer"
+            target="_blank"
+            rel="noreferrer"
+          >
+            https://github.com/PezhmanGhavami/sorting-visualizer
+          </a>
+        </div>
+      )}
     </div>
   );
 };

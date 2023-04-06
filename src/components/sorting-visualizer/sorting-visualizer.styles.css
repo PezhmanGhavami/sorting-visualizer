@@ -5,4 +5,57 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.repo-toast {
+  width: 100%;
+  height: fit-content;
+  position: absolute;
+  top: 0;
+  padding: 1.6rem 1.2rem;
+  background-color: var(--background-color-2);
+  overflow-wrap: break-word;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  animation: slidein 500ms ease 1;
+}
+.repo-toast a {
+  color: #93c5fd;
+  text-decoration: none;
+  padding-left: 4px;
+}
+.repo-toast a:hover {
+  text-decoration: underline;
+}
+.repo-toast span {
+  position: absolute;
+  top: -3px;
+  right: 0px;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0 1rem;
+}
+.repo-toast span:hover {
+  filter: brightness(var(--brightens));
+}
+
+@keyframes slidein {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  .repo-toast {
+    width: 336px;
+    right: 8px;
+    top: 8px;
+    border-radius: var(--border-radius);
+  }
 }
