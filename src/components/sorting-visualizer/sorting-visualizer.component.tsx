@@ -41,33 +41,26 @@ const animationStateDefaultValue = {
 
 const SortingVisualizer = () => {
   const [bars, setBars] = useState<IBars>(barsDefaultValue);
-  const [dataSeries, setDataSeries] =
-    useState<IAnimationData>(dataSeriesDefaultValue);
+  const [dataSeries, setDataSeries] = useState<IAnimationData>(
+    dataSeriesDefaultValue
+  );
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
-  const [animationState, setAnimationState] =
-    useState<IAnimationState>(animationStateDefaultValue);
+  const [animationState, setAnimationState] = useState<IAnimationState>(
+    animationStateDefaultValue
+  );
   const [barCount, setBarCount] = useState(10);
   const [showRepoToast, setShowRepoToast] = useState(true);
 
-  const {
-    frameDelay,
-    maxFrameDelay,
-    minFrameDelay,
-    currentFrame,
-    playback,
-  } = animationState;
+  const { frameDelay, maxFrameDelay, minFrameDelay, currentFrame, playback } =
+    animationState;
 
-  const maxBarsForWidth = Math.floor(
-    windowDimensions.width / 5
-  );
+  const maxBarsForWidth = Math.floor(windowDimensions.width / 5);
 
-  const barHeightMax =
-    windowDimensions.height - windowDimensions.height * 0.2;
+  const barHeightMax = windowDimensions.height - windowDimensions.height * 0.2;
   const barWidth =
-    (windowDimensions.width -
-      windowDimensions.width * 0.5) /
+    (windowDimensions.width - windowDimensions.width * 0.5) /
     bars.heights.length;
 
   const getCorrectBarCount = useCallback(
@@ -90,9 +83,7 @@ const SortingVisualizer = () => {
     }
     setBars((prev) => ({
       ...prev,
-      colors: new Array(barCount).fill(
-        BarColors.NOT_SORTED
-      ),
+      colors: new Array(barCount).fill(BarColors.NOT_SORTED),
       heights: [...localArray],
     }));
     setDataSeries((prev) => ({
@@ -105,8 +96,7 @@ const SortingVisualizer = () => {
       playback: false,
     }));
     const correctBarCount = getCorrectBarCount(barCount);
-    correctBarCount !== barCount &&
-      setBarCount(correctBarCount);
+    correctBarCount !== barCount && setBarCount(correctBarCount);
   }, [barHeightMax, barCount, getCorrectBarCount]);
 
   const runTheAnimation = useCallback(() => {
@@ -114,9 +104,7 @@ const SortingVisualizer = () => {
       if (playback) {
         setTimeout(() => {
           setBars({
-            colors: [
-              ...dataSeries.atFrameColors[currentFrame],
-            ],
+            colors: [...dataSeries.atFrameColors[currentFrame]],
             heights: [...dataSeries.atFrame[currentFrame]],
           });
           setAnimationState((prev) => ({
@@ -126,9 +114,7 @@ const SortingVisualizer = () => {
         }, frameDelay);
       } else {
         setBars({
-          colors: [
-            ...dataSeries.atFrameColors[currentFrame],
-          ],
+          colors: [...dataSeries.atFrameColors[currentFrame]],
           heights: [...dataSeries.atFrame[currentFrame]],
         });
       }
@@ -148,8 +134,7 @@ const SortingVisualizer = () => {
       setWindowDimensions(getWindowDimensions());
     }
     window.addEventListener("resize", handleResize);
-    return () =>
-      window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [resetBarArray]);
 
   useEffect(() => {
@@ -193,9 +178,7 @@ const SortingVisualizer = () => {
     }));
   };
 
-  const setupAnimation = (
-    animationData: IAnimationData
-  ) => {
+  const setupAnimation = (animationData: IAnimationData) => {
     setDataSeries((prev) => ({
       ...prev,
       ...animationData,
@@ -251,21 +234,19 @@ const SortingVisualizer = () => {
       />
       <BarContainer bars={bars} barWidth={barWidth} />
       {showRepoToast && (
-        <div className="repo-toast">
-          <span
-            title="Close repository link"
-            onClick={closeToast}
-          >
+        <div onClick={closeToast} className="repo-toast">
+          <span title="Close repository link" onClick={closeToast}>
             &times;
           </span>
           <p>
-            This project is made for educational purposes.
-            You can find the source code here:
+            This project is made for educational purposes. You can find the
+            source code here:
           </p>
           <a
             href="https://github.com/PezhmanGhavami/sorting-visualizer"
             target="_blank"
             rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
           >
             https://github.com/PezhmanGhavami/sorting-visualizer
           </a>

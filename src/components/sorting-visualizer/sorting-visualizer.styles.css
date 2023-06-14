@@ -13,6 +13,7 @@
   width: 100%;
   height: fit-content;
   position: absolute;
+  user-select: none;
   top: 0;
   padding: 1.6rem 1.2rem;
   background-color: var(--background-color-2);
@@ -24,7 +25,7 @@
 .repo-toast a {
   color: #93c5fd;
   text-decoration: none;
-  padding-left: 4px;
+  display: block;
 }
 .repo-toast a:hover {
   text-decoration: underline;
