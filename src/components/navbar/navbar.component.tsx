@@ -1,27 +1,23 @@
 //TODO - light/dark mode
 
-import {
-  useState,
-  MouseEvent,
-  ChangeEventHandler,
-} from "react";
+import { useState, MouseEvent, ChangeEventHandler } from "react";
 
-import { IAnimationState } from "../sorting-visualizer/sorting-visualizer.utils";
+import { TAnimationState } from "../sorting-visualizer/sorting-visualizer.utils";
 
 import "./navbar.styles.css";
 
-import { ReactComponent as Play } from "../../assets/svgs/play.svg";
-import { ReactComponent as Pause } from "../../assets/svgs/pause.svg";
-import { ReactComponent as Cog } from "../../assets/svgs/cog.svg";
+import Cog from "../../assets/svgs/cog.svg?react";
+import Play from "../../assets/svgs/play.svg?react";
+import Pause from "../../assets/svgs/pause.svg?react";
 
-interface IBarInfo {
+type TBarInfo = {
   barCount: number;
   maxBarsForWidth: number;
-}
-interface INavProps {
-  barInfo: IBarInfo;
+};
+type TNavProps = {
+  barInfo: TBarInfo;
   animationFrames: number;
-  animationState: IAnimationState;
+  animationState: TAnimationState;
   resetTheArray: () => void;
   bubbleSort: () => void;
   insertionSort: () => void;
@@ -32,27 +28,27 @@ interface INavProps {
   changeAnimationSpeed: (value: number) => void;
   changeBarCount: (value: number) => void;
   changeCurrentFrame: (value: number) => void;
-}
+};
 
-enum SortTypes {
-  BUBBLE = "bubble",
-  INSERTION = "insertion",
-  SELECTION = "selection",
-  MERGE = "merge",
-  QUICK = "quick",
-}
+const SortTypes = {
+  bubbleSort: "Bubble Sort",
+  insertionSort: "Insertion Sort",
+  selectionSort: "Selection Sort",
+  mergeSort: "Merge Sort",
+  quickSort: "Quick Sort",
+} as const;
 
-enum InputChangeTypes {
-  BAR_COUNT = "barCount",
-  ANIMATION_SPEED = "animationSpeed",
-  TIMELINE = "timeline",
-  SORT_TYPE = "sortType",
-}
+type TSortTypes = keyof typeof SortTypes;
 
-const Navbar = (props: INavProps) => {
-  const [sortType, setSortType] = useState(
-    SortTypes.BUBBLE
-  );
+const InputChangeTypes = {
+  BAR_COUNT: "barCount",
+  ANIMATION_SPEED: "animationSpeed",
+  TIMELINE: "timeline",
+  SORT_TYPE: "sortType",
+};
+
+const Navbar = (props: TNavProps) => {
+  const [sortType, setSortType] = useState<TSortTypes>("bubbleSort");
   const [openModal, setOpenModal] = useState(false);
 
   const toggleModal = () => {
@@ -78,7 +74,7 @@ const Navbar = (props: INavProps) => {
         break;
       }
       case InputChangeTypes.SORT_TYPE: {
-        setSortType(value as SortTypes);
+        setSortType(value as TSortTypes);
         props.resetTheArray();
         break;
       }
@@ -89,42 +85,18 @@ const Navbar = (props: INavProps) => {
     if (props.animationFrames) {
       return props.togglePlayback();
     }
-    switch (sortType) {
-      case SortTypes.BUBBLE:
-        props.bubbleSort();
-        break;
-      case SortTypes.INSERTION:
-        props.insertionSort();
-        break;
-      case SortTypes.SELECTION:
-        props.selectionSort();
-        break;
-      case SortTypes.MERGE:
-        props.mergeSort();
-        break;
-      case SortTypes.QUICK:
-        props.quickSort();
-        break;
-    }
+    props[sortType]();
   };
 
-  const stopPropagation = (
-    event: MouseEvent<HTMLDivElement>
-  ) => {
+  const stopPropagation = (event: MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
   };
 
   return (
     <nav className="navbar">
       {openModal && (
-        <div
-          onClick={toggleModal}
-          className="modal-overlay"
-        >
-          <div
-            onClick={stopPropagation}
-            className="modal-container"
-          >
+        <div onClick={toggleModal} className="modal-overlay">
+          <div onClick={stopPropagation} className="modal-container">
             <span
               title="Close Settings"
               onClick={toggleModal}
@@ -139,23 +111,25 @@ const Navbar = (props: INavProps) => {
                   type="button"
                   title="Click to generate a new array"
                   onClick={props.resetTheArray}
+                  disabled={props.animationState.playback}
                 >
                   Generate New Array
                 </button>
               </div>
 
               <div className="nav-settings-item">
-                <label htmlFor="bar-count">
-                  Bar Count:{" "}
-                </label>
+                <label htmlFor="bar-count">Bar Count: </label>
                 <span>
                   {props.barInfo.barCount} Bars{" "}
                   <span
                     className="info"
                     tabIndex={0}
-                    data-info="The bigger the width of your screen, the more bars you can fit in it. (Try landscape mode)"
+                    data-info={`${
+                      props.animationState.playback
+                        ? "⚠️To change the bar count you need to first stop the animation⚠️"
+                        : "The bigger the width of your screen, the more bars you can fit in it. (Try landscape mode)"
+                    }`}
                   >
-                    {" "}
                     ⓘ
                   </span>
                 </span>
@@ -168,13 +142,12 @@ const Navbar = (props: INavProps) => {
                   step={1}
                   value={props.barInfo.barCount}
                   onChange={handleChange}
+                  disabled={props.animationState.playback}
                 />
               </div>
 
               <div className="nav-settings-item">
-                <label htmlFor="animation-speed">
-                  Frame Delay:{" "}
-                </label>
+                <label htmlFor="animation-speed">Frame Delay: </label>
                 <span>
                   {props.animationState.frameDelay}ms
                   <span
@@ -199,30 +172,19 @@ const Navbar = (props: INavProps) => {
               </div>
 
               <div className="nav-settings-item">
-                <label htmlFor="sort-type">
-                  Sort Algorithm:{" "}
-                </label>
+                <label htmlFor="sort-type">Sort Algorithm: </label>
                 <select
                   id="sort-type"
                   name={InputChangeTypes.SORT_TYPE}
                   value={sortType}
                   onChange={handleChange}
+                  disabled={props.animationState.playback}
                 >
-                  <option value={SortTypes.BUBBLE}>
-                    Bubble Sort
-                  </option>
-                  <option value={SortTypes.INSERTION}>
-                    Insertion Sort
-                  </option>
-                  <option value={SortTypes.SELECTION}>
-                    Selection Sort
-                  </option>
-                  <option value={SortTypes.MERGE}>
-                    Merge Sort
-                  </option>
-                  <option value={SortTypes.QUICK}>
-                    Quick Sort
-                  </option>
+                  {Object.keys(SortTypes).map((item) => (
+                    <option key={item} value={item}>
+                      {SortTypes[item as TSortTypes]}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -232,10 +194,7 @@ const Navbar = (props: INavProps) => {
 
       <div className="nav-controllers">
         <button className="sort-settings" title="Settings">
-          <Cog
-            onClick={toggleModal}
-            className="svg-component"
-          />
+          <Cog onClick={toggleModal} className="svg-component" />
         </button>
 
         <input
@@ -243,7 +202,7 @@ const Navbar = (props: INavProps) => {
           name={InputChangeTypes.TIMELINE}
           id="sort-timeline"
           title={
-            !Boolean(props.animationFrames)
+            !props.animationFrames
               ? ""
               : `${props.animationState.currentFrame} / ${
                   props.animationFrames - 1
@@ -252,16 +211,14 @@ const Navbar = (props: INavProps) => {
           value={props.animationState.currentFrame}
           max={props.animationFrames - 1}
           onChange={handleChange}
-          disabled={!Boolean(props.animationFrames)}
+          disabled={!props.animationFrames}
         />
 
         <button
           className="flow-control"
           type="button"
           onClick={handleFlow}
-          title={
-            props.animationState.playback ? "Pause" : "Play"
-          }
+          title={props.animationState.playback ? "Pause" : "Play"}
         >
           {props.animationState.playback ? (
             <Pause className="svg-component" />

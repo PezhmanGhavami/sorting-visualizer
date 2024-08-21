@@ -6,10 +6,10 @@ import BarContainer from "../bar-container/bar-container.component";
 import Navbar from "../navbar/navbar.component";
 
 import {
-  IBars,
+  TBars,
   BarColors,
-  IAnimationData,
-  IAnimationState,
+  TAnimationData,
+  TAnimationState,
   getWindowDimensions,
   randomIntFromBound,
 } from "./sorting-visualizer.utils";
@@ -40,14 +40,14 @@ const animationStateDefaultValue = {
 };
 
 const SortingVisualizer = () => {
-  const [bars, setBars] = useState<IBars>(barsDefaultValue);
-  const [dataSeries, setDataSeries] = useState<IAnimationData>(
+  const [bars, setBars] = useState<TBars>(barsDefaultValue);
+  const [dataSeries, setDataSeries] = useState<TAnimationData>(
     dataSeriesDefaultValue
   );
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
-  const [animationState, setAnimationState] = useState<IAnimationState>(
+  const [animationState, setAnimationState] = useState<TAnimationState>(
     animationStateDefaultValue
   );
   const [barCount, setBarCount] = useState(10);
@@ -83,7 +83,7 @@ const SortingVisualizer = () => {
     }
     setBars((prev) => ({
       ...prev,
-      colors: new Array(barCount).fill(BarColors.NOT_SORTED),
+      colors: new Array(barCount).fill(BarColors.NOT_SORTED) as string[],
       heights: [...localArray],
     }));
     setDataSeries((prev) => ({
@@ -96,7 +96,9 @@ const SortingVisualizer = () => {
       playback: false,
     }));
     const correctBarCount = getCorrectBarCount(barCount);
-    correctBarCount !== barCount && setBarCount(correctBarCount);
+    if (correctBarCount !== barCount) {
+      setBarCount(correctBarCount);
+    }
   }, [barHeightMax, barCount, getCorrectBarCount]);
 
   const runTheAnimation = useCallback(() => {
@@ -178,7 +180,7 @@ const SortingVisualizer = () => {
     }));
   };
 
-  const setupAnimation = (animationData: IAnimationData) => {
+  const setupAnimation = (animationData: TAnimationData) => {
     setDataSeries((prev) => ({
       ...prev,
       ...animationData,

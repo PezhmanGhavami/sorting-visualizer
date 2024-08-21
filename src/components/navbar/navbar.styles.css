@@ -30,8 +30,7 @@
   justify-content: center;
   align-items: center;
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .close {
@@ -76,6 +75,9 @@ select#sort-type {
 select#sort-type:hover {
   filter: brightness(var(--brightens));
 }
+select#sort-type:disabled {
+  cursor: not-allowed;
+}
 
 #bar-count,
 #animation-speed {
@@ -86,6 +88,10 @@ select#sort-type:hover {
 #animation-speed,
 #sort-timeline {
   cursor: pointer;
+}
+
+#bar-count:disabled {
+  cursor: not-allowed;
 }
 
 .nav-controllers {
@@ -109,6 +115,10 @@ select#sort-type:hover {
 }
 .button:hover {
   filter: brightness(var(--brightens));
+}
+.button:disabled {
+  cursor: not-allowed;
+  filter: brightness(0.75);
 }
 
 .flow-control,
@@ -147,8 +157,7 @@ select#sort-type:hover {
   position: absolute;
   background: #374151;
   z-index: 1002;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
-    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 @media only screen and (min-width: 992px) {
