@@ -1,12 +1,12 @@
 import "./bar.styles.css";
 
-interface IBarProps {
+type TBarProps = {
   height: number;
   width: number;
   backgroundColor: string;
-}
+};
 
-const Bar = (props: IBarProps) => {
+const Bar = (props: TBarProps) => {
   return (
     <div
       className="bar"

@@ -1,20 +1,20 @@
-export interface IAnimationData {
+export type TAnimationData = {
   atFrame: number[][];
   atFrameColors: string[][];
-}
+};
 
-export interface IBars {
+export type TBars = {
   heights: number[];
   colors: string[];
-}
+};
 
-export interface IAnimationState {
+export type TAnimationState = {
   frameDelay: number;
   maxFrameDelay: number;
   minFrameDelay: number;
   currentFrame: number;
   playback: boolean;
-}
+};
 
 export enum BarColors {
   NOT_SORTED = "#D1D5DB",
@@ -26,19 +26,12 @@ export enum BarColors {
 }
 
 //returns a random number between min and max (both included); if we don't want the max bound to be included, we can simply remove the plus one
-const randomIntFromBound = (
-  maxBound: number,
-  minBound: number = 5
-): number => {
-  return (
-    Math.floor(Math.random() * (maxBound - minBound + 1)) +
-    minBound
-  );
+const randomIntFromBound = (maxBound: number, minBound = 5): number => {
+  return Math.floor(Math.random() * (maxBound - minBound + 1)) + minBound;
 };
 
 const getWindowDimensions = () => {
-  const { clientWidth: width, clientHeight: height } =
-    document.documentElement;
+  const { clientWidth: width, clientHeight: height } = document.documentElement;
   return {
     width,
     height,
