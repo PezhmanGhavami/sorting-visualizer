@@ -156,7 +156,7 @@ function merge(
   animationData: TAnimationData,
   left: number,
   middle: number,
-  right: number
+  right: number,
 ): void {
   //size of left and right sub-arrays
   const leftArraySize = middle - left + 1;
@@ -185,7 +185,7 @@ function merge(
     const exColorM = localColors[indexOfMergedArray];
     if (leftArr[indexOfLeftSubArray] <= rightArr[indexOfRightSubArray]) {
       const comparedElementIndex = localArr.indexOf(
-        rightArr[indexOfLeftSubArray]
+        rightArr[indexOfLeftSubArray],
       ); //Might be wrong if there are multiple of a single num
       const exColorL = localColors[comparedElementIndex];
       localColors[comparedElementIndex] = BarColors.BEING_COMPARED_AGAINST;
@@ -197,7 +197,7 @@ function merge(
       indexOfLeftSubArray++;
     } else {
       const comparedElementIndex = localArr.indexOf(
-        rightArr[indexOfRightSubArray]
+        rightArr[indexOfRightSubArray],
       ); //Might be wrong if there are multiple of a single num
       const exColorR = localColors[comparedElementIndex];
       localColors[comparedElementIndex] = BarColors.BEING_COMPARED_AGAINST;
@@ -217,7 +217,7 @@ function merge(
   while (indexOfLeftSubArray < leftArraySize) {
     //extra element in left array
     const comparedElementIndex = localArr.indexOf(
-      rightArr[indexOfLeftSubArray]
+      rightArr[indexOfLeftSubArray],
     ); //Might be wrong if there are multiple of a single num
     const exColorM = localColors[indexOfMergedArray];
     const exColorL = localColors[comparedElementIndex];
@@ -237,7 +237,7 @@ function merge(
   while (indexOfRightSubArray < rightArraySize) {
     //extra element in right array
     const comparedElementIndex = localArr.indexOf(
-      rightArr[indexOfRightSubArray]
+      rightArr[indexOfRightSubArray],
     ); //Might be wrong if there are multiple of a single num
     const exColorM = localColors[indexOfMergedArray];
     const exColorR = localColors[comparedElementIndex];
@@ -259,7 +259,7 @@ function runMergeSort(
   localColors: string[],
   animationData: TAnimationData,
   start: number,
-  end: number
+  end: number,
 ): void {
   if (start < end) {
     const middle = Math.floor((start + end) / 2);
@@ -306,7 +306,7 @@ function getPivotIndex(
   localColors: string[],
   animationData: TAnimationData,
   start: number,
-  end: number
+  end: number,
 ): number {
   let swapIdx: number = start;
   const pivotValue: number = localArr[start];
@@ -344,7 +344,7 @@ function runQuickSort(
   localColors: string[],
   animationData: TAnimationData,
   start: number,
-  end: number
+  end: number,
 ): void {
   if (start < end) {
     const pivotIndex = getPivotIndex(
@@ -352,7 +352,7 @@ function runQuickSort(
       localColors,
       animationData,
       start,
-      end
+      end,
     );
     //left side
     runQuickSort(localArr, localColors, animationData, start, pivotIndex - 1);

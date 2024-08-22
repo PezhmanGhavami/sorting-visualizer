@@ -7,7 +7,7 @@ export const swapTwo = (list: number[], a: number, b: number) => {
 export const addFrame = (
   animationData: TAnimationData,
   frame: number[],
-  frameColors: string[]
+  frameColors: string[],
 ) => {
   animationData.atFrame.push([...frame]);
   animationData.atFrameColors.push([...frameColors]);

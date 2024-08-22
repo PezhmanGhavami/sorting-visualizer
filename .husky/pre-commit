@@ -1,0 +1,16 @@
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$branch" = "main" ]; then
+  echo "Commits to main branch are not allowed 😜"
+  exit 1
+fi
+
+if [ "$branch" = "stage" ]; then
+  echo "Commits to stage branch are not allowed 😜"
+  exit 1
+fi
+ 
+echo 'Linting and formatting staged files ⏳'
+echo 'please be patient, this may take a while... ⏱️'
+
+npx lint-staged -v
