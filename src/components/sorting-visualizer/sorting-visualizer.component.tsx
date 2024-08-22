@@ -42,13 +42,13 @@ const animationStateDefaultValue = {
 const SortingVisualizer = () => {
   const [bars, setBars] = useState<TBars>(barsDefaultValue);
   const [dataSeries, setDataSeries] = useState<TAnimationData>(
-    dataSeriesDefaultValue
+    dataSeriesDefaultValue,
   );
   const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
+    getWindowDimensions(),
   );
   const [animationState, setAnimationState] = useState<TAnimationState>(
-    animationStateDefaultValue
+    animationStateDefaultValue,
   );
   const [barCount, setBarCount] = useState(10);
   const [showRepoToast, setShowRepoToast] = useState(true);
@@ -73,7 +73,7 @@ const SortingVisualizer = () => {
       }
       return currentBars;
     },
-    [maxBarsForWidth]
+    [maxBarsForWidth],
   );
 
   const resetBarArray = useCallback(() => {
@@ -148,8 +148,8 @@ const SortingVisualizer = () => {
       value > maxFrameDelay
         ? maxFrameDelay
         : value < minFrameDelay
-        ? minFrameDelay
-        : value;
+          ? minFrameDelay
+          : value;
     setAnimationState((prev) => ({
       ...prev,
       frameDelay: value,
@@ -165,8 +165,8 @@ const SortingVisualizer = () => {
       value > dataSeries.atFrame.length
         ? dataSeries.atFrame.length
         : value < 0
-        ? 0
-        : value;
+          ? 0
+          : value;
     setAnimationState((prev) => ({
       ...prev,
       currentFrame: value,
